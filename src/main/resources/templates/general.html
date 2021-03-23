@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerfiles">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+</head>
+<body>
+<header th:fragment="header">
+    <nav  class="navbar navbar-expand-lg navbar-dark" style="background-color: #1d3c45;">
+
+        <a class="navbar-brand" href="#">Технорай</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Каталог</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/shoppingcard}"><i class="bi bi-basket"></i></a>
+                </li>
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item"><a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><span class="glyphicon glyphicon-log-in"></span> Вход</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<footer class="footer" th:fragment="footer">
+    <div class="main-footer">
+        <div class="footer-column">
+            <div class="widget subscribe no-box">
+                <h5 class="widget-title">Технорай<span></span></h5>
+                <p>Курсовая работа Зыкова Максима Алексеевича</p>
+                <p>и Иванцова Михаила Николаевичв</p>
+            </div>
+        </div>
+        <div class="footer-column">
+            <div class="widget no-box">
+                <h5 class="widget-title">Меню<span></span></h5>
+                <ul class="thumbnail-widget">
+                    <li>
+                        <div class="thumb-content"><a href="home.html">Главная</a></div>
+                    </li>
+                    <li>
+                        <div class="thumb-content"><a href="categories.html">Категории</a></div>
+                    </li>
+                    <li>
+                        <div class="thumb-content"><a th:href="@{/shoppingcard}"> Корзина <i class="bi bi-basket"></i></a></div>
+                    </li>
+                    <li>
+                        <div class="thumb-content"><a href="login.html">Войти</a></div>
+                    </li>
+                    <li>
+                        <div class="thumb-content"><a href="login.html">Зарегистрироваться</a></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-column">
+            <div class="widget no-box">
+                <h5 class="widget-title">Связь с нами<span></span></h5>
+                <p><a href="maxim_zykov@inbox.ru">maxim_zykov@inbox.ru</a></p>
+                <p><a href="mni007@yandex.ru">mni007@yandex.ru</a></p>
+                <ul class="social-footer">
+                    <li class=""><a title="Telegram"  href="https://telegram.org/"><i class="bi bi-telegram"></i></a></li>
+                    <li class=""><a href="https://vk.com/zymaxim"  title="VK"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                    <li class=""><a title="Instagram"  href="https://www.instagram.com/zymaaax/"><i class="bi bi-instagram"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <p>Технорай &copy; 2021. Все права защищены.</p>
+    </div>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</footer>
+</body>
+</html>
