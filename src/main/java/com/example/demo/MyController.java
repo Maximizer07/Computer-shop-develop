@@ -45,15 +45,38 @@ public class MyController {
             model.addAttribute("Status", "pass1!=pass2");
             model.addAttribute("kolvo", products.size());
             model.addAttribute("isauth", isauth);
+            model.addAttribute("Status2", "sign");
             return "auth";
         } else {
             if (login.equals("Mike")) {
                 model.addAttribute("kolvo", products.size());
                 model.addAttribute("isauth", isauth);
                 model.addAttribute("Status", "user_exists");
+                model.addAttribute("Status2", "sign");
                 return "auth";
             } else {
                 users.add(new User(login, "", "", email, password));
+                isauth = true;
+                return "redirect:/user_info";
+            }
+        }
+    }
+    @RequestMapping(path = "/loginerror", method = RequestMethod.POST)
+    public String Login(@RequestParam String username, String password,Model model) {
+            if (!username.equals("Mike")) {
+                model.addAttribute("kolvo", products.size());
+                model.addAttribute("isauth", isauth);
+                model.addAttribute("Status", "no_user_exists");
+                model.addAttribute("Status2", "login");
+                return "auth";
+            } else {
+                if (!password.equals("123456")) {
+                    model.addAttribute("kolvo", products.size());
+                    model.addAttribute("isauth", isauth);
+                    model.addAttribute("Status", "password_wrong");
+                    model.addAttribute("Status2", "login");
+                    return "auth";
+                } else {
                 isauth = true;
                 return "redirect:/user_info";
             }

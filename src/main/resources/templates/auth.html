@@ -14,29 +14,36 @@
   <div class="main-body">
     <div class="row">
       <div class="col-lg-10 col-xl-9 mx-auto">
-      <div class="card card-signin flex-row my-5">
+      <div class="card card-signin flex-row my-10">
         <div class="card-img-left d-none d-md-flex">
           <!-- Background image for card set in CSS! -->
         </div>
           <div class="login-box">
-            <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Войти</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Создать аккаунт</label>
+            <div class="login-snip"> <div th:if="${Status2} == 'login'" class="text-danger">Ошибка при входе в аккаунт</div>
+              <div th:if="${Status2} == 'sign'" class="text-danger">Ошибка при создании аккаунта</div
+              ><input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+              <label for="tab-1" class="tab">Войти</label>
+              <input id="tab-2" type="radio" name="tab" class="sign-up">
+              <label for="tab-2" class="tab">Создать аккаунт</label>
               <div class="login-space">
                 <div class="login">
-                  <form onsubmit="event.preventDefault()" class="box" name="loginUser" method="post" action="/loginerror">
+                  <form  class="box" name="loginUser" method="post" action="/loginerror">
                     <h6>Введите пожалуйста ваш логин и пароль</h6>
                     <input class="form-control" name="username" type="text" placeholder="Логин">
+                    <div th:if="${Status} == 'no_user_exists'" class="text-danger">Пользователя с таким логином не существует</div>
                     <input class="form-control" name="password" type="password" placeholder="Пароль">
+                    <div th:if="${Status} == 'password_wrong'" class="text-danger">неправильный пароль</div>
                     <input type="submit" name="" value="Login">
                   </form>
                 </div>
                 <div class="sign-up-form">
                   <form  class="box"  method="post" action="/signUperror">
                     <h6>Пожалуйста введите ваши данные для создания аккаунта</h6>
-                    <input  name="login"  id="user" type="text" class="input" placeholder="Придумайте ваш логин"> <div th:if="${Status} == 'user_exists'">Пользователь с таким именем уже существует</div>
+                    <input  name="login"  id="user" type="text" class="input" placeholder="Придумайте ваш логин"> <div th:if="${Status} == 'user_exists'" class="text-danger">Пользователь с таким именем уже существует</div>
                    <input name="email" id="pass" type="text" class="input" placeholder="Введите ваш email">
                     <input name="password"  id="pass" type="password" class="input" data-type="password" placeholder="Придумайте ваш пароль">
                     <input name="password2" id="pass" type="password" class="input" data-type="password" placeholder="Повторите ваш пароль">
-                    <div th:if="${Status} == 'pass1!=pass2'" style="color: #fff1e1">неправильный пароль подтверждения</div>
+                    <div th:if="${Status} == 'pass1!=pass2'" class="text-danger">неправильный пароль подтверждения</div>
                     <input type="submit"  value="Создать аккаунт">
                   </form>
                 </div>

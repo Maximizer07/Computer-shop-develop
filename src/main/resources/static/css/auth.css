@@ -1,7 +1,4 @@
-card {
-    margin-bottom: 20px;
-    border: none
-}
+
 
 .box {
     text-align: center;
@@ -13,10 +10,10 @@ card {
     border: 0;
     background: none;
     display: block;
-    margin: 20px auto;
+    margin: 0.909em auto;
     text-align: center;
     border: 2px solid #ff8d1e;
-    padding: 10px 10px;
+    padding: 0.455em 0.455em;
     width: 20em;
     outline: none;
     color: white;
@@ -58,8 +55,8 @@ card {
 .login-box {
     width: 100%;
     margin: auto;
-    max-width: 525px;
-    min-height: 38em;
+    max-width: 32.813em;
+    min-height: 40em;
     position: relative;
 
     box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19)
@@ -69,7 +66,7 @@ card {
     width: 100%;
     height: 100%;
     position: absolute;
-    padding: 90px 70px 50px 70px;
+    padding: 4.091em 3.182em 2.273em 3.182em;
     background: rgba(0, 77, 77, .9)
 }
 
@@ -101,7 +98,7 @@ card {
     font-size: 22px;
     margin-right: 15px;
     padding-bottom: 5px;
-    margin: 0 15px 10px 0;
+    margin: 0 0.682em 10px 0;
     display: inline-block;
     border-bottom: 2px solid transparent
 }
@@ -239,7 +236,6 @@ a {
 }
 
 .card {
-    min-width: 31.25em;
 }
 
 ::placeholder {
