@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <th:block th:include="general.html :: headerfiles">
+  </th:block>
+  <link href="/css/auth.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="d-flex flex-column" >
+<header th:insert="general.html :: header"> </header>
+<div class="container-fluid justify-content-center" style="margin-top: 10px; margin-bottom: 10px">
+  <div class="table-responsive">
+    <table class="table table-light table-hover" th:if="${not users.isEmpty()}">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Имя пользователя</th>
+        <th scope="col">Роль</th>
+        <th scope="col">Полная информация о пользователе</th>
+      </tr>
+      </thead>
+      <tbody>
+      <th:block th:each="user :${users}">
+        <tr>
+          <th scope="row" th:text="${user.getId()}"></th>
+          <th th:text="${user.getUsername()}"></th>
+          <th th:text="${user.getUserRole()}"></th>
+          <th><span class="badge badge-info"><a style="color: whitesmoke" th:href="@{admin/{number}(number=${user.getId()})}">Info</a></span></th>
+        </tr>
+      </th:block>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div th:replace="general.html :: footer"></div>
+</body>
+</html>

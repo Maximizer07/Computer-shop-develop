@@ -15,8 +15,8 @@
                         <div class="d-flex flex-column align-items-center text-center">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSriFFJXaLLV3g1bFT8PrDRFbD50XjQ7lm_0g&usqp=CAU" alt="Admin" class="rounded-circle" width="150">
                             <div class="mt-5">
-                                <h4  th:text="${user.getName()+' '+user.getLastName()}"></h4>
-                                <button type="button" class="btn btn-danger"> Выйти</button>
+                                <h4  th:text="${user.getName() + ' ' + user.getSurname()}"></h4>
+                                <a type="button" class="btn btn-danger" th:href="@{/logout}"> Выйти</a>
                             </div>
                         </div>
                     </div>
@@ -26,11 +26,11 @@
                 <div class="card mb-5">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12"><h6 class="mb-1">Full Name</h6><button type="button" class="btn btn-primary float-right">Изменить</button><br/><h6 class="text-secondary" th:text="${user.getName() + ' '+ user.getLastName()}"></h6></div>
+                            <div class="col-12"><h6 class="mb-1">Имя</h6><button type="button" class="btn btn-primary float-right">Изменить</button><br/><h6 class="text-secondary" th:text="${user.getName()}"></h6></div>
                         </div>
                         <hr/>
                         <div class="row">
-                            <div class="col-12"><h6 class="mb-0">Phone</h6> <button type="button" class="btn btn-info float-right">Изменить</button><br/><h6 class="text-secondary" th:text="${user.getPhone()}"></h6></div>
+                            <div class="col-12"><h6 class="mb-0">Фамилия</h6> <button type="button" class="btn btn-info float-right">Изменить</button><br/><h6 class="text-secondary" th:text="${user.getSurname()}"></h6></div>
                         </div>
                         <hr/>
                         <div class="row">

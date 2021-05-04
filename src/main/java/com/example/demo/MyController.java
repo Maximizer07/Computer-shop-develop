@@ -1,23 +1,60 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 public class MyController {
     public ArrayList<Product> products = new ArrayList<>();
     public ArrayList<Order> orders = new ArrayList<>();
     boolean isauth = false;
-    public ArrayList<User> users = new ArrayList<>();
-    public User user = new User("Mike", "I", "89100036300", "mike7677877@gmail.com", "123456");
-
+    @Autowired
+    private  UserService userService;
+    @Autowired
+    private  ConfirmationTokenService confirmationTokenService;
+    @PostMapping("/sign-up")
+    String signUp(User user) {
+        System.out.println("ffff");
+        userService.signUpUser(user);
+        return "redirect:/login";
+    }
+    @GetMapping("/sign-up/confirm")
+    String confirmMail(@RequestParam("token") String token) {
+        Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);
+        userService.confirmUser(optionalConfirmationToken.get());
+        return "redirect:/login";
+    }
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("isauth", isauth);
+        model.addAttribute("kolvo", products.size());
+        model.addAttribute("users", userService.readAll());
+        return "admin";
+    }
+    @RequestMapping(path="admin/{number}")
+    public String Adminuserinfo(@PathVariable(value = "number") int number, Model model) {
+        model.addAttribute("user",userService.loadUserById(number));
+        model.addAttribute("orders",orders);
+        model.addAttribute("kolvo",products.size());
+        model.addAttribute("isauth",isauth);
+        return "user_info";
+    }
+    @GetMapping("/login")
+    public String viewLoginPage(Model model,User user) {
+        model.addAttribute("kolvo", products.size());
+        model.addAttribute("isauth", isauth);
+        return "login";
+    }
     @RequestMapping(path = "/")
     public String add() {
-        users.add(user);
-        return "redirect:/auth";
+        return "redirect:/shoppingcard";
     }
 
     @RequestMapping(path = "/shoppingcard")
@@ -30,57 +67,6 @@ public class MyController {
         model.addAttribute("products", products);
         model.addAttribute("isauth", isauth);
         return "shopping_card";
-    }
-
-    @RequestMapping(path = "/auth")
-    public String auth(Model model) {
-        model.addAttribute("kolvo", products.size());
-        model.addAttribute("isauth", isauth);
-        return "auth";
-    }
-
-    @RequestMapping(path = "/signUperror", method = RequestMethod.POST)
-    public String SignUp(@RequestParam String login, String password, String password2, String email, Model model) {
-        if (!password.equals(password2)) {
-            model.addAttribute("Status", "pass1!=pass2");
-            model.addAttribute("kolvo", products.size());
-            model.addAttribute("isauth", isauth);
-            model.addAttribute("Status2", "sign");
-            return "auth";
-        } else {
-            if (login.equals("Mike")) {
-                model.addAttribute("kolvo", products.size());
-                model.addAttribute("isauth", isauth);
-                model.addAttribute("Status", "user_exists");
-                model.addAttribute("Status2", "sign");
-                return "auth";
-            } else {
-                users.add(new User(login, "", "", email, password));
-                isauth = true;
-                return "redirect:/user_info";
-            }
-        }
-    }
-    @RequestMapping(path = "/loginerror", method = RequestMethod.POST)
-    public String Login(@RequestParam String username, String password,Model model) {
-            if (!username.equals("Mike")) {
-                model.addAttribute("kolvo", products.size());
-                model.addAttribute("isauth", isauth);
-                model.addAttribute("Status", "no_user_exists");
-                model.addAttribute("Status2", "login");
-                return "auth";
-            } else {
-                if (!password.equals("123456")) {
-                    model.addAttribute("kolvo", products.size());
-                    model.addAttribute("isauth", isauth);
-                    model.addAttribute("Status", "password_wrong");
-                    model.addAttribute("Status2", "login");
-                    return "auth";
-                } else {
-                isauth = true;
-                return "redirect:/user_info";
-            }
-        }
     }
     @GetMapping("/shoppingcard3")
     public String deleteIncome(@RequestParam(value = "opisanie") String opisanie,@RequestParam(value = "quantity") int quantity,Model model) {
@@ -108,11 +94,11 @@ public class MyController {
     }
 
     @RequestMapping(path="/user_info")
-    public String userinfo(Model model) {
+    public String userinfo(Authentication authentication,Model model) {
         isauth=true;
         products.add(new Product("blabla",1,25));
         products.add(new Product("yeeeee",3,30));
-        model.addAttribute("user",users.get(users.size()-1));
+        model.addAttribute("user",userService.loadUserByUsername(authentication.getName()));
         model.addAttribute("orders",orders);
         model.addAttribute("kolvo",products.size());
         model.addAttribute("isauth",isauth);
