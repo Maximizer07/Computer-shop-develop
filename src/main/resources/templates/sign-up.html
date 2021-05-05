@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <th:block th:include="general.html :: headerfiles">
+  </th:block>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="d-flex flex-column" >
+<header th:insert="general.html :: header"> </header>
+<div class="container-fluid justify-content-center" style="margin-top: 10px; margin-bottom: 10px">
+  <card class="card px-2" style="background-color: #fff1e1"  >
+    <div class="card-body" >
+      <div class="text-center">
+        <div th:if="${status} == 'noconfirm'">
+        <h3>Ваш аккаунт был успешно создан</h3>
+        <h4>Для активации аккаунта перейдите по ссылке, которую мы отправили в письме вам на почту</h4>
+        </div>
+        <div th:if="${status} == 'confirm'">
+          <h3>Ваш аккаунт был успешно активирован</h3>
+          <a th:href="@{/login}" class="btn btn-success btn-block">Войти в аккаунт</a>
+        </div>
+      </div>
+    </div>
+  </card>
+</div>
+  <div th:replace="general.html :: footer"></div>
+</body>
+</html>

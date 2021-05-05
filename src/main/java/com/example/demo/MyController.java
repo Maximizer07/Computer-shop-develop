@@ -20,16 +20,37 @@ public class MyController {
     @Autowired
     private  ConfirmationTokenService confirmationTokenService;
     @PostMapping("/sign-up")
-    String signUp(User user) {
-        System.out.println("ffff");
+    String signUp(User user,Model model) {
+        if(!user.getPassword().equals(user.getPassword2())){
+            model.addAttribute("Problem","sign");
+            model.addAttribute("Status","pass1!=pass2");
+            model.addAttribute("kolvo", products.size());
+            model.addAttribute("isauth", isauth);
+            System.out.println("ddsdsds2");
+            return "login";
+        }
+        if(userService.uniqueEmail(user.getEmail())){
+            model.addAttribute("Problem","sign");
+            model.addAttribute("Status","oldemail");
+            model.addAttribute("kolvo", products.size());
+            System.out.println("ddsdsds1");
+            model.addAttribute("isauth", isauth);
+            return "login";
+        }
+        model.addAttribute("status","noconfirm");
+        model.addAttribute("kolvo",products.size());
+        model.addAttribute("isauth",isauth);
         userService.signUpUser(user);
-        return "redirect:/login";
+        return "sign-up";
     }
     @GetMapping("/sign-up/confirm")
-    String confirmMail(@RequestParam("token") String token) {
+    String confirmMail(@RequestParam("token") String token,Model model) {
         Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);
         userService.confirmUser(optionalConfirmationToken.get());
-        return "redirect:/login";
+        model.addAttribute("kolvo",products.size());
+        model.addAttribute("isauth",isauth);
+        model.addAttribute("status","confirm");
+        return "sign-up";
     }
     @GetMapping("/admin")
     public String admin(Model model) {
@@ -48,6 +69,7 @@ public class MyController {
     }
     @GetMapping("/login")
     public String viewLoginPage(Model model,User user) {
+        model.addAttribute("Problem","login");
         model.addAttribute("kolvo", products.size());
         model.addAttribute("isauth", isauth);
         return "login";

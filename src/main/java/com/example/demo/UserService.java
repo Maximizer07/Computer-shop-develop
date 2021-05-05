@@ -1,15 +1,12 @@
 package com.example.demo;
 
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
@@ -27,12 +24,15 @@ public class UserService implements UserDetailsService {
     void sendConfirmationMail(String userMail, String token) {
         final SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(userMail);
-        mailMessage.setSubject("Mail Confirmation Link!");
+        mailMessage.setSubject("Ссылка для подтверждения аккаунта на сайте Технорай!");
         mailMessage.setFrom("<MAIL>");
         mailMessage.setText(
-                "Thank you for registering. Please click on the below link to activate your account." + "http://localhost:8080/sign-up/confirm?token="
+                "Спасибо, что зарегистрировались на нашем сайте. Пожалуйста, перейдите по ссылке для активации вашего аккаунта." + "http://localhost:8080/sign-up/confirm?token="
                         + token);
         emailSenderService.sendmail(mailMessage);
+    }
+    public boolean uniqueEmail(String email){
+        return userRepository.findByEmail(email).isPresent();
     }
     @Override
     public User loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -40,7 +40,6 @@ public class UserService implements UserDetailsService {
         return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("User with email {0} cannot be found.", email)));
     }
     public void signUpUser(User user) {
-        System.out.println("ddddd");
         final String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         final User createdUser = userRepository.save(user);
@@ -50,7 +49,6 @@ public class UserService implements UserDetailsService {
     }
 
     void confirmUser(ConfirmationToken confirmationToken) {
-        System.out.println("sssss");
         final User user = confirmationToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);

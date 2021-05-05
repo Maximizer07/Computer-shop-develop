@@ -34,6 +34,8 @@ public class User implements UserDetails {
     private Boolean locked = false;
     @Builder.Default
     private Boolean enabled = false;
+    @Transient
+    private String password2;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         System.out.println(userRole.name());

@@ -2,7 +2,15 @@ html {
     position: relative;//haha
 min-height: 100%;
 }
+html {
+    overflow: hidden;
+    height: 100%;
+}
 
+body {
+    overflow: auto;
+    height: 100%;
+}
 
 #navbarTogglerDemo02 li a{
     color: #ff8d1e;
@@ -76,6 +84,9 @@ ul.social-footer li a {display: block; height:30px;width: 30px;text-align: cente
 }
 #footer{
     text-align: center;
+    color: whitesmoke;
+    margin-top:auto;
+    background-color: rgba(29,60,69,0.8);
 }
 .thumb-content{
     padding: 0.1em;

@@ -19,13 +19,20 @@
                         <!-- Background image for card set in CSS! -->
                     </div>
                     <div class="login-box">
-                        <div class="login-snip"> <div th:if="${Status2} == 'login'" class="text-danger">Ошибка при входе в аккаунт</div>
-                            <div th:if="${Status2} == 'sign'" class="text-danger">Ошибка при создании аккаунта</div
-                            ><input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-                            <label for="tab-1" class="tab">Войти</label>
-                            <input id="tab-2" type="radio" name="tab" class="sign-up">
-                                <label for="tab-2" class="tab">создать аккаунт</label>
+                        <div class="login-snip">
+                            <input th:if="${Problem} == 'login'" id="tab-1" type="radio" name="tab" class="sign-in" checked>
+                            <label th:if="${Problem} == 'login'" for="tab-1" class="tab">войти</label>
+                            <input th:if="${Problem} == 'login'" id="tab-2" type="radio" name="tab" class="sign-up">
+                            <label th:if="${Problem} == 'login'" for="tab-2" class="tab">создать аккаунт</label>
+                            <input th:if="${Problem} == 'sign'" id="tab-1" type="radio" name="tab" class="sign-in" checked>
+                            <label th:if="${Problem} == 'sign'" for="tab-1" class="tab">создать аккаунт</label>
+                            <input th:if="${Problem} == 'sign'" id="tab-2" type="radio" name="tab" class="sign-up">
+                            <label th:if="${Problem} == 'sign'" for="tab-2" class="tab">войти</label>
+
+
+
                             <div class="login-space">
+                                <div th:if="${Problem} == 'login'">
                                 <div class="login">
                                     <form  class="box" name="loginUser" method="post" th:action="@{/login}">
                                         <h6>Введите пожалуйста почту аккаунта и пароль</h6>
@@ -36,9 +43,13 @@
                                             <p class="text-warning">You have been logged out.</p>
                                         </div>
                                         <input class="form-control" type="text" name="email" placeholder="Почта">
-                                        <div th:if="${Status} == 'no_user_exists'" class="text-danger">Пользователя с таким логином не существует</div>
                                         <input class="form-control" name="password" type="password" placeholder="Пароль">
-                                        <div th:if="${Status} == 'password_wrong'" class="text-danger">неправильный пароль</div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="remember" name="remember-me">
+                                            <label class="form-check-label" for="remember">
+                                                Запомнить меня
+                                            </label>
+                                        </div>
                                         <input type="submit" name="" value="Login">
                                     </form>
                                 </div>
@@ -47,11 +58,50 @@
                                         <h6>Пожалуйста введите ваши данные для создания аккаунта</h6>
                                         <input type="text" id="name" name="name" th:field="*{name}" placeholder="Имя">
                                         <input type="text" id="surname" name="surname" th:field="*{surname}" placeholder="Фамилия">
+                                        <div th:if="${Status} == 'oldemail'" class="text-danger">данная почта уже привязана к другому аккаунту</div>
                                         <input type="text" id="email" name="email" th:field="*{email}" placeholder="Почта">
                                         <input type="password" id="password" name="password" th:field="*{password}" placeholder="Пароль">
+                                        <input type="password" id="password2" name="password2" th:field="*{password2}" placeholder="Повторите пароль">
                                         <div th:if="${Status} == 'pass1!=pass2'" class="text-danger">неправильный пароль подтверждения</div>
                                         <input type="submit"  value="Создать аккаунт">
                                     </form>
+                                </div>
+                            </div>
+                                <div th:if="${Problem} == 'sign'">
+                                    <div class="login">
+                                        <form  class="box"  role="form" th:action="@{/sign-up}" th:method="post" th:object="${user}">
+                                            <h6>Пожалуйста введите ваши данные для создания аккаунта</h6>
+                                            <input type="text" id="name" name="name" th:field="*{name}" placeholder="Имя">
+                                            <input type="text" id="surname" name="surname" th:field="*{surname}" placeholder="Фамилия">
+                                            <div th:if="${Status} == 'oldemail'" class="text-danger">данная почта уже привязана к другому аккаунту</div>
+                                            <input type="text" id="email" name="email" th:field="*{email}" placeholder="Почта">
+                                            <input type="password" id="password" name="password" th:field="*{password}" placeholder="Пароль">
+                                            <input type="password" id="password2" name="password2" th:field="*{password2}" placeholder="Повторите пароль">
+                                            <div th:if="${Status} == 'pass1!=pass2'" class="text-danger">неправильный пароль подтверждения</div>
+                                            <input type="submit"  value="Создать аккаунт">
+                                        </form>
+                                    </div>
+                                    <div class="sign-up-form">
+                                        <form  class="box" name="loginUser" method="post" th:action="@{/login}">
+                                            <h6>Введите пожалуйста почту аккаунта и пароль</h6>
+                                            <div th:if="${param.error}">
+                                                <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+                                            </div>
+                                            <div th:if="${param.logout}">
+                                                <p class="text-warning">You have been logged out.</p>
+                                            </div>
+                                            <input class="form-control" type="text" name="email" placeholder="Почта">
+                                            <input class="form-control" name="password" type="password" placeholder="Пароль">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="remember" name="remember-me">
+                                                <label class="form-check-label" for="remember">
+                                                    Запомнить меня
+                                                </label>
+                                            </div>
+                                            <input type="submit" name="" value="Login">
+                                        </form>
+
+                                    </div>
                                 </div>
                         </div>
                     </div>
