@@ -2,6 +2,7 @@ package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class MyController {
         userService.signUpUser(user);
         return "sign-up";
     }
-    @GetMapping("/sign-up/confirm")
+    @GetMapping("sign-up/confirm")
     String confirmMail(@RequestParam("token") String token,Model model) {
         Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);
         userService.confirmUser(optionalConfirmationToken.get());
@@ -76,7 +77,7 @@ public class MyController {
     }
     @RequestMapping(path = "/")
     public String add() {
-        return "redirect:/shoppingcard";
+        return "redirect:/user_info";
     }
 
     @RequestMapping(path = "/shoppingcard")
@@ -90,7 +91,7 @@ public class MyController {
         model.addAttribute("isauth", isauth);
         return "shopping_card";
     }
-    @GetMapping("/shoppingcard3")
+    @GetMapping("shoppingcard/change")
     public String deleteIncome(@RequestParam(value = "opisanie") String opisanie,@RequestParam(value = "quantity") int quantity,Model model) {
         for(Product p:products){
             if (p.getOpisanie().equals(opisanie)){
@@ -106,7 +107,7 @@ public class MyController {
         model.addAttribute("isauth",isauth);
         return "redirect:/shoppingcard";
     }
-    @GetMapping("/shoppingcard/delete")
+    @GetMapping("shoppingcard/delete")
     public String delete(@RequestParam(value = "opisanie") String opisanie,Model model) {
         products.removeIf(product -> product.getOpisanie().equals(opisanie));
         model.addAttribute("products",products);
@@ -116,7 +117,8 @@ public class MyController {
     }
 
     @RequestMapping(path="/user_info")
-    public String userinfo(Authentication authentication,Model model) {
+    public String userinfo(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         isauth=true;
         products.add(new Product("blabla",1,25));
         products.add(new Product("yeeeee",3,30));
@@ -126,7 +128,7 @@ public class MyController {
         model.addAttribute("isauth",isauth);
         return "user_info";
     }
-    @RequestMapping(path="/orderconfirm")
+    @RequestMapping(path="shoppingcard/orderconfirm")
     public String orderconfirm(Model model) {
         int sum = (int) products.stream()
                 .mapToDouble(a -> a.getPrice()*a.getQuantity())
@@ -136,7 +138,7 @@ public class MyController {
         model.addAttribute("isauth",isauth);
         return "order_confirm";
     }
-    @RequestMapping(path="/addorder")
+    @RequestMapping(path="shoppingcard/addorder")
     public String addorder(@RequestParam String data, Model model) {
         int sum = (int) products.stream()
                 .mapToDouble(a -> a.getPrice()*a.getQuantity())
@@ -146,7 +148,7 @@ public class MyController {
 
         return "redirect:/user_info";
     }
-    @RequestMapping(path="/{number}")
+    @RequestMapping(path="user_info/orders/{number}")
     public String userinfo(@PathVariable(value = "number") int number, Model model) {
         for(Order o :orders){
             if (o.getNumber()==number){
@@ -158,7 +160,7 @@ public class MyController {
         model.addAttribute("kolvo",products.size());
         return "orderinfo";
     }
-    @RequestMapping(path="/deleteinfo/{number}")
+    @RequestMapping(path="user_info/orders/deleteinfo/{number}")
     public String deleteinfo(@PathVariable(value = "number") int number,Model model) {
         orders.removeIf(o -> o.getNumber() == number);
         return "redirect:/user_info";
