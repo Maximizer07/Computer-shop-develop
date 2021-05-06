@@ -41,9 +41,9 @@
                     <td>
                         <form class="form-inline">
                             <input class="form-control" type="text" th:value="${product.getQuantity()}" readonly="readonly">
-                            <a th:href="@{/shoppingcard3(opisanie=${product.getOpisanie()},quantity=${product.getQuantity()-1})}" class="btn btn-warning"><i class="fa fa-minus" aria-hidden="true"></i></a>
-                            <a th:href="@{/shoppingcard3(opisanie=${product.getOpisanie()},quantity=${product.getQuantity()+1})}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                            <a th:href="@{/shoppingcard/delete(opisanie=${product.getOpisanie()})}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                            <a th:href="@{shoppingcard/change(opisanie=${product.getOpisanie()},quantity=${product.getQuantity()-1})}" class="btn btn-warning"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                            <a th:href="@{shoppingcard/change(opisanie=${product.getOpisanie()},quantity=${product.getQuantity()+1})}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            <a th:href="@{shoppingcard/delete(opisanie=${product.getOpisanie()})}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
                         </form>
                     </td>
                     <td><h6 th:text="${product.getPrice()}" style="color: #1d3c45"></h6></td>
@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <td colspan="8" class="text-center">
-                    <a th:href="@{/orderconfirm}" class="btn btn-success btn-block">Заказать</a>
+                    <a th:href="@{shoppingcard/orderconfirm}" class="btn btn-success btn-block">Заказать</a>
                 </td>
             </tr>
             </tbody>

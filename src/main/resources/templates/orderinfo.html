@@ -10,15 +10,24 @@
 
 <div class="container-fluid my-5 d-sm-flex justify-content-center">
     <div class="card px-2">
-        <card class="card" id="deleteorder">
-            <div class="card-body" >
-                <div class="text-center">
-                    <h3>Вы хотите отменить ваш заказ?</h3>
-                    <a  type="button" class="btn btn-danger" th:href="@{/deleteinfo/{number}(number=${order.getNumber()})}">Да</a>
-                    <button  type="button" class="btn btn-success" onclick="delatmpno()">Нет</button>
+        <div class="card-header bg-white">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <p class="text-muted"> Номер заказа: <span class="font-weight-bold text-dark">1222528743</span></p>
+                    <p class="text-muted"> Сумма заказа: <span class="font-weight-bold text-dark">230 рублей</span></p>
+                    <p class="text-muted"> Дата оформления заказа: <span class="font-weight-bold text-dark">12,March 2019</span> </p>
+                    <p class="text-muted"> Дата получения: <span class="font-weight-bold text-dark" th:text="${order.getDateGet()}"></span></p>
+                    <p style="display: inline">Пункт самовывоза: <button type="button" style="display: inline" class="btn btn-outline-info d-flex"><a href="https://www.google.ru/maps/place/%D0%A0%D0%A2%D0%A3+%D0%9C%D0%98%D0%A0%D0%AD%D0%90/@55.6699384,37.4781112,17z/data=!3m1!4b1!4m5!3m4!1s0x46b54dc1d23b51c3:0x74763ed59c81ccb6!8m2!3d55.6699354!4d37.4802999?hl=ru">Рту Мирэа</a></button></p>
                 </div>
             </div>
-        </card>
+        </div>
+        <div id="deleteorder" style="padding: 10px;">
+                <div class="text-center">
+                    <h3>Вы хотите отменить ваш заказ?</h3>
+                    <a  type="button" class="btn btn-danger" th:href="@{user_info/orders/deleteinfo/{number}(number=${order.getNumber()})}">Да</a>
+                    <button  type="button" class="btn btn-success" onclick="delatmpno()">Нет</button>
+                </div>
+        </div>
         <div   id="orderikinfo">
             <div class="card-body">
                 <th:block th:each="product :${order.getProductList()}">
@@ -30,8 +39,7 @@
                         </div><img class="align-self-center img-fluid" src="https://i.imgur.com/bOcHdBa.jpg" width="180 " height="180">
                     </div>
                 </th:block>
-                <p style="display: inline">Дата получения: </p><p class="text-muted" style="display: inline" th:text="${order.getDateGet()}"><span class="Today"></span></p><br>
-                <p style="display: inline">Пункт самовывоза: </p><button type="button" style="display: inline" class="btn btn-outline-info d-flex"><a href="https://www.google.ru/maps/place/%D0%A0%D0%A2%D0%A3+%D0%9C%D0%98%D0%A0%D0%AD%D0%90/@55.6699384,37.4781112,17z/data=!3m1!4b1!4m5!3m4!1s0x46b54dc1d23b51c3:0x74763ed59c81ccb6!8m2!3d55.6699354!4d37.4802999?hl=ru">Рту Мирэа</a></button><br>
+
             </div>
             <div class="row px-3">
                 <div class="col">
@@ -58,9 +66,14 @@
 
                     </script>
                     <div class="col my-auto border-line ">
-                        <button onclick="delatmp()">
+                        <a onclick="delatmp()" style="text-decoration: none">
                             <h5>Отменить заказ</h5>
-                        </button>
+                        </a>
+                    </div>
+                    <div class="col my-auto border-line ">
+                        <a th:href="@{/user_info}" style="text-decoration: none;">
+                            <h5>Назад</h5>
+                        </a>
                     </div>
                     <div class="col my-auto mx-0 px-0 "><img class="img-fluid cursor-pointer" src="https://img.icons8.com/ios/50/000000/menu-2.png" width="30" height="30"></div>
                 </div>

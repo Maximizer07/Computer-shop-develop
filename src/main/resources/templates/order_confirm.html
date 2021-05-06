@@ -15,30 +15,30 @@
         <div class="card-body" >
             <div class="text-center">
                <h3>Данные заказа</h3>
-                <form method="post" class=" needs-validation" action="/addorder">
+                <form method="post" class=" needs-validation" action="/shoppingcard/addorder">
                 <div class="table-responsive">
                 <table class="table table-borderless table-hover" style="background: #fff1e1">
                     <tbody>
                     <tr>
                         <th scope="row">Общая сумма заказа:</th>
-                        <td type="text" th:text="${price}"></td>
+                        <td><h6 type="text" th:text="${price}"></h6></td>
                     </tr>
                     <tr>
                         <th scope="row">Способ получения товара:</th>
-                        <td>самовывоз</td>
+                        <td><h6>самовывоз</h6></td>
                     </tr>
                     <tr>
                         <th scope="row">Адрес:</th>
-                        <td><a href="https://www.google.ru/maps/place/%D0%A0%D0%A2%D0%A3+%D0%9C%D0%98%D0%A0%D0%AD%D0%90/@55.6699384,37.4781112,17z/data=!3m1!4b1!4m5!3m4!1s0x46b54dc1d23b51c3:0x74763ed59c81ccb6!8m2!3d55.6699354!4d37.4802999?hl=ru">Рту Мирэа</a></td>
+                        <td><h6><a href="https://www.google.ru/maps/place/%D0%A0%D0%A2%D0%A3+%D0%9C%D0%98%D0%A0%D0%AD%D0%90/@55.6699384,37.4781112,17z/data=!3m1!4b1!4m5!3m4!1s0x46b54dc1d23b51c3:0x74763ed59c81ccb6!8m2!3d55.6699354!4d37.4802999?hl=ru">Рту Мирэа</a></h6></td>
                     </tr>
                     <tr>
                         <th scope="row">Выберите дату получения заказа</th>
-                        <td colspan="2"><input id="datepicker" class="form-control" width="276" type="text" name= "data" required/>
+                        <td colspan="2"><h6><input id="datepicker" class="form-control" width="276" type="text" name= "data" required/>
                             <script>
                                 $('#datepicker').datepicker({
                                     uiLibrary: 'bootstrap4'
                                 });
-                            </script></td>
+                            </script></h6></td>
                     </tr>
                     </tbody>
                 </table>

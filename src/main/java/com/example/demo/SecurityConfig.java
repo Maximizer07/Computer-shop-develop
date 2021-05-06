@@ -46,6 +46,7 @@ public class SecurityConfig extends
                 .antMatchers("/login","/sign-up/**","/sign-up").not().fullyAuthenticated()
                 //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin").hasAuthority("ADMIN")
+                .antMatchers("/user_info","/shoppingcard").hasAnyAuthority("ADMIN","USER")
                 //Доступ разрешен всем пользователей
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
@@ -54,7 +55,7 @@ public class SecurityConfig extends
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/user_info")
+                .successForwardUrl("/user_info")
                 .permitAll()
                 .and()
                 .rememberMe().tokenRepository(persistentTokenRepository())
