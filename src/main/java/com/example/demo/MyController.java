@@ -14,6 +14,7 @@ import java.util.Optional;
 public class MyController {
     public ArrayList<Product> products = new ArrayList<>();
     public ArrayList<Order> orders = new ArrayList<>();
+    public ArrayList<Category> categories = new ArrayList<>();
     boolean isauth = false;
     @Autowired
     private  UserService userService;
@@ -73,6 +74,12 @@ public class MyController {
         model.addAttribute("kolvo", products.size());
         model.addAttribute("isauth", isauth);
         return "login";
+    }
+    @GetMapping("/categories")
+    public String viewCategoriesPage(Model model,User user) {
+        //model.addAttribute("categories", categories);
+        model.addAttribute("isauth", isauth);
+        return "categories";
     }
     @RequestMapping(path = "/")
     public String add() {
