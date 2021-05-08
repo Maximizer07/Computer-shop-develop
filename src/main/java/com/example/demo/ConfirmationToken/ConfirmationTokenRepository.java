@@ -1,6 +1,5 @@
 package com.example.demo.ConfirmationToken;
 
-import com.example.demo.ConfirmationToken.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

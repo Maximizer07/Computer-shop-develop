@@ -1,13 +1,13 @@
 package com.example.demo;
 
+import com.example.demo.Category.Category;
+import com.example.demo.Category.CategoryService;
 import com.example.demo.ConfirmationToken.ConfirmationToken;
 import com.example.demo.ConfirmationToken.ConfirmationTokenService;
 import com.example.demo.Order.Order;
 import com.example.demo.Product.Product;
 import com.example.demo.Product.ProductService;
 import com.example.demo.User.User;
-import com.example.demo.Category.Category;
-import com.example.demo.Category.CategoryService;
 import com.example.demo.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -90,7 +90,7 @@ public class MyController {
         return "user_info";
     }
     @GetMapping("/login")
-    public String viewLoginPage(Model model,User user) {
+    public String viewLoginPage(Model model, User user) {
         model.addAttribute("Problem","login");
         model.addAttribute("kolvo", products.size());
         model.addAttribute("isauth", isauth);

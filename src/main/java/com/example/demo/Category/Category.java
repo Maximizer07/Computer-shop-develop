@@ -9,7 +9,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Data
-@Table(name = "products")
+@Table(name = "categories")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 public class Category {

@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
     @Override
     public User loadUserByUsername(String email) throws UsernameNotFoundException {
         final Optional<User> optionalUser = userRepository.findByEmail(email);
-        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User with email {0} cannot be found.", email)));
+        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User.User with email {0} cannot be found.", email)));
     }
     public void signUpUser(User user) {
         final String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
@@ -66,7 +66,7 @@ public class UserService implements UserDetailsService {
     }
     public User loadUserById(long id) throws UsernameNotFoundException {
         final Optional<User> optionalUser = userRepository.findById(id);
-        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User with id {0} cannot be found.", id)));
+        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User.User with id {0} cannot be found.", id)));
     }
     public void updateUserRole(long id, UserRole role) {
         Optional<User> u = userRepository.findById(id);
