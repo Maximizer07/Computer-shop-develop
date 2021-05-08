@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -19,6 +21,8 @@ public class MyController {
     boolean isauth = false;
     @Autowired
     private  UserService userService;
+    @Autowired
+    private CategoryService cs;
     @Autowired
     private  ConfirmationTokenService confirmationTokenService;
     @PostMapping("/sign-up")
@@ -77,9 +81,14 @@ public class MyController {
         return "login";
     }
     @GetMapping("/categories")
-    public String viewCategoriesPage(Model model,User user) {
-        //model.addAttribute("categories", categories);
+    public String viewCategoriesPage(Model model) {
+        List<String> path = new LinkedList<>();
+        path.add("Каталог");
+        path.add("Категории");
+        model.addAttribute("path", path);
         model.addAttribute("isauth", isauth);
+        model.addAttribute("categories", cs.readAll());
+
         return "categories";
     }
     @RequestMapping(path = "/")
