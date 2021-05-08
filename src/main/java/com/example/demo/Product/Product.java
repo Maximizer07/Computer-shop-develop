@@ -28,7 +28,7 @@ public class Product {
     private String manufacturer;
 
     @Column(name = "id_category", nullable = false)
-    private int id_category;
+    private int categoryId;
 
     @Column(name = "price", nullable = false)
     private int price;

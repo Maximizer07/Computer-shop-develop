@@ -9,61 +9,61 @@
 </head>
 <header th:insert="general.html :: header"> </header>
 <body>
-<div class="container">
-    <th:block th:each="pathelem : ${path}">
-            <a href="#"><td th:text="${pathelem}"></td></a>
-            <span> ></span>
-    </th:block>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md">
-            <th:block th:each="category : ${categories}">
-                <div class="col-md">
-                    <a href="#"><td th:text="${category.getName()}"></td></a>
-                </div>
-            </th:block>
-        </div>
-        <div class="col-md">
-            <div class="row">
+    <div class="container">
+        <th:block th:each="pathelem : ${path}">
+                <a href="#"><td th:text="${pathelem}"></td></a>
+                <span> ></span>
+        </th:block>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
                 <th:block th:each="category : ${categories}">
-                    <div class="col-md-4">
-                        <div class="category">
-                            <div class="category-img">
-                                <a th:href="@{/categories/{category}(category=${category.getEngName()}, id = category.getId())}"><img th:src="${category.getLink()}" alt=""></a>
+                    <div class="col-md">
+                        <a href="#"><td th:text="${category.getName()}"></td></a>
+                    </div>
+                </th:block>
+            </div>
+            <div class="col-md">
+                <div class="row">
+                    <th:block th:each="category : ${categories}">
+                        <div class="col-md-3">
+                            <div class="category">
+                                <div class="category-img">
+                                    <a href="@{/categories/{category}(category=${category.getEngName()}, id = category.getId())}"><img th:src="${category.getLink()}" alt=""></a>
+                                </div>
+                                <p class="category-title">
+                                    <a th:href="@{/categories/{category}(category=${category.getEngName()}, id = category.getId())}"><td th:text="${category.getName()}"></td></a>
+                                </p>
                             </div>
-                            <p class="category-title">
-                                <a th:href="@{/categories/{category}(category=${category.getEngName()}, id = category.getId())}"><td th:text="${category.getName()}"></td></a>
-                            </p>
+                        </div>
+                    </th:block>
+                </div>
+                <th:block th:each="category : ${categories}">
+                    <div class="category">
+                        <p class="category-title">
+                            <td th:text="${category.getName()}"></td>
+                        <a th:href="@{/categories/{category}(category=${category.getEngName()}, id = category.getId())}">Посмотреть все товары&rarr;</a>
+                        </p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                товар
+                            </div>
+                            <div class="col-md-3">
+                                товар
+                            </div>
+                            <div class="col-md-3">
+                                товар
+                            </div>
+                            <div class="col-md-3">
+                                товар
+                            </div>
                         </div>
                     </div>
                 </th:block>
             </div>
-            <th:block th:each="category : ${categories}">
-                <div class="category">
-                    <p class="category-title">
-                        <td th:text="${category.getName()}"></td>
-                    <a th:href="@{/categories/{category}(category=${category.getEngName()}, id = category.getId())}">Посмотреть все товары&rarr;</a>
-                    </p>
-                    <div class="row">
-                        <div class="col-md-3">
-                            товар
-                        </div>
-                        <div class="col-md-3">
-                            товар
-                        </div>
-                        <div class="col-md-3">
-                            товар
-                        </div>
-                        <div class="col-md-3">
-                            товар
-                        </div>
-                    </div>
-                </div>
-            </th:block>
         </div>
     </div>
-</div>
-<div th:replace="general.html :: footer"></div>
+    <div th:replace="general.html :: footer"></div>
 </body>
 </html>

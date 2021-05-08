@@ -226,11 +226,14 @@ public class MyController {
         orders.removeIf(o -> o.getNumber() == number);
         return "redirect:/user_info";
     }
-
-
     @RequestMapping("/categories/{category}")
     public String categoryProducts(@PathVariable(value = "category") String category, @RequestParam(value = "id") long id, Model model){
         model.addAttribute("product_list", productService.findById_category((int) id));
+        return "product_list";
+    }
+    @GetMapping("/product_list")
+    public String product_list(Model model) {
+        model.addAttribute("isauth", isauth);
         return "product_list";
     }
 }

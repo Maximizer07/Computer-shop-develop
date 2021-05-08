@@ -35,9 +35,9 @@ public class ProductService {
         return productRepository.findByName(Name);
     }
 
-    public List<Product> findById_category(int Id_category){
-        log.info("Find list of products, whose Id = {}",Id_category);
-        return productRepository.findProductsById_category(Id_category);
+    public List<Product> findById_category(int categoryId){
+        log.info("Find list of products, whose Id = {}",categoryId);
+        return productRepository.findByCategoryId(categoryId);
     }
     public void delete(Product p){
         log.info("Delete product, whose Id = {}",p.getId());
