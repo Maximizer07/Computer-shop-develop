@@ -5,8 +5,7 @@
     <link href="/css/product_list.css" rel="stylesheet" />
 </head>
 <header th:insert="general.html :: header"> </header>
-<body>
-<div th:replace="general.html :: footer"></div>
+<body class="d-flex flex-column">
     <div class="wrapper">
         <div class="d-md-flex align-items-md-center">
             <div class="h3">Fruits and vegetables</div>
@@ -196,5 +195,6 @@
             </section>
         </div>
     </div>
+    <div th:replace="general.html :: footer"></div>
 </body>
 </html>
