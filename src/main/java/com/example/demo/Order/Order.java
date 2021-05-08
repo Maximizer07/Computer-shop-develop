@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.Order;
 
+import com.example.demo.Product.Product;
 import lombok.*;
 
 import java.util.List;

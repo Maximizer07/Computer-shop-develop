@@ -1,10 +1,15 @@
 package com.example.demo;
 
-import com.example.demo.entity.UserRole;
+import com.example.demo.Order.Order;
+import com.example.demo.Product.Product;
+import com.example.demo.Product.ProductService;
+import com.example.demo.User.User;
+import com.example.demo.Category.Category;
+import com.example.demo.Category.CategoryService;
+import com.example.demo.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +26,14 @@ public class MyController {
     public ArrayList<Category> categories = new ArrayList<>();
     boolean isauth = false;
     @Autowired
-    private  UserService userService;
+    private UserService userService;
+    private ProductService productService;
     @Autowired
     private CategoryService cs;
     @Autowired
     private  ConfirmationTokenService confirmationTokenService;
     @PostMapping("/sign-up")
-    String signUp(User user,Model model) {
+    String signUp(User user, Model model) {
         if(!user.getPassword().equals(user.getPassword2())){
             model.addAttribute("Problem","sign");
             model.addAttribute("Status","pass1!=pass2");
@@ -211,5 +217,12 @@ public class MyController {
     public String deleteinfo(@PathVariable(value = "number") int number,Model model) {
         orders.removeIf(o -> o.getNumber() == number);
         return "redirect:/user_info";
+    }
+
+
+    @RequestMapping("/categories/{category}")
+    public String categoryProducts(@PathVariable(value = "category") String category, @RequestParam(value = "id") int id, Model model){
+        model.addAttribute("product_list", productService.findById_category(id));
+        return "product_list";
     }
 }

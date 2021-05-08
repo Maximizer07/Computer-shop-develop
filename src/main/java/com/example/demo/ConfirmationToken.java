@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.User.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

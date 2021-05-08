@@ -1,6 +1,8 @@
-package com.example.demo;
+package com.example.demo.User;
 
-import com.example.demo.entity.UserRole;
+import com.example.demo.ConfirmationToken;
+import com.example.demo.ConfirmationTokenService;
+import com.example.demo.EmailService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,12 +20,12 @@ import java.util.Optional;
 @Transactional
 public class UserService implements UserDetailsService {
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     @Autowired
-    private  ConfirmationTokenService confirmationTokenService;
+    private ConfirmationTokenService confirmationTokenService;
     @Autowired
-    private  EmailService emailSenderService;
+    private EmailService emailSenderService;
     @SneakyThrows
     void sendConfirmationMail(String userMail, String token) {
         final SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -41,7 +43,7 @@ public class UserService implements UserDetailsService {
     @Override
     public User loadUserByUsername(String email) throws UsernameNotFoundException {
         final Optional<User> optionalUser = userRepository.findByEmail(email);
-        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("User with email {0} cannot be found.", email)));
+        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User with email {0} cannot be found.", email)));
     }
     public void signUpUser(User user) {
         final String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
@@ -64,7 +66,7 @@ public class UserService implements UserDetailsService {
     }
     public User loadUserById(long id) throws UsernameNotFoundException {
         final Optional<User> optionalUser = userRepository.findById(id);
-        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("User with id {0} cannot be found.", id)));
+        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User with id {0} cannot be found.", id)));
     }
     public void updateUserRole(long id, UserRole role) {
         Optional<User> u = userRepository.findById(id);
