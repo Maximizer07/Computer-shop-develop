@@ -20,14 +20,6 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public String getEngName(Category c) {
-        log.info("Get Eng Name {}", c);
-        String st = c.getName();
-        var CYRILLIC_TO_LATIN = "Russian-Latin/BGN";
-        Transliterator toLatinTrans = Transliterator.getInstance(CYRILLIC_TO_LATIN);
-        String result = toLatinTrans.transliterate(st);
-        return st.replaceAll("\\s+", "-");
-    }
 
     public void create(Category c) {
         log.info("Save category {}", c);

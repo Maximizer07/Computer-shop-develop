@@ -15,7 +15,7 @@
   <div class="py-4 px-3 mb-4 bg-light">
     <div class="media d-flex align-items-center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSriFFJXaLLV3g1bFT8PrDRFbD50XjQ7lm_0g&usqp=CAU" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
       <div class="media-body">
-        <h4 class="m-0" th:text="${com.example.demo.User.getName() + ' ' + com.example.demo.User.getSurname()}"></h4>
+        <h4 class="m-0" th:text="${User.getName() + ' ' + User.getSurname()}"></h4>
         <p class="font-weight-light text-muted mb-0">Администратор</p>
       </div>
     </div>
@@ -77,7 +77,7 @@
         </thead>
         <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
         <th:block th:each="user :${users}">
-          <tr th:if="${com.example.demo.User.User !=user}">
+          <tr th:if="${User !=user}">
             <form th:action="@{/changeRole/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
             <th  th:value="${user.getId()}" th:text="${user.getId()}" th:field="*{Id}"></th>
             <th th:text="${user.getUsername()}"></th>

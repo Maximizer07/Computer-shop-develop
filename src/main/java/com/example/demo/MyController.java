@@ -29,6 +29,7 @@ public class MyController {
     boolean isauth = false;
     @Autowired
     private UserService userService;
+    @Autowired
     private ProductService productService;
     @Autowired
     private CategoryService cs;
@@ -227,12 +228,8 @@ public class MyController {
         return "redirect:/user_info";
     }
     @RequestMapping("/categories/{category}")
-    public String categoryProducts(@PathVariable(value = "category") String category, @RequestParam(value = "id") long id, Model model){
-        model.addAttribute("product_list", productService.findById_category((int) id));
-        return "product_list";
-    }
-    @GetMapping("/product_list")
-    public String product_list(Model model) {
+    public String categoryProducts(@PathVariable(value = "category") String category, @RequestParam(value = "id") int id, Model model){
+        model.addAttribute("product_list", productService.findById_category(id));
         model.addAttribute("isauth", isauth);
         return "product_list";
     }
