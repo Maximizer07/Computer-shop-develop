@@ -15,8 +15,10 @@
                         <div class="d-flex flex-column align-items-center text-center">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSriFFJXaLLV3g1bFT8PrDRFbD50XjQ7lm_0g&usqp=CAU" alt="Admin" class="rounded-circle" width="150">
                             <div class="mt-5">
-                                <h4  th:text="${user.getName() + ' ' + user.getSurname()}"></h4>
+                                <h4  th:text="${user.getEmail()}"></h4>
+                                <div th:if="${not_my != 'not_my'}">
                                 <a type="button" class="btn btn-danger" th:href="@{/logout}"> Выйти</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -25,16 +27,20 @@
             <div class="col-md-8">
                 <div class="card mb-5">
                     <div class="card-body">
+                        <form th:action="@{/changeName/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
                         <div class="row">
-                            <div class="col-12"><h6 class="mb-1">Имя</h6><button type="button" class="btn btn-primary float-right">Изменить</button><br/><h6 class="text-secondary" th:text="${user.getName()}"></h6></div>
+                            <div class="col-12"><h6 class="mb-1">Имя</h6><button type="submit" class="btn btn-info float-right">Изменить</button><br/><input style="border: none" class="text-secondary" th:field="*{name}"/></div>
                         </div>
+                        </form>
+                        <hr/>
+                        <form th:action="@{/changeSurName/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
+                        <div class="row">
+                            <div class="col-12"><h6 class="mb-0">Фамилия</h6> <button type="submit" class="btn btn-info float-right">Изменить</button><br/><input style="border: none" class="text-secondary" th:field="*{Surname}"/></div>
+                        </div>
+                        </form>
                         <hr/>
                         <div class="row">
-                            <div class="col-12"><h6 class="mb-0">Фамилия</h6> <button type="button" class="btn btn-info float-right">Изменить</button><br/><h6 class="text-secondary" th:text="${user.getSurname()}"></h6></div>
-                        </div>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-12 "><h6 class="mb-0">Email</h6><button type="button" class="btn btn-info float-right">Изменить</button><br/><h6 class="text-secondary" th:text="${user.getEmail()}"></h6></div>
+                            <div class="col-12 "><h6 class="mb-0">Email</h6><br/><h6 class="text-secondary" th:text="${user.getEmail()}"></h6></div>
                         </div>
                     </div>
                 </div>

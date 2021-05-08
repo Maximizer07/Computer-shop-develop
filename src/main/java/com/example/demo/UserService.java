@@ -8,11 +8,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
     @Autowired
     private  UserRepository userRepository;
@@ -43,6 +46,7 @@ public class UserService implements UserDetailsService {
     public void signUpUser(User user) {
         final String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
+        user.setUserRole(UserRole.USER);
         final User createdUser = userRepository.save(user);
         final ConfirmationToken confirmationToken = new ConfirmationToken(user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
@@ -67,5 +71,20 @@ public class UserService implements UserDetailsService {
          User uu = u.get();
         uu.setUserRole(role);
         userRepository.save(uu);
+    }
+    public void updateUserName(long id, String name) {
+        Optional<User> u = userRepository.findById(id);
+        User uu = u.get();
+        uu.setName(name);
+        userRepository.save(uu);
+    }
+    public void updateSurName(long id, String surname) {
+        Optional<User> u = userRepository.findById(id);
+        User uu = u.get();
+        uu.setSurname(surname);
+        userRepository.save(uu);
+    }
+    public void deleteUser(long id){
+        userRepository.deleteUserById(id);
     }
 }

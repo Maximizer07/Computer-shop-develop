@@ -28,8 +28,7 @@ public class User implements UserDetails {
     private String surname;
     private String email;
     private String password;
-    @Builder.Default
-    private UserRole userRole = UserRole.USER;
+    private UserRole userRole;
     @Builder.Default
     private Boolean locked = false;
     @Builder.Default

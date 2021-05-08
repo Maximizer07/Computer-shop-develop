@@ -72,6 +72,7 @@ public class MyController {
         model.addAttribute("orders",orders);
         model.addAttribute("kolvo",products.size());
         model.addAttribute("isauth",isauth);
+        model.addAttribute("not_my","not_my");
         return "user_info";
     }
     @GetMapping("/login")
@@ -103,14 +104,28 @@ public class MyController {
         model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
         model.addAttribute("isauth", isauth);
         model.addAttribute("kolvo", products.size());
-        model.addAttribute("newRole", UserRole.values());
         model.addAttribute("users", userService.readAll());
         return "admin2";
     }
     @PostMapping ("/changeRole/{number}")
-    public String process(@PathVariable(value = "number") long number,Model model,User user) {
+    public String changeRole(@PathVariable(value = "number") long number,Model model,User user) {
         userService.updateUserRole(number,user.getUserRole());
         return "redirect:/admin2";
+    }
+    @GetMapping ("/deleteUser/{number}")
+    public String deleteUser(@PathVariable(value = "number") long number,Model model) {
+        userService.deleteUser(number);
+        return "redirect:/admin2";
+    }
+    @PostMapping ("/changeName/{number}")
+    public String changeName(@PathVariable(value = "number") long number,Model model,User user) {
+        userService.updateUserName(number,user.getName());
+        return "redirect:/user_info";
+    }
+    @PostMapping ("/changeSurName/{number}")
+    public String changeSurName(@PathVariable(value = "number") long number,Model model,User user) {
+        userService.updateSurName(number,user.getSurname());
+        return "redirect:/user_info";
     }
     @RequestMapping(path = "/shoppingcard")
     public String shoppingcard(Model model) {
