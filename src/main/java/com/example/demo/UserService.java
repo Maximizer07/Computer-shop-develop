@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.entity.UserRole;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -60,5 +61,11 @@ public class UserService implements UserDetailsService {
     public User loadUserById(long id) throws UsernameNotFoundException {
         final Optional<User> optionalUser = userRepository.findById(id);
         return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("User with id {0} cannot be found.", id)));
+    }
+    public void updateUserRole(long id, UserRole role) {
+        Optional<User> u = userRepository.findById(id);
+         User uu = u.get();
+        uu.setUserRole(role);
+        userRepository.save(uu);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -95,7 +96,22 @@ public class MyController {
     public String add() {
         return "redirect:/user_info";
     }
-
+    @RequestMapping(path = "/admin2")
+    public String admin2(Model model) {
+        model.addAttribute("user", new User());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
+        model.addAttribute("isauth", isauth);
+        model.addAttribute("kolvo", products.size());
+        model.addAttribute("newRole", UserRole.values());
+        model.addAttribute("users", userService.readAll());
+        return "admin2";
+    }
+    @PostMapping ("/changeRole/{number}")
+    public String process(@PathVariable(value = "number") long number,Model model,User user) {
+        userService.updateUserRole(number,user.getUserRole());
+        return "redirect:/admin2";
+    }
     @RequestMapping(path = "/shoppingcard")
     public String shoppingcard(Model model) {
         int sum = (int) products.stream()
