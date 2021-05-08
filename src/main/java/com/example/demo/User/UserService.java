@@ -1,7 +1,7 @@
 package com.example.demo.User;
 
-import com.example.demo.ConfirmationToken;
-import com.example.demo.ConfirmationTokenService;
+import com.example.demo.ConfirmationToken.ConfirmationToken;
+import com.example.demo.ConfirmationToken.ConfirmationTokenService;
 import com.example.demo.EmailService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class UserService implements UserDetailsService {
         sendConfirmationMail(user.getEmail(), confirmationToken.getConfirmationToken());
     }
 
-    void confirmUser(ConfirmationToken confirmationToken) {
+    public void confirmUser(ConfirmationToken confirmationToken) {
         final User user = confirmationToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);

@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.ConfirmationToken.ConfirmationToken;
+import com.example.demo.ConfirmationToken.ConfirmationTokenService;
 import com.example.demo.Order.Order;
 import com.example.demo.Product.Product;
 import com.example.demo.Product.ProductService;
@@ -31,7 +33,7 @@ public class MyController {
     @Autowired
     private CategoryService cs;
     @Autowired
-    private  ConfirmationTokenService confirmationTokenService;
+    private ConfirmationTokenService confirmationTokenService;
     @PostMapping("/sign-up")
     String signUp(User user, Model model) {
         if(!user.getPassword().equals(user.getPassword2())){
@@ -71,6 +73,12 @@ public class MyController {
         model.addAttribute("kolvo", products.size());
         model.addAttribute("users", userService.readAll());
         return "admin";
+    }
+    @GetMapping("/about")
+    public String about(Model model) {
+        model.addAttribute("isauth", isauth);
+        model.addAttribute("kolvo", products.size());
+        return "about";
     }
     @RequestMapping(path="admin/{number}")
     public String Adminuserinfo(@PathVariable(value = "number") int number, Model model) {
@@ -146,15 +154,15 @@ public class MyController {
     }
     @GetMapping("shoppingcard/change")
     public String deleteIncome(@RequestParam(value = "opisanie") String opisanie,@RequestParam(value = "quantity") int quantity,Model model) {
-        for(Product p:products){
-            if (p.getOpisanie().equals(opisanie)){
-                p.setQuantity(quantity);
-                if (p.getQuantity()==0){
-                    p.setOpisanie("nulll");
-                }
-            }
-        }
-        products.removeIf(product -> product.getOpisanie().equals("nulll"));
+     //   for(Product p:products){
+       //     if (p.getOpisanie().equals(opisanie)){
+         //       p.setQuantity(quantity);
+         //       if (p.getQuantity()==0){
+          //          p.setOpisanie("nulll");
+          //      }
+          //  }
+        //}
+        //products.removeIf(product -> product.getOpisanie().equals("nulll"));
         model.addAttribute("products",products);
         model.addAttribute("kolvo",products.size());
         model.addAttribute("isauth",isauth);
@@ -162,7 +170,7 @@ public class MyController {
     }
     @GetMapping("shoppingcard/delete")
     public String delete(@RequestParam(value = "opisanie") String opisanie,Model model) {
-        products.removeIf(product -> product.getOpisanie().equals(opisanie));
+        //products.removeIf(product -> product.getOpisanie().equals(opisanie));
         model.addAttribute("products",products);
         model.addAttribute("kolvo",products.size());
         model.addAttribute("isauth",isauth);
@@ -173,8 +181,8 @@ public class MyController {
     public String userinfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         isauth=true;
-        products.add(new Product("blabla",1,25));
-        products.add(new Product("yeeeee",3,30));
+       // products.add(new Product("blabla",1,25));
+        //products.add(new Product("yeeeee",3,30));
         model.addAttribute("user",userService.loadUserByUsername(authentication.getName()));
         model.addAttribute("orders",orders);
         model.addAttribute("kolvo",products.size());
@@ -221,8 +229,8 @@ public class MyController {
 
 
     @RequestMapping("/categories/{category}")
-    public String categoryProducts(@PathVariable(value = "category") String category, @RequestParam(value = "id") int id, Model model){
-        model.addAttribute("product_list", productService.findById_category(id));
+    public String categoryProducts(@PathVariable(value = "category") String category, @RequestParam(value = "id") long id, Model model){
+        model.addAttribute("product_list", productService.findById_category((int) id));
         return "product_list";
     }
 }

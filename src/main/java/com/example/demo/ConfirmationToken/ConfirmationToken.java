@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.ConfirmationToken;
 
 import com.example.demo.User.User;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-class ConfirmationToken {
+public class ConfirmationToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ class ConfirmationToken {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    ConfirmationToken(User user) {
+    public ConfirmationToken(User user) {
         this.user = user;
         this.createdDate = LocalDate.now();
         this.confirmationToken = UUID.randomUUID().toString();
