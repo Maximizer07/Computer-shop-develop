@@ -257,4 +257,8 @@ public class MyController implements ErrorController {
         model.addAttribute("isauth", isauth);
         return "error";
     }
+    @GetMapping("/product")
+    public String product_page(Model model) {
+        return "product_page";
+    }
 }
