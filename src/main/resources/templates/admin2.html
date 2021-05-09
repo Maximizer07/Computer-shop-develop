@@ -128,12 +128,28 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Название</th>
-            <th scope="col">количество</th>
+            <th scope="col">Стоимость</th>
+            <th scope="col">Количество</th>
             <th scope="col">Данные</th>
             <th>Действие</th>
           </tr>
           </thead>
           <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+            <th:block th:each="product :${products}">
+              <form th:action="@{/changeRole/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
+                <tr>
+                    <th th:text="${product.getId()}"></th>
+                    <th th:text="${product.getName()}"></th>
+                    <th th:text="${product.getPrice()}"></th>
+                    <th th:text="${product.getQuantity()}"></th>
+                    <th><span class="badge badge-info"><a style="color: whitesmoke" th:href="@{admin/{number}(number=${user.getId()})}">Edit</a></span></th>
+                    <th>
+                     <button type="submit" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                     <a th:href="@{/deleteUser/{number}(number=${user.getId()})}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                    </th>
+                </tr>
+              </form>
+            </th:block>
           </tbody>
         </table>
       </div>
@@ -143,11 +159,32 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Название</th>
-            <th scope="col">Ссылка</th>
+            <th scope="col">Английское название</th>
+            <th scope="col">Ссылка на изображение</th>
+            <th>Данные</th>
+            <th>Действие</th>
           </tr>
           </thead>
           <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+            <th:block th:each="category :${categories}">
+              <form th:action="@{/changeRole/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
+                <tr>
+                  <th><input style="border: none" class="text-secondary" th:value="${category.getId()}"/></th>
+                  <th><input style="border: none" class="text-secondary" th:value="${category.getName()}"/></th>
+                  <th><input style="border: none" class="text-secondary" th:value="${category.getEngname()}"/></th>
+                  <th><input style="border: none" class="text-secondary" th:value="${category.getLink()}"/></th>
+                  <th><span class="badge badge-info"><a style="color: whitesmoke" onclick="change_text();">Edit</a></span></th>
+                  <th>
+                    <button type="submit" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                    <a th:href="@{/deleteUser/{number}(number=${user.getId()})}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                  </th>
+                </tr>
+              </form>
+            </th:block>
           </tbody>
+
+
+
         </table>
       </div>
 <script>
@@ -182,7 +219,6 @@
       $("#categories").show();
       $("#nazvanie").text("Категории");
     }
-
   }
 </script>
 </div>

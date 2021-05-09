@@ -35,7 +35,7 @@ public class MyController implements ErrorController {
     @Autowired
     private ProductService productService;
     @Autowired
-    private CategoryService cs;
+    private CategoryService categoryService;
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
     @PostMapping("/sign-up")
@@ -107,7 +107,7 @@ public class MyController implements ErrorController {
         path.add("Категории");
         model.addAttribute("path", path);
         model.addAttribute("isauth", isauth);
-        model.addAttribute("categories", cs.readAll());
+        model.addAttribute("categories", categoryService.readAll());
 
         return "categories";
     }
@@ -123,6 +123,8 @@ public class MyController implements ErrorController {
         model.addAttribute("isauth", isauth);
         model.addAttribute("kolvo", products.size());
         model.addAttribute("users", userService.readAll());
+        model.addAttribute("products", productService.readAll());
+        model.addAttribute("categories", categoryService.readAll());
         return "admin2";
     }
     @PostMapping ("/changeRole/{number}")
@@ -239,9 +241,9 @@ public class MyController implements ErrorController {
     }
     @RequestMapping("/categories/{category}")
     public String categoryProducts(@PathVariable(value = "category") String engname, Model model){
-        model.addAttribute("products", productService.findById_category(cs.findByEngname(engname).getId()));
-        model.addAttribute("current_category", cs.findByEngname(engname).getName());
-        model.addAttribute("categories", cs.readAll());
+        model.addAttribute("products", productService.findById_category(categoryService.findByEngname(engname).getId()));
+        model.addAttribute("current_category", categoryService.findByEngname(engname).getName());
+        model.addAttribute("categories", categoryService.readAll());
         model.addAttribute("isauth", isauth);
         return "product_list";
     }
