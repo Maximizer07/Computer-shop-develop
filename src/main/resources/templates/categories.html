@@ -30,10 +30,10 @@
                         <div class="col-md-3">
                             <div class="category">
                                 <div class="category-img">
-                                    <a th:href="@{/categories/{category}(category=${category.getEngName()}, id = ${category.getId()})}"><img th:src="${category.getLink()}" alt=""></a>
+                                    <a th:href="@{/categories/{category}(category=${category.getEngname()})}"><img th:src="${category.getLink()}" alt=""></a>
                                 </div>
                                 <p class="category-title">
-                                    <a th:href="@{/categories/{category}(category=${category.getEngName()}, id = ${category.getId()})}"><td th:text="${category.getName()}"></td></a>
+                                    <a th:href="@{/categories/{category}(category=${category.getEngname()})}"><td th:text="${category.getName()}"></td></a>
                                 </p>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                     <div class="category">
                         <p class="category-title">
                             <td th:text="${category.getName()}"></td>
-                        <a  th:href="@{/categories/{category}(category=${category.getEngName()}, id = ${category.getId()})}">Посмотреть все товары&rarr;</a>
+                        <a  th:href="@{/categories/{category}(category=${category.getEngname()})}">Посмотреть все товары&rarr;</a>
                         </p>
                         <div class="row">
                             <div class="col-md-3">

@@ -35,6 +35,10 @@ public class CategoryService {
         log.info("Find category, whose Name = {}",Name);
         return categoryRepository.findByName(Name);
     }
+    public Category findByEngname(String Name){
+        log.info("Find category, whose Eng Name = {}",Name);
+        return categoryRepository.findByEngname(Name);
+    }
     public Category findById(int Id){
         log.info("Find category, whose Id = {}",Id);
         return categoryRepository.findById(Id);

@@ -21,10 +21,12 @@ public class Category {
     @Column(name="name", length = 100, nullable = false)
     public String name;
 
+    @Column(name="eng_name", length = 100, nullable = false)
+    public String engname;
     @Column(name="picture_link", length = 100, nullable = false)
     private String link;
 
-    public String getEngName() {
+    public String EngName() {
         var CYRILLIC_TO_LATIN = "Russian-Latin/BGN";
         Transliterator toLatinTrans = Transliterator.getInstance(CYRILLIC_TO_LATIN);
         String result = toLatinTrans.transliterate(name);

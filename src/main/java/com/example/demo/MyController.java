@@ -238,9 +238,9 @@ public class MyController implements ErrorController {
         return "redirect:/user_info";
     }
     @RequestMapping("/categories/{category}")
-    public String categoryProducts(@PathVariable(value = "category") String category, @RequestParam(value = "id") int id, Model model){
-        model.addAttribute("products", productService.findById_category(id));
-        model.addAttribute("current_category", cs.findById(id).getName());
+    public String categoryProducts(@PathVariable(value = "category") String engname, Model model){
+        model.addAttribute("products", productService.findById_category(cs.findByEngname(engname).getId()));
+        model.addAttribute("current_category", cs.findByEngname(engname).getName());
         model.addAttribute("categories", cs.readAll());
         model.addAttribute("isauth", isauth);
         return "product_list";
