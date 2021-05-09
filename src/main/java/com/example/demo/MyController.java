@@ -239,7 +239,9 @@ public class MyController implements ErrorController {
     }
     @RequestMapping("/categories/{category}")
     public String categoryProducts(@PathVariable(value = "category") String category, @RequestParam(value = "id") int id, Model model){
-        model.addAttribute("product_list", productService.findById_category(id));
+        model.addAttribute("products", productService.findById_category(id));
+        model.addAttribute("current_category", cs.findById(id).getName());
+        model.addAttribute("categories", cs.readAll());
         model.addAttribute("isauth", isauth);
         return "product_list";
     }
