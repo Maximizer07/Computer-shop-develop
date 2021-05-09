@@ -25,27 +25,27 @@
 
   <ul class="nav flex-column bg-white mb-0">
     <li class="nav-item">
-      <a href="#" class="nav-link text-dark font-italic bg-light">
+      <a href="#" class="nav-link text-dark font-italic bg-light" onclick="section(0)">
         <i class="fa fa-users mr-3 text-primary fa-fw"></i>
         Пользователи
       </a>
     </li>
     <li class="nav-item">
-      <a href="#" class="nav-link text-dark font-italic">
+      <a href="#" class="nav-link text-dark font-italic bg-light" onclick="section(1)">
         <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
         Заказы
       </a>
     </li>
     <li class="nav-item">
-      <a href="#" class="nav-link text-dark font-italic">
+      <a href="#" class="nav-link text-dark font-italic bg-light" onclick="section(2)">
         <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
         Товары
       </a>
     </li>
     <li class="nav-item">
-      <a href="#" class="nav-link text-dark font-italic">
+      <a href="#" class="nav-link text-dark font-italic bg-light" onclick="section(3)">
         <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-        Gallery
+        Категории
       </a>
     </li>
   </ul>
@@ -56,15 +56,16 @@
 
 
 <!-- Page content holder -->
-<div class="page-content p-5" id="content">
+<div class="page-content p-5 " id="content">
   <!-- Toggle button -->
   <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button>
 
   <!-- Demo content -->
-  <h2 class="display-4 text-white">Пользователи</h2>
+  <h2 class="display-4 text-white" id="nazvanie"></h2>
 
   <div class="separator"></div>
     <div class="table-responsive">
+      <div id="users">
       <table class="table table-dark table-hover" th:if="${not users.isEmpty()}" >
         <thead style="background-color: coral; ">
         <tr>
@@ -105,13 +106,84 @@
         </th:block>
         </tbody>
       </table>
+      </div>
+      <div id="orders">
+        <table class="table table-dark table-hover" th:if="${not users.isEmpty()}" >
+          <thead style="background-color: coral; ">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">клиент</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Данные</th>
+            <th>Действие</th>
+          </tr>
+          </thead>
+          <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+          </tbody>
+        </table>
+      </div>
+      <div id="products">
+        <table class="table table-dark table-hover" th:if="${not users.isEmpty()}" >
+          <thead style="background-color: coral; ">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Название</th>
+            <th scope="col">количество</th>
+            <th scope="col">Данные</th>
+            <th>Действие</th>
+          </tr>
+          </thead>
+          <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+          </tbody>
+        </table>
+      </div>
+      <div id="categories">
+        <table class="table table-dark table-hover" th:if="${not users.isEmpty()}" >
+          <thead style="background-color: coral; ">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Название</th>
+            <th scope="col">Ссылка</th>
+          </tr>
+          </thead>
+          <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+          </tbody>
+        </table>
+      </div>
 <script>
   $(function() {
     // Sidebar toggle behavior
+    $("#orders").hide();
+    $("#products").hide();
+    $("#categories").hide();
+    $("#nazvanie").text("Пользователи")
     $('#sidebarCollapse').on('click', function() {
       $('#sidebar, #content').toggleClass('active');
     });
   });
+  function section(x){
+    $("#orders").hide();
+    $("#products").hide();
+    $("#users").hide();
+    $("#categories").hide();
+    if(x===0){
+      $("#users").show();
+      $("#nazvanie").text("Пользователи");
+    }
+    if(x===1){
+      $("#orders").show();
+      $("#nazvanie").text("Заказы");
+    }
+    if(x===2){
+      $("#products").show();
+      $("#nazvanie").text("Товары");
+    }
+    if(x===3){
+      $("#categories").show();
+      $("#nazvanie").text("Категории");
+    }
+
+  }
 </script>
 </div>
 </div>
