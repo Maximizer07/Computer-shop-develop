@@ -3,6 +3,37 @@
 <head>
     <th:block th:include="general.html :: headerfiles">
     </th:block>
+    <script type="text/javascript" src="https://www.technicalkeeda.com/js/javascripts/plugin/json2.js"></script>
+    <script type="text/javascript">
+        function madeAjaxCallName(){
+            $.ajax({
+                type: "post",
+                url: "/user_info/changename",
+                cache: false,
+                data:'firstname=' + $("#firstname").val()+"&email=" + $("#email").text(),
+                success: function(response){
+                    alert("Ваше имя было изменено на "+response);
+                },
+                error: function(){
+                    alert('Error while request..');
+                }
+            });
+        }
+        function madeAjaxCallSurName(){
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8080/user_info/changesurname",
+                cache: false,
+                data:'surname=' + $("#surname").val()+"&email=" + $("#email").text(),
+                success: function(response){
+                    alert("Ваша фамилия было изменена на "+response);
+                },
+                error: function(){
+                    alert('Error while request..');
+                }
+            });
+        }
+    </script>
 </head>
 <body class="d-flex flex-column" >
 <header th:insert="general.html :: header"> </header>
@@ -15,7 +46,7 @@
                         <div class="d-flex flex-column align-items-center text-center">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSriFFJXaLLV3g1bFT8PrDRFbD50XjQ7lm_0g&usqp=CAU" alt="Admin" class="rounded-circle" width="150">
                             <div class="mt-5">
-                                <h4  th:text="${user.getEmail()}"></h4>
+                                <h4 id="email" th:text="${user.getEmail()}"></h4>
                                 <div th:if="${not_my != 'not_my'}">
                                 <a type="button" class="btn btn-danger" th:href="@{/logout}"> Выйти</a>
                                 </div>
@@ -27,17 +58,13 @@
             <div class="col-md-8">
                 <div class="card mb-5">
                     <div class="card-body">
-                        <form th:action="@{/changeName/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
                         <div class="row">
-                            <div class="col-12"><h6 class="mb-1">Имя</h6><button type="submit" class="btn btn-info float-right">Изменить</button><br/><input style="border: none" class="text-secondary" th:field="*{name}"/></div>
+                            <div class="col-12"><h6 class="mb-1">Имя</h6><button type="button" onclick="madeAjaxCallName();" class="btn btn-info float-right">Изменить</button><br/><input style="border: none" id= "firstname" class="text-secondary" th:value="${user.getName()}"/></div>
                         </div>
-                        </form>
                         <hr/>
-                        <form th:action="@{/changeSurName/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
                         <div class="row">
-                            <div class="col-12"><h6 class="mb-0">Фамилия</h6> <button type="submit" class="btn btn-info float-right">Изменить</button><br/><input style="border: none" class="text-secondary" th:field="*{Surname}"/></div>
+                            <div class="col-12"><h6 class="mb-0">Фамилия</h6> <button type="button" onclick="madeAjaxCallSurName();" class="btn btn-info float-right">Изменить</button><br/><input style="border: none" class="text-secondary" id= "surname" th:value="${user.getSurname()}"/></div>
                         </div>
-                        </form>
                         <hr/>
                         <div class="row">
                             <div class="col-12 "><h6 class="mb-0">Email</h6><br/><h6 class="text-secondary" th:text="${user.getEmail()}"></h6></div>

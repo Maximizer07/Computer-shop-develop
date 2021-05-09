@@ -10,19 +10,22 @@ import com.example.demo.Product.ProductService;
 import com.example.demo.User.User;
 import com.example.demo.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class MyController {
+public class MyController implements ErrorController {
     public ArrayList<Product> products = new ArrayList<>();
     public ArrayList<Order> orders = new ArrayList<>();
     public ArrayList<Category> categories = new ArrayList<>();
@@ -132,15 +135,22 @@ public class MyController {
         userService.deleteUser(number);
         return "redirect:/admin2";
     }
-    @PostMapping ("/changeName/{number}")
-    public String changeName(@PathVariable(value = "number") long number,Model model,User user) {
-        userService.updateUserName(number,user.getName());
-        return "redirect:/user_info";
+    @RequestMapping(value = "/user_info/changename", method = RequestMethod.POST)
+    public @ResponseBody String addname(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String firstName = request.getParameter("firstname");
+        String email = request.getParameter("email");
+        System.out.println(firstName);
+        userService.updateUserName(userService.loadUserByUsername(email).getId(),firstName);
+        return firstName;
     }
-    @PostMapping ("/changeSurName/{number}")
-    public String changeSurName(@PathVariable(value = "number") long number,Model model,User user) {
-        userService.updateSurName(number,user.getSurname());
-        return "redirect:/user_info";
+
+    @RequestMapping(value = "/user_info/changesurname", method = RequestMethod.POST)
+    public @ResponseBody String addsurname(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String surname = request.getParameter("surname");
+        String email = request.getParameter("email");
+        System.out.println(surname);
+        userService.updateSurName(userService.loadUserByUsername(email).getId(),surname);
+        return surname;
     }
     @RequestMapping(path = "/shoppingcard")
     public String shoppingcard(Model model) {
@@ -232,5 +242,15 @@ public class MyController {
         model.addAttribute("product_list", productService.findById_category(id));
         model.addAttribute("isauth", isauth);
         return "product_list";
+    }
+
+    @Override
+    public String getErrorPath() {
+        return "/error";
+    }
+    @RequestMapping("/error")
+    public String handleError(Model model) {
+        model.addAttribute("isauth", isauth);
+        return "error";
     }
 }
