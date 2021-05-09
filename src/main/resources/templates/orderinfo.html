@@ -13,9 +13,9 @@
         <div class="card-header bg-white">
             <div class="row justify-content-between">
                 <div class="col">
-                    <p class="text-muted"> Номер заказа: <span class="font-weight-bold text-dark">1222528743</span></p>
-                    <p class="text-muted"> Сумма заказа: <span class="font-weight-bold text-dark">230 рублей</span></p>
-                    <p class="text-muted"> Дата оформления заказа: <span class="font-weight-bold text-dark">12,March 2019</span> </p>
+                    <p class="text-muted"> Номер заказа: <span class="font-weight-bold text-dark" th:text="${order.getNumber()}"></span></p>
+                    <p class="text-muted"> Сумма заказа: <span class="font-weight-bold text-dark" th:text="${order.getPrise()}"></span></p>
+                    <p class="text-muted"> Дата оформления заказа: <span class="font-weight-bold text-dark" th:text="${order.getDateSet()}"></span> </p>
                     <p class="text-muted"> Дата получения: <span class="font-weight-bold text-dark" th:text="${order.getDateGet()}"></span></p>
                     <p style="display: inline">Пункт самовывоза: <button type="button" style="display: inline" class="btn btn-outline-info d-flex"><a href="https://www.google.ru/maps/place/%D0%A0%D0%A2%D0%A3+%D0%9C%D0%98%D0%A0%D0%AD%D0%90/@55.6699384,37.4781112,17z/data=!3m1!4b1!4m5!3m4!1s0x46b54dc1d23b51c3:0x74763ed59c81ccb6!8m2!3d55.6699354!4d37.4802999?hl=ru">Рту Мирэа</a></button></p>
                 </div>
@@ -30,13 +30,13 @@
         </div>
         <div   id="orderikinfo">
             <div class="card-body">
-                <th:block th:each="product :${order.getProductList()}">
+                <th:block th:each="product :${order.getShopping_cart().getProducts()}">
                     <div class="media flex-column flex-sm-row">
                         <div class="media-body ">
-                            <h5 style="display: inline">Товар: </h5><h5 class="bold" style="display: inline" th:text="${product.getOpisanie()}"></h5><br>
+                            <h5 style="display: inline">Товар: </h5><h5 class="bold" style="display: inline" th:text="${product.getProduct().getName()}"></h5><br>
                             <p style="display: inline">Количество: </p><p class="text-muted" style="display: inline" th:text="${product.getQuantity()}"></p><br>
-                            <h4 style="display: inline">Цена: </h4><h4 class="mt-3 mb-4 bold" style="display: inline" th:text="${product.getPrice()*product.getQuantity()}"></h4> <span class="mt-5">&#x20bd;</span><br>
-                        </div><img class="align-self-center img-fluid" src="https://i.imgur.com/bOcHdBa.jpg" width="180 " height="180">
+                            <h4 style="display: inline">Цена: </h4><h4 class="mt-3 mb-4 bold" style="display: inline" th:text="${product.getProduct().getPrice()*product.getQuantity()}"></h4> <span class="mt-5">&#x20bd;</span><br>
+                        </div><img class="align-self-center img-fluid" th:src="${product.getProduct().getLink()}" width="180 " height="180">
                     </div>
                 </th:block>
 

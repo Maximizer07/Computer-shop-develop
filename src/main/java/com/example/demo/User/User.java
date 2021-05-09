@@ -1,5 +1,7 @@
 package com.example.demo.User;
 
+import com.example.demo.CartItem.Cart_Item;
+import com.example.demo.ShoppingCart.Shopping_cart;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter

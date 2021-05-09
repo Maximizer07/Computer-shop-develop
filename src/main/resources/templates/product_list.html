@@ -103,7 +103,7 @@
                                             <div class="d-flex flex-column">
                                                 <div class="h6 font-weight-bold" th:text="${product.getPrice()} + ' рублей'"></div>
                                             </div>
-                                            <div class="btn btn-primary">Купить</div>
+                                            <a th:href="@{/shoppingcardadd/{number}(number=${product.getId()})}" class="btn btn-primary">Купить</a>
                                         </div>
                                     </div>
                                 </div>
