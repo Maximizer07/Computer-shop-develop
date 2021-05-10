@@ -7,6 +7,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Material Design Bootstrap</title>
     <!-- Roboto Font -->
+    <th:block th:include="general.html :: headerfiles">
+    </th:block>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
@@ -23,9 +25,11 @@
 <body class="skin-light">
 <header th:insert="general.html :: header"> </header>
 <!--Main layout-->
-<main>
-    <div class="container">
 
+
+    <div class="container ">
+        <div class="card">
+            <div class="card-body">
         <!--Section: Block Content-->
         <section class="mb-5">
 
@@ -103,8 +107,13 @@
             </div>
 
         </section>
+            </div>
+        </div>
+                <div>
         <!--Section: Block Content-->
 
+                <div class="card " style="margin-top: 3em">
+                    <div class="card-body">
         <!-- Classic tabs -->
         <div class="classic-tabs">
 
@@ -261,6 +270,11 @@
 
         <hr>
 
+
+                        </div>
+                        </div>
+        <div class="card" style="margin-top: 3em">
+            <div class="card-body">
         <!--Section: Block Content-->
         <section class="text-center">
 
@@ -406,7 +420,9 @@
         <!--Section: Block Content-->
 
     </div>
-</main>
+    </div>
+                </div>
+</div>
 <!--Main layout-->
 <div th:replace="general.html :: footer"></div>
 <!-- SCRIPTS -->
