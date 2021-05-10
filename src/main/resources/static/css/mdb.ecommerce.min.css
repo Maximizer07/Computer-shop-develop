@@ -2381,7 +2381,7 @@ body.skin-light.fixed-sn .jumbotron-header {
 .skin-light .card {
     font-weight: 300;
     -webkit-box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
-    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 20px 0 rgb(0, 108, 170);
     border-radius: .375rem
 }
 
