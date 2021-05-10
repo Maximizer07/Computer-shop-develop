@@ -6,6 +6,7 @@ import com.example.demo.Category.Category;
 import com.example.demo.Category.CategoryService;
 import com.example.demo.ConfirmationToken.ConfirmationToken;
 import com.example.demo.ConfirmationToken.ConfirmationTokenService;
+import com.example.demo.Description.DescriptionService;
 import com.example.demo.Order.Order;
 import com.example.demo.Order.OrderService;
 import com.example.demo.Product.Product;
@@ -41,6 +42,8 @@ public class MyController implements ErrorController {
     private UserService userService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private DescriptionService descriptionService;
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -332,6 +335,7 @@ public class MyController implements ErrorController {
     public String product_info(@PathVariable(value = "id") int id, Model model) {
         model.addAttribute("isauth",isauth);
         model.addAttribute("product",productService.findById(id));
+        model.addAttribute("description",descriptionService.findByProductid(id));
         model.addAttribute("category",categoryService.findById(productService.findById(id).getCategoryId()));
         return "product";
     }

@@ -32,6 +32,10 @@
             align-items: center;
             justify-content: center;
         }
+        .nav-link:hover{
+            color: #998a00;
+            text-decoration: underline
+        }
 
     </style>
 </head>
@@ -75,7 +79,7 @@
                         <p><span style="font-weight:bold">Производитель </span><span th:text="${product.getManufacturer()}"></span></p>
                         <p><span style="font-weight:bold">Наличие </span><span th:text="${product.getQuantity()} + ' шт'"></span></p>
                         <hr>
-                        <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
+                        <button type="button" class="btn btn-warning btn-md mr-1 mb-2">Buy now</button>
                         <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i
                                 class="fas fa-shopping-cart pr-2"></i>Add to cart
                         </button>
@@ -88,7 +92,7 @@
         <div class="card " style="margin-top: 3em">
             <div class="card-body">
                 <div class="classic-tabs">
-                    <ul class="nav tabs-primary nav-justified" id="advancedTab" role="tablist">
+                    <ul class="nav tabs-warning nav-justified" id="advancedTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active show" id="description-tab" data-toggle="tab" href="#description"
                                role="tab"
@@ -112,27 +116,23 @@
                             <a class="mb-2 text-muted text-uppercase small" th:href="@{/categories/{category}(category=${category.getEngname()})} "th:text="${category.getName()}"></a>
                             <ul class="rating">
                                 <li>
-                                    <i class="fas fa-star fa-sm text-primary"></i>
+                                    <i class=" fa-star fas "></i>
                                 </li>
                                 <li>
-                                    <i class="fas fa-star fa-sm text-primary"></i>
+                                    <i class=" fa-star fas "></i>
                                 </li>
                                 <li>
-                                    <i class="fas fa-star fa-sm text-primary"></i>
+                                    <i class=" fa-star fas "></i>
                                 </li>
                                 <li>
-                                    <i class="fas fa-star fa-sm text-primary"></i>
+                                    <i class=" fa-star fas "></i>
                                 </li>
                                 <li>
-                                    <i class="far fa-star fa-sm text-primary"></i>
+                                    <i class=" fa-star far "></i>
                                 </li>
                             </ul>
                             <h6 th:text="${product.getPrice()} + ' ₽'"></h6>
-                            <p class="pt-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente
-                                illo. Sit
-                                error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam.
-                                Distinctio,
-                                officia quis dolore quos sapiente tempore alias.</p>
+                            <p class="pt-1" th:text="${description.getDescription()}"></p>
                         </div>
                         <div class="tab-pane fade pt-2" id="info" role="tabpanel" aria-labelledby="info-tab">
                             <h5>Additional Information</h5>
@@ -165,19 +165,19 @@
                                         </p>
                                         <ul class="rating mb-0">
                                             <li>
-                                                <i class="fas fa-star fa-sm text-primary"></i>
+                                                <i class=" fa-star fas "></i>
                                             </li>
                                             <li>
-                                                <i class="fas fa-star fa-sm text-primary"></i>
+                                                <i class=" fa-star fas "></i>
                                             </li>
                                             <li>
-                                                <i class="fas fa-star fa-sm text-primary"></i>
+                                                <i class=" fa-star fas "></i>
                                             </li>
                                             <li>
-                                                <i class="fas fa-star fa-sm text-primary"></i>
+                                                <i class=" fa-star fas "></i>
                                             </li>
                                             <li>
-                                                <i class="far fa-star fa-sm text-primary"></i>
+                                                <i class=" fa-star far "></i>
                                             </li>
                                         </ul>
                                     </div>
@@ -191,27 +191,27 @@
                                 <ul class="rating mb-0">
                                     <li>
                                         <a href="#!">
-                                            <i class="fas fa-star fa-sm text-primary"></i>
+                                            <i class=" fa-star fas "></i>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#!">
-                                            <i class="fas fa-star fa-sm text-primary"></i>
+                                            <i class=" fa-star fas "></i>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#!">
-                                            <i class="fas fa-star fa-sm text-primary"></i>
+                                            <i class=" fa-star fas "></i>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#!">
-                                            <i class="fas fa-star fa-sm text-primary"></i>
+                                            <i class=" fa-star fas "></i>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#!">
-                                            <i class="far fa-star fa-sm text-primary"></i>
+                                            <i class=" fa-star far "></i>
                                         </a>
                                     </li>
                                 </ul>
@@ -233,7 +233,7 @@
                                     <label for="form77">Email</label>
                                 </div>
                                 <div class="text-right pb-2">
-                                    <button type="button" class="btn btn-primary">Add a review</button>
+                                    <button type="button" class="btn btn-warning">Add a review</button>
                                 </div>
                             </div>
                         </div>
