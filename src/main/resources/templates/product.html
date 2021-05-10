@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -12,16 +11,17 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href="../static/css/mdb-pro.min.css">
+    <link rel="stylesheet" href="css/mdb-pro.min.css">
     <!-- Material Design Bootstrap Ecommerce -->
-    <link rel="stylesheet" href="../static/css/mdb.ecommerce.min.css">
+    <link rel="stylesheet" href="css/mdb.ecommerce.min.css">
     <!-- Your custom styles (optional) -->
 
 </head>
 
 <body class="skin-light">
+<header th:insert="general.html :: header"> </header>
 <!--Main layout-->
 <main>
     <div class="container">
@@ -95,8 +95,10 @@
                     </div>
                     <hr>
                     <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-                    <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>Add to
-                        cart</button>
+                    <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i
+                            class="fas fa-shopping-cart pr-2"></i>Add to
+                        cart
+                    </button>
                 </div>
             </div>
 
@@ -108,7 +110,8 @@
 
             <ul class="nav tabs-primary nav-justified" id="advancedTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active show" id="description-tab" data-toggle="tab" href="#description" role="tab"
+                    <a class="nav-link active show" id="description-tab" data-toggle="tab" href="#description"
+                       role="tab"
                        aria-controls="description" aria-selected="true">Description</a>
                 </li>
                 <li class="nav-item">
@@ -116,12 +119,14 @@
                        aria-selected="false">Information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews"
+                    <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab"
+                       aria-controls="reviews"
                        aria-selected="false">Reviews (1)</a>
                 </li>
             </ul>
             <div class="tab-content" id="advancedTabContent">
-                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                <div class="tab-pane fade show active" id="description" role="tabpanel"
+                     aria-labelledby="description-tab">
                     <h5>Product Description</h5>
                     <p class="small text-muted text-uppercase mb-2">Shirts</p>
                     <ul class="rating">
@@ -166,7 +171,8 @@
                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                     <h5><span>1</span> review for <span>Fantasy T-shirt</span></h5>
                     <div class="media mt-3 mb-4">
-                        <img class="d-flex mr-3 z-depth-1" src="https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg"
+                        <img class="d-flex mr-3 z-depth-1"
+                             src="https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg"
                              width="62" alt="Generic placeholder image">
                         <div class="media-body">
                             <div class="d-flex justify-content-between">
@@ -271,7 +277,8 @@
 
                         <div class="view zoom overlay z-depth-2 rounded">
                             <img class="img-fluid w-100"
-                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
+                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg"
+                                 alt="Sample">
                             <a href="#!">
                                 <div class="mask">
                                     <img class="img-fluid w-100"
@@ -302,7 +309,8 @@
 
                         <div class="view zoom overlay z-depth-2 rounded">
                             <img class="img-fluid w-100"
-                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg" alt="Sample">
+                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
+                                 alt="Sample">
                             <a href="#!">
                                 <div class="mask">
                                     <img class="img-fluid w-100"
@@ -333,7 +341,8 @@
 
                         <div class="view zoom overlay z-depth-2 rounded">
                             <img class="img-fluid w-100"
-                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg" alt="Sample">
+                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg"
+                                 alt="Sample">
                             <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
                             <a href="#!">
                                 <div class="mask">
@@ -366,7 +375,8 @@
 
                         <div class="view zoom overlay z-depth-2 rounded">
                             <img class="img-fluid w-100"
-                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg" alt="Sample">
+                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
+                                 alt="Sample">
                             <a href="#!">
                                 <div class="mask">
                                     <img class="img-fluid w-100"
@@ -398,18 +408,18 @@
     </div>
 </main>
 <!--Main layout-->
-
+<div th:replace="general.html :: footer"></div>
 <!-- SCRIPTS -->
 <!-- JQuery -->
 <script src="../static/js/jquery-3.4.1.min.js"></script>
 <!-- Bootstrap tooltips -->
-<script type="text/javascript" src="../static/js/popper.min.js"></script>
+<script type="text/javascript" src="js/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="../static/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 <!-- MDB core JavaScript -->
-<script type="text/javascript" src="../static/js/mdb.min.js"></script>
+<script type="text/javascript" src="js/mdb.min.js"></script>
 <!-- MDB Ecommerce JavaScript -->
-<script type="text/javascript" src="../static/js/mdb.ecommerce.min.js"></script>
+<script type="text/javascript" src="js/mdb.ecommerce.min.js"></script>
 </body>
 
 </html>

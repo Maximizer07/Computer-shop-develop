@@ -294,4 +294,9 @@ public class MyController implements ErrorController {
         model.addAttribute("isauth", isauth);
         return "product";
     }
+    @GetMapping("/wishlist")
+    public String wishlist(Model model) {
+        model.addAttribute("isauth", isauth);
+        return "wishlist";
+    }
 }
