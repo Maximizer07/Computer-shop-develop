@@ -34,6 +34,10 @@ public class ProductService {
         log.info("Find product, whose Name = {}",Name);
         return productRepository.findByName(Name);
     }
+    public Product findById(int Id){
+        log.info("Find product, whose Id = {}",Id);
+        return productRepository.findById(Id);
+    }
     public Product findBynumber(int number){
         return productRepository.findById(number);
     }

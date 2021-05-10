@@ -1,85 +1,66 @@
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
-    <!-- Roboto Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href="css/mdb-pro.min.css">
-    <!-- Material Design Bootstrap Ecommerce -->
-    <link rel="stylesheet" href="css/mdb.ecommerce.min.css">
-    <!-- Your custom styles (optional) -->
-
+    <th:block th:include="general.html :: headerfiles"></th:block>
+    <link rel="stylesheet" href="/css/mdb-pro.min.css">
+    <link rel="stylesheet" href="/css/mdb.ecommerce.min.css">
+    <style>
+        img {
+            height: 7em;
+            max-width: 100%;
+        }
+        .img-product{
+            height: 100%;
+            display: grid;
+            align-items: center;
+            justify-content: center;
+        }
+        .href{
+            font-size: 1em;
+            text-decoration: none;
+        }
+    </style>
 </head>
-
 <body class="skin-light">
-<!--Main layout-->
+<header th:insert="general.html :: header"></header>
 <main>
     <div class="container">
-
-        <!--Grid row-->
         <div class="row mt-5">
-
-            <!--Grid column-->
             <div class="col-md-4 mb-4">
-
-                <!-- Section: Sidebar -->
-                <section>
-
-                    <!-- Section: Categories -->
+                <section class="p-3 mr-3 card">
                     <section>
-
-                        <h5>Subcategories</h5>
-
+                        <h5>Categories</h5>
                         <div class="text-muted small text-uppercase mb-5">
-                            <p class="mb-4">return to <a href="#!" class="card-link-secondary"><strong>Clothing, Shoes,
-                                Accessories</strong></a></p>
-
-                            <p class="mb-3"><a href="#!" class="card-link-secondary">Dresses</a></p>
-                            <p class="mb-3"><a href="#!" class="card-link-secondary">Tops, Tees & Blouses</a></p>
-                            <p class="mb-3"><a href="#!" class="card-link-secondary">Sweaters</a></p>
-                            <p class="mb-3"><a href="#!" class="card-link-secondary">Fashion Hoodies & Sweatshirts</a></p>
-                            <p class="mb-3"><a href="#!" class="card-link-secondary">Jeans</a></p>
+                            <p class="mb-4">return to <a th:href="@{/categories}" class="card-link-secondary"><strong>list
+                                of Categories</strong></a></p>
+                            <th:block th:each="category : ${categories}">
+                                <p class="mb-3"><a
+                                        th:href="@{/categories/{category}(category=${category.getEngname()})}"
+                                        th:text="${category.getName()}"></a></p>
+                            </th:block>
                         </div>
-
                     </section>
-                    <!-- Section: Categories -->
-
-                    <!-- Section: Filters -->
                     <section>
-
                         <h5 class="pt-2 mb-4">Filters</h5>
-
                         <section class="mb-4">
-
                             <div class="md-form md-outline mt-0 d-flex justify-content-between align-items-center">
                                 <input type="text" id="search12" class="form-control mb-0" placeholder="Search...">
-                                <a href="#!" class="btn btn-flat btn-md px-3 waves-effect"><i class="fas fa-search fa-lg"></i></a>
+                                <a href="#!" class="btn btn-flat btn-md px-3 waves-effect"><i
+                                        class="fas fa-search fa-lg"></i></a>
                             </div>
-
                         </section>
-
-                        <!-- Section: Condition -->
                         <section class="mb-4">
-
                             <h6 class="font-weight-bold mb-3">Condition</h6>
-
                             <div class="form-check pl-0 mb-3">
                                 <input type="checkbox" class="form-check-input filled-in" id="new">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="new">New</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                       for="new">New</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="checkbox" class="form-check-input filled-in" id="used">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="used">Used</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                       for="used">Used</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="checkbox" class="form-check-input filled-in" id="collectible">
@@ -90,15 +71,9 @@
                                 <input type="checkbox" class="form-check-input filled-in" id="renewed">
                                 <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Renewed</label>
                             </div>
-
                         </section>
-                        <!-- Section: Condition -->
-
-                        <!-- Section: Average -->
                         <section class="mb-4">
-
                             <h6 class="font-weight-bold mb-3">Avg. Customer Review</h6>
-
                             <a href="#!">
                                 <ul class="rating">
                                     <li>
@@ -187,15 +162,9 @@
                                     </li>
                                 </ul>
                             </a>
-
                         </section>
-                        <!-- Section: Average -->
-
-                        <!-- Section: Price -->
                         <section class="mb-4">
-
                             <h6 class="font-weight-bold mb-3">Price</h6>
-
                             <div class="form-check pl-0 mb-3">
                                 <input type="radio" class="form-check-input" id="under25" name="materialExampleRadios">
                                 <label class="form-check-label small text-uppercase card-link-secondary" for="under25">Under
@@ -203,28 +172,32 @@
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="radio" class="form-check-input" id="2550" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="2550">$25 to $50</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for="2550">$25
+                                    to $50</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="radio" class="form-check-input" id="50100" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="50100">$50 to
+                                <label class="form-check-label small text-uppercase card-link-secondary" for="50100">$50
+                                    to
                                     $100</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="radio" class="form-check-input" id="100200" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="100200">$100 to
+                                <label class="form-check-label small text-uppercase card-link-secondary" for="100200">$100
+                                    to
                                     $200</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="radio" class="form-check-input" id="200above" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="200above">$200 &
+                                <label class="form-check-label small text-uppercase card-link-secondary" for="200above">$200
+                                    &
                                     Above</label>
                             </div>
                             <form>
                                 <div class="d-flex align-items-center mt-4 pb-1">
                                     <div class="md-form md-outline my-0">
                                         <input id="from" type="text" class="form-control mb-0">
-                                        <labels >$ Min</labels>
+                                        <labels>$ Min</labels>
                                     </div>
                                     <p class="px-2 mb-0 text-muted"> - </p>
                                     <div class="md-form md-outline my-0">
@@ -245,7 +218,7 @@
                             <div class="slider-price d-flex align-items-center my-4">
                                 <span class="font-weight-normal small text-muted mr-2">$0</span>
                                 <form class="multi-range-field w-100">
-                                    <input id="multi" class="multi-range" type="range" />
+                                    <input id="multi" class="multi-range" type="range"/>
                                 </form>
                                 <span class="font-weight-normal small text-muted ml-2">$100</span>
                             </div>
@@ -260,19 +233,23 @@
 
                             <div class="form-check pl-0 mb-3">
                                 <input type="checkbox" class="form-check-input filled-in" id="34">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="34">34</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                       for="34">34</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="checkbox" class="form-check-input filled-in" id="36">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="36">36</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                       for="36">36</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="checkbox" class="form-check-input filled-in" id="38">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="38">38</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                       for="38">38</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="checkbox" class="form-check-input filled-in" id="40">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="40">40</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                       for="40">40</label>
                             </div>
                             <a class="btn btn-link text-muted p-0" data-toggle="collapse" href="#collapseExample"
                                aria-expanded="false" aria-controls="collapseExample">
@@ -281,19 +258,23 @@
                             <div class="collapse pt-3" id="collapseExample">
                                 <div class="form-check pl-0 mb-3">
                                     <input type="checkbox" class="form-check-input filled-in" id="42">
-                                    <label class="form-check-label small text-uppercase card-link-secondary" for="42">42</label>
+                                    <label class="form-check-label small text-uppercase card-link-secondary"
+                                           for="42">42</label>
                                 </div>
                                 <div class="form-check pl-0 mb-3">
                                     <input type="checkbox" class="form-check-input filled-in" id="44">
-                                    <label class="form-check-label small text-uppercase card-link-secondary" for="44">44</label>
+                                    <label class="form-check-label small text-uppercase card-link-secondary"
+                                           for="44">44</label>
                                 </div>
                                 <div class="form-check pl-0 mb-3">
                                     <input type="checkbox" class="form-check-input filled-in" id="46">
-                                    <label class="form-check-label small text-uppercase card-link-secondary" for="46">46</label>
+                                    <label class="form-check-label small text-uppercase card-link-secondary"
+                                           for="46">46</label>
                                 </div>
                                 <div class="form-check pl-0 mb-3">
                                     <input type="checkbox" class="form-check-input filled-in" id="50">
-                                    <label class="form-check-label small text-uppercase card-link-secondary" for="50">50</label>
+                                    <label class="form-check-label small text-uppercase card-link-secondary"
+                                           for="50">50</label>
                                 </div>
                             </div>
 
@@ -305,7 +286,8 @@
 
                             <h6 class="font-weight-bold mb-3">Color</h6>
 
-                            <div class="btn-group btn-group-toggle btn-color-group d-block mt-n2 ml-n2" data-toggle="buttons">
+                            <div class="btn-group btn-group-toggle btn-color-group d-block mt-n2 ml-n2"
+                                 data-toggle="buttons">
                                 <label class="btn rounded-circle white border-inset-grey p-3 m-2">
                                     <input type="checkbox" autocomplete="off">
                                 </label>
@@ -349,14 +331,11 @@
 
             </div>
             <!--Grid column-->
-
             <!--Grid column-->
-            <div class="col-md-8 mb-4">
-
+            <div class="col-md-8 mb-4 card">
                 <!-- Section: Block Content -->
-                <section class="mb-3">
-
-                    <div class="row d-flex justify-content-around align-items-center">
+                <section style="background-color: white">
+                    <div class="row d-flex justify-content-around align-items-center pb-3 mr-3 ml-3 pt-3">
                         <div class="col-12 col-md-3 text-center text-md-left">
                             <a href="#!" class="text-reset"><i class="fas fa-th-list fa-lg mr-1"></i></a>
                             <a href="#!" class="text-reset"><i class="fas fa-th-large fa-lg"></i></a>
@@ -372,7 +351,7 @@
                                         <option value="4">Category 4</option>
                                         <option value="5">Category 5</option>
                                     </select>
-                                    <label>Label example</label>
+                                    <label th:text="${current_category}"></label>
                                     <button class="btn-save btn btn-primary btn-sm mt-2">Save</button>
                                 </div>
                             </div>
@@ -380,330 +359,42 @@
                         <div class="col-12 col-md-4 text-center">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination pagination-circle justify-content-center float-md-right mb-0">
-                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-left"></i></a>
+                                    </li>
                                     <li class="page-item active"><a class="page-link">1</a></li>
                                     <li class="page-item"><a class="page-link">2</a></li>
                                     <li class="page-item"><a class="page-link">3</a></li>
-                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-right"></i></a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
 
                 </section>
-                <!-- Section: Block Content -->
-
-                <!--Section: Block Content-->
-                <section>
-
+                <section style="background-color: white">
                     <!-- Grid row -->
-                    <div class="row">
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg" alt="Sample">
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15.jpg">
-                                            <div class="mask rgba-black-slight"></div>
+                    <div class="row mr-3 ml-3">
+                        <th:block th:each="product : ${products}">
+                            <th:block th:each="product : ${products}">
+                                <div class="col-md-4 mb-5">
+                                    <!-- Card -->
+                                    <div class="">
+                                        <div class="img-product">
+                                            <a th:href="@{/product/{id}(id=${product.getId()})}"><img th:src="${product.getLink()}"></a>
                                         </div>
-                                    </a>
-                                </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Black denim jacket</h5>
-                                    <p><span class="mr-1"><strong>$99.99</strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg" alt="Sample">
-                                    <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14.jpg">
-                                            <div class="mask rgba-black-slight"></div>
+                                        <div class="text-center pt-4">
+                                            <a th:href="@{/product/{id}(id=${product.getId()})}" th:text="${product.getName}" class="href"></a>
+                                            <p><span class="mr-1"><strong th:text="${product.getPrice} + ' ₽'"></strong></span></p>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Grey sweater</h5>
-                                    <p><span class="text-danger mr-1"><strong>$21.99</strong></span><span
-                                            class="text-grey"><strong><s>$36.99</s></strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg">
-                                            <div class="mask rgba-black-slight"></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Blue denim shirt</h5>
-                                    <p><span class="mr-1"><strong>$17.99</strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
+                            </th:block>
+                        </th:block>
                     </div>
-                    <!-- Grid row -->
-
-                    <!-- Grid row -->
-                    <div class="row">
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg">
-                                            <div class="mask rgba-black-slight"></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Blue denim shirt</h5>
-                                    <p><span class="mr-1"><strong>$17.99</strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg" alt="Sample">
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
-                                            <div class="mask rgba-black-slight"></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Red hoodie</h5>
-                                    <p><span class="mr-1"><strong>$35.99</strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg" alt="Sample">
-                                    <h4 class="mb-0"><span class="badge badge-primary badge-pill badge-news">Sale</span></h4>
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14.jpg">
-                                            <div class="mask rgba-black-slight"></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Grey sweater</h5>
-                                    <p><span class="text-danger mr-1"><strong>$21.99</strong></span><span
-                                            class="text-grey"><strong><s>$36.99</s></strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
-                    </div>
-                    <!-- Grid row -->
-
-                    <!-- Grid row -->
-                    <div class="row">
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg" alt="Sample">
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13.jpg">
-                                            <div class="mask rgba-black-slight"></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Red hoodie</h5>
-                                    <p><span class="mr-1"><strong>$35.99</strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg">
-                                            <div class="mask rgba-black-slight"></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Blue denim shirt</h5>
-                                    <p><span class="mr-1"><strong>$17.99</strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-md-4 mb-5">
-
-                            <!-- Card -->
-                            <div class="">
-
-                                <div class="view zoom overlay rounded z-depth-2">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg" alt="Sample">
-                                    <a href="#!">
-                                        <div class="mask">
-                                            <img class="img-fluid w-100"
-                                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15.jpg">
-                                            <div class="mask rgba-black-slight"></div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="text-center pt-4">
-
-                                    <h5>Black denim jacket</h5>
-                                    <p><span class="mr-1"><strong>$99.99</strong></span></p>
-
-                                </div>
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
-                        <!-- Grid column -->
-
-                    </div>
-                    <!-- Grid row -->
-
                 </section>
-                <!--Section: Block Content-->
-
-                <!-- Section: Block Content -->
-                <section>
-
-                    <div class="row d-flex justify-content-around align-items-center">
+                <section style="background-color: white">
+                    <div class="row d-flex justify-content-around align-items-center pb-3 mr-3 ml-3 pt-3">
                         <div class="col-12 col-md-3 text-center text-md-left">
                             <a href="#!" class="text-reset"><i class="fas fa-th-list fa-lg mr-1"></i></a>
                             <a href="#!" class="text-reset"><i class="fas fa-th-large fa-lg"></i></a>
@@ -719,7 +410,7 @@
                                         <option value="4">Category 4</option>
                                         <option value="5">Category 5</option>
                                     </select>
-                                    <label>Label example</label>
+                                    <label th:text="${current_category}"></label>
                                     <button class="btn-save btn btn-primary btn-sm mt-2">Save</button>
                                 </div>
                             </div>
@@ -727,44 +418,23 @@
                         <div class="col-12 col-md-4 text-center">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination pagination-circle justify-content-center float-md-right mb-0">
-                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-left"></i></a>
+                                    </li>
                                     <li class="page-item active"><a class="page-link">1</a></li>
                                     <li class="page-item"><a class="page-link">2</a></li>
                                     <li class="page-item"><a class="page-link">3</a></li>
-                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-right"></i></a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
-
                 </section>
-                <!-- Section: Block Content -->
-
             </div>
-            <!--Grid column-->
-
         </div>
-        <!--Grid row-->
-
     </div>
 </main>
-<!--Main layout-->
-
-
-
-
-<!-- SCRIPTS -->
-<!-- JQuery -->
-<script src="js/jquery-3.4.1.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="js/popper.min.js"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="js/bootstrap.js"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="js/mdb.min.js"></script>
-<!-- MDB Ecommerce JavaScript -->
-<script type="text/javascript" src="js/mdb.ecommerce.min.js"></script>
-
+<div th:replace="general.html :: footer"></div>
 </body>
 
 </html>

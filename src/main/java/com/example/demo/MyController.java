@@ -311,7 +311,7 @@ public class MyController implements ErrorController {
         model.addAttribute("current_category", categoryService.findByEngname(engname).getName());
         model.addAttribute("categories", categoryService.readAll());
         model.addAttribute("isauth", isauth);
-        return "product_list";
+        return "product_list1";
     }
 
     @Override
@@ -323,19 +323,16 @@ public class MyController implements ErrorController {
         model.addAttribute("isauth", isauth);
         return "error";
     }
-    @GetMapping("/product")
-    public String product_page(Model model) {
-        model.addAttribute("isauth", isauth);
-        return "product";
-    }
-    @GetMapping("/prod")
-    public String productlistmethod(Model model) {
-        model.addAttribute("isauth", isauth);
-        return "productlist1";
-    }
     @GetMapping("/wishlist")
     public String wishlist(Model model) {
         model.addAttribute("isauth", isauth);
         return "wishlist";
+    }
+    @RequestMapping(path="product/{id}")
+    public String product_info(@PathVariable(value = "id") int id, Model model) {
+        model.addAttribute("isauth",isauth);
+        model.addAttribute("product",productService.findById(id));
+        model.addAttribute("category",categoryService.findById(productService.findById(id).getCategoryId()));
+        return "product";
     }
 }

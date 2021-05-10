@@ -44,14 +44,15 @@
                 <div class="row">
                     <div class="col-md-6 mb-4 mb-md-0">
                         <div class="img-product">
-                            <a href="#">
-                                <img src="https://drive.google.com/thumbnail?id=14jjpOIksPg_HyZcbqGKNm3chVHLlvX7j">
-                            </a>
+                            <div class="img-product">
+                                <img th:src="${product.getLink()}">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h5>Blue denim shirt</h5>
-                        <p class="mb-2 text-muted text-uppercase small">Shirts</p>
+                        <h5 th:text="${product.getName()}"></h5>
+                        <a class="mb-2 text-muted text-uppercase small" th:href="@{/categories/{category}(category=${category.getEngname()})} "th:text="${category.getName()}"></a>
+                        <hr>
                         <ul class="rating">
                             <li>
                                 <i class=" fa-star fas "></i>
@@ -69,10 +70,10 @@
                                 <i class=" fa-star far "></i>
                             </li>
                         </ul>
-                        <p><span class="mr-1"><strong>$17.99</strong></span></p>
+                        <p><span class="mr-1"><strong th:text="${product.getPrice()} + ' ₽'"></strong></span></p>
                         <hr>
-                        <p><span style="font-weight:bold">Производитель </span><span>Intel</span></p>
-                        <p><span style="font-weight:bold">Наличие </span><span style="color: greenyellow">В наличии</span></p>
+                        <p><span style="font-weight:bold">Производитель </span><span th:text="${product.getManufacturer()}"></span></p>
+                        <p><span style="font-weight:bold">Наличие </span><span th:text="${product.getQuantity()} + ' шт'"></span></p>
                         <hr>
                         <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
                         <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i
@@ -105,10 +106,10 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="advancedTabContent">
-                        <div class="tab-pane fade show active" id="description" role="tabpanel"
+                        <div class="tab-pane fade show active pt-2" id="description" role="tabpanel"
                              aria-labelledby="description-tab">
-                            <h5>Product Description</h5>
-                            <p class="small text-muted text-uppercase mb-2">Shirts</p>
+                            <h5 th:text="${product.getName()}"></h5>
+                            <a class="mb-2 text-muted text-uppercase small" th:href="@{/categories/{category}(category=${category.getEngname()})} "th:text="${category.getName()}"></a>
                             <ul class="rating">
                                 <li>
                                     <i class="fas fa-star fa-sm text-primary"></i>
@@ -126,14 +127,14 @@
                                     <i class="far fa-star fa-sm text-primary"></i>
                                 </li>
                             </ul>
-                            <h6>12.99 $</h6>
+                            <h6 th:text="${product.getPrice()} + ' ₽'"></h6>
                             <p class="pt-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente
                                 illo. Sit
                                 error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam.
                                 Distinctio,
                                 officia quis dolore quos sapiente tempore alias.</p>
                         </div>
-                        <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
+                        <div class="tab-pane fade pt-2" id="info" role="tabpanel" aria-labelledby="info-tab">
                             <h5>Additional Information</h5>
                             <table class="table table-striped table-bordered mt-3">
                                 <thead>
@@ -150,8 +151,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                            <h5><span>1</span> review for <span>Fantasy T-shirt</span></h5>
+                        <div class="tab-pane fade pt-2" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                            <h5><span>1</span> review for <span th:text="${product.getName()}"></span></h5>
                             <div class="media mt-3 mb-4">
                                 <img class="d-flex mr-3 z-depth-1"
                                      src="https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg"
@@ -246,63 +247,28 @@
 
             </div>
         </div>
-        <div class="card" style="margin-top: 3em">
-            <div class="card-body">
-                <section class="text-center">
-                    <h4 class="text-center my-5"><strong>Other products in the same category</strong></h4>
-                    <div class="row">
-                        <div class="col-md-6 col-lg-3 mb-5">
-                            <div class="">
-                                <div style="text-align: center;">
-                                    <a href="#"><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                                                     alt="Sample"></a>
-                                </div>
-                                <div class="pt-4">
-                                    <a href=""><h5>Black denim jacket</h5></a>
-                                    <p><strong>$99.99</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 mb-5">
-                            <div class="">
-                                <div style="text-align: center;">
-                                    <a href="#"><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                                                     alt="Sample"></a>
-                                </div>
-                                <div class="pt-4">
-                                    <a href=""><h5>Black denim jacket</h5></a>
-                                    <p><strong>$99.99</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 mb-5">
-                            <div class="">
-                                <div style="text-align: center;">
-                                    <a href="#"><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                                                     alt="Sample"></a>
-                                </div>
-                                <div class="pt-4">
-                                    <a href=""><h5>Black denim jacket</h5></a>
-                                    <p><strong>$99.99</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 mb-5">
-                            <div class="">
-                                <div style="text-align: center;">
-                                    <a href="#"><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                                                     alt="Sample"></a>
-                                </div>
-                                <div class="pt-4">
-                                    <a href=""><h5>Black denim jacket</h5></a>
-                                    <p><strong>$99.99</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Grid row -->
-                </section>
-                <!--Section: Block Content-->
+        <!--
+       <div class="card" style="margin-top: 3em">
+           <div class="card-body">
+               <section class="text-center">
+                   <h4 class="text-center my-5"><strong>Other products in the same category</strong></h4>
+                   <div class="row">
+                       <th:block th:each="category: ${categories}">
+                           <div class="col-md-6 col-lg-3 mb-5">
+                               <div class="">
+                                   <div style="text-align: center;">
+                                       <a href="#"><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
+                                                        alt="Sample"></a>
+                                   </div>
+                                   <div class="pt-4">
+                                       <a href=""><h5>Black denim jacket</h5></a>
+                                       <p><strong>$99.99</strong></p>
+                                   </div>
+                               </div>
+                           </div>
+                       </th:block>
+                   </div>
+               </section>-->
             </div>
         </div>
     </div>
