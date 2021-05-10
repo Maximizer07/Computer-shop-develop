@@ -96,7 +96,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
                                 <div class="card"> <img class="card-img-top" th:src="${product.getLink()}">
                                     <div class="card-body">
-                                        <h6 class="font-weight-bold pt-1" th:text="${product.getName()}"></h6>
+                                        <a class="font-weight-bold pt-1" th:href="@{/{id}(id = ${getId()})}" th:text="${product.getName()}"></a>
                                         <div class="text-muted description" th:text="${product.getQuantity()}"></div>
                                         <div class="d-flex align-items-center product"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star"></span> </div>
                                         <div class="d-flex align-items-center justify-content-between pt-3">
