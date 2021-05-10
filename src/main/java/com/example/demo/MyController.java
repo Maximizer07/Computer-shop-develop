@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class MyController implements ErrorController {
@@ -168,27 +169,58 @@ public class MyController implements ErrorController {
     @GetMapping("shoppingcardadd/{number}")
     String addCartItem(@PathVariable(value = "number") int number, Model model) {
         Cart_Item cart_item = new Cart_Item();
-        cart_item.setProduct(productService.findBynumber(number));
-        cart_item.setQuantity(1);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (shoppingCartService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()) == null) {
-            Shopping_cart shopping_cart = new Shopping_cart();
-            shopping_cart.setUserid(userService.loadUserByUsername(authentication.getName()).getId());
-            shoppingCartService.create(shopping_cart);
-
+        if (orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().noneMatch(o->o.getStatus()==-1)) {
+            Order o =new Order();
+            o.setStatus(-1);
+            o.setUserid(userService.loadUserByUsername(authentication.getName()).getId());
+            orderService.save(o);
+            cart_item.setProduct(productService.findBynumber(number));
+            cart_item.setQuantity(1);
+            cart_item.setOrder(o);
+            cartItemService.create(cart_item);
         }
-        cart_item.setShopping_cart(shoppingCartService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()));
-        cartItemService.create(cart_item);
+        else {
+            if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream()
+                    .filter(o -> o.getStatus() == -1).findAny().get().getProducts().
+                            stream().anyMatch(b->b.getProduct().getId()==number)){
+                cartItemService.findbyid(number).stream().filter(a->a.getOrder()
+                        ==orderService.findbyuser(userService.loadUserByUsername
+                        (authentication.getName()).getId())
+                        .stream().filter(o -> o.getStatus() == -1).findAny().get())
+                        .findAny().get().setQuantity(cartItemService.findbyid(number).stream().filter(a->a.getOrder()
+                        ==orderService.findbyuser(userService.loadUserByUsername
+                        (authentication.getName()).getId())
+                        .stream().filter(o -> o.getStatus() == -1).findAny().get())
+                        .findAny().get().getQuantity()+1);
+                cartItemService.create(cartItemService.findbyid(number).stream().filter(a->a.getOrder()
+                        ==orderService.findbyuser(userService.loadUserByUsername
+                        (authentication.getName()).getId())
+                        .stream().filter(o -> o.getStatus() == -1).findAny().get()).findAny().get());
+            }
+            else {
+                cart_item.setProduct(productService.findBynumber(number));
+                cart_item.setQuantity(1);
+                cart_item.setOrder(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().filter(o -> o.getStatus() == -1).findAny().get());
+                cartItemService.create(cart_item);
+            }
+        }
         return "redirect:/shoppingcard";
     }
     @RequestMapping(path = "/shoppingcard")
     public String shoppingcard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        int sum = (int) shoppingCartService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).getProducts().stream()
-                .mapToDouble(a -> a.getProduct().getPrice()*a.getQuantity())
-                .sum();
-        model.addAttribute("sum",sum);
-        model.addAttribute("products",shoppingCartService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).getProducts());
+        if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().anyMatch(o->o.getStatus()==-1)){
+            Order order = orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().filter(o->o.getStatus()==-1).findAny().get();
+            int sum = (int) order.getProducts().stream()
+                    .mapToDouble(a -> a.getProduct().getPrice()*a.getQuantity())
+                    .sum();
+            model.addAttribute("sum",sum);
+            model.addAttribute("products",order.getProducts());
+        }
+        else{
+            model.addAttribute("products",new ArrayList<>());
+        }
         model.addAttribute("isauth", isauth);
         return "shopping_card";
     }
@@ -221,8 +253,6 @@ public class MyController implements ErrorController {
     public String userinfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         isauth=true;
-       // products.add(new Product("blabla",1,25));
-        //products.add(new Product("yeeeee",3,30));
         model.addAttribute("user",userService.loadUserByUsername(authentication.getName()));
         model.addAttribute("orders",orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()));
         model.addAttribute("kolvo",products.size());
@@ -232,10 +262,13 @@ public class MyController implements ErrorController {
     @RequestMapping(path="shoppingcard/orderconfirm")
     public String orderconfirm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        int sum = (int) shoppingCartService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).getProducts().stream()
-                .mapToDouble(a -> a.getProduct().getPrice()*a.getQuantity())
-                .sum();
-        model.addAttribute("price",sum);
+        if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().anyMatch(o->o.getStatus()==-1)){
+            Order order = orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().filter(o->o.getStatus()==-1).findAny().get();
+            int sum = (int) order.getProducts().stream()
+                    .mapToDouble(a -> a.getProduct().getPrice()*a.getQuantity())
+                    .sum();
+            model.addAttribute("price",sum);
+        }
         model.addAttribute("kolvo",products.size());
         model.addAttribute("isauth",isauth);
         return "order_confirm";
@@ -243,19 +276,20 @@ public class MyController implements ErrorController {
     @RequestMapping(path="shoppingcard/addorder")
     public String addorder(@RequestParam String data, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        int sum = (int) shoppingCartService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).getProducts().stream()
-                .mapToDouble(a -> a.getProduct().getPrice()*a.getQuantity())
-                .sum();
-        Order o = new Order();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        o.setDateSet(LocalDate.now(ZoneId.of("Europe/Moscow")));
-        o.setDateGet(LocalDate.parse(data, formatter));
-        o.setPrise(sum);
-        o.setShopping_cart(shoppingCartService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()));
-        o.setStatus(0);
-        o.setNumber(String.format("%06d", new Random().nextInt(999999)));
-        o.setUserid(userService.loadUserByUsername(authentication.getName()).getId());
-        orderService.save(o);
+        if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().anyMatch(o->o.getStatus()==-1)) {
+            Order o = orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().filter(a->a.getStatus()==-1).findAny().get();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            o.setDateSet(LocalDate.now(ZoneId.of("Europe/Moscow")));
+            o.setDateGet(LocalDate.parse(data, formatter));
+            int sum = (int) o.getProducts().stream()
+                    .mapToDouble(a -> a.getProduct().getPrice()*a.getQuantity())
+                    .sum();
+            o.setPrise(sum);
+            o.setStatus(0);
+            o.setNumber(String.format("%06d", new Random().nextInt(999999)));
+            o.setUserid(userService.loadUserByUsername(authentication.getName()).getId());
+            orderService.save(o);
+        }
         return "redirect:/user_info";
     }
     @RequestMapping(path="user_info/orders/{number}")

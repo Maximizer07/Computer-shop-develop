@@ -1,5 +1,6 @@
 package com.example.demo.Order;
 
+import com.example.demo.CartItem.Cart_Item;
 import com.example.demo.Product.Product;
 import com.example.demo.ShoppingCart.Shopping_cart;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -36,7 +37,6 @@ public class Order {
     private int status;
     @Column(name = "userid")
     private Long userid;
-    @OneToOne
-    @JoinColumn(name = "shopping_cart_id")
-    private Shopping_cart shopping_cart;
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private List<Cart_Item> products;
 }

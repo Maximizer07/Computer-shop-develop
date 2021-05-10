@@ -1,5 +1,6 @@
 package com.example.demo.CartItem;
 
+import com.example.demo.Order.Order;
 import com.example.demo.Product.Product;
 import com.example.demo.ShoppingCart.Shopping_cart;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,8 +23,8 @@ public class Cart_Item {
     @JoinColumn(name = "product_id")
     private Product product;
     @ManyToOne
-    @JoinColumn(name = "shopping_cart_id")
-    private Shopping_cart shopping_cart;
+    @JoinColumn(name = "order_id")
+    private Order order;
     @Column(name = "quantity")
     private int quantity;
 

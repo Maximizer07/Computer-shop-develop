@@ -30,7 +30,7 @@
         </div>
         <div   id="orderikinfo">
             <div class="card-body">
-                <th:block th:each="product :${order.getShopping_cart().getProducts()}">
+                <th:block th:each="product :${order.getProducts()}">
                     <div class="media flex-column flex-sm-row">
                         <div class="media-body ">
                             <h5 style="display: inline">Товар: </h5><h5 class="bold" style="display: inline" th:text="${product.getProduct().getName()}"></h5><br>

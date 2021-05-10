@@ -21,8 +21,6 @@ public class Shopping_cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "shopping_cart", fetch = FetchType.EAGER)
-    private List<Cart_Item> products;
     @Column(name = "userid")
     private Long userid;
     @OneToOne
