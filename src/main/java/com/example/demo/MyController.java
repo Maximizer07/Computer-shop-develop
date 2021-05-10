@@ -122,7 +122,7 @@ public class MyController implements ErrorController {
         model.addAttribute("isauth", isauth);
         model.addAttribute("categories", categoryService.readAll());
 
-        return "categories";
+        return "newcategories";
     }
     @RequestMapping(path = "/")
     public String add() {
@@ -327,6 +327,11 @@ public class MyController implements ErrorController {
     public String product_page(Model model) {
         model.addAttribute("isauth", isauth);
         return "product";
+    }
+    @GetMapping("/prod")
+    public String productlistmethod(Model model) {
+        model.addAttribute("isauth", isauth);
+        return "productlist1";
     }
     @GetMapping("/wishlist")
     public String wishlist(Model model) {

@@ -1,0 +1,18 @@
+.shadow {
+    -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19) !important;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19) !important
+}
+a {
+    color: inherit;
+    text-decoration: none
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+.category{
+    display: flex;
+}
+.category-img{
+    text-align: center;
+}
