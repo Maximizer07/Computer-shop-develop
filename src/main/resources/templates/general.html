@@ -25,7 +25,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Каталог</a>
+                    <a class="nav-link" th:href="@{/categories/protsessory}">Каталог</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/shoppingcard}"><i class="bi bi-basket" th:value="${kolvo}" id="badge"></i></a>
@@ -36,16 +36,9 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-            <div th:if="${!isauth}">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/auth}"><span class="glyphicon glyphicon-user"></span>Войти в аккаунт</a></li>
-                </ul>
-            </div>
-            <div th:if="${isauth}">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item"><a class="nav-link" th:href="@{/user_info}"><span class="glyphicon glyphicon-user"></span>Мой профиль</a></li>
                 </ul>
-            </div>
         </div>
     </nav>
 </header>

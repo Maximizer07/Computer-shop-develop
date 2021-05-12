@@ -44,11 +44,12 @@ public class SecurityConfig extends
                 .disable()
                 .authorizeRequests()
                 //Доступ только для не зарегистрированных пользователей
-                .antMatchers("/login","/sign-up/**","/sign-up").not().authenticated()
+                .antMatchers("/sign-up/**","/sign-up").not().authenticated()
                 //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin","/admin2").hasAuthority("ADMIN")
                 .antMatchers("/user_info","/shoppingcard").hasAnyAuthority("ADMIN","USER")
                 //Доступ разрешен всем пользователей
+                .antMatchers("/categories/**","/product/**").permitAll()
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()
@@ -64,7 +65,7 @@ public class SecurityConfig extends
                 .logout()
                 .deleteCookies("dummyCookie")
                 .permitAll()
-                .logoutSuccessUrl("/login");
+                .logoutSuccessUrl("/");
     }
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {

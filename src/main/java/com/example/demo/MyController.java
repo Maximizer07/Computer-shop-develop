@@ -2,17 +2,12 @@ package com.example.demo;
 
 import com.example.demo.CartItem.CartItemService;
 import com.example.demo.CartItem.Cart_Item;
-import com.example.demo.Category.Category;
 import com.example.demo.Category.CategoryService;
 import com.example.demo.ConfirmationToken.ConfirmationToken;
 import com.example.demo.ConfirmationToken.ConfirmationTokenService;
 import com.example.demo.Order.Order;
 import com.example.demo.Order.OrderService;
-import com.example.demo.Product.Product;
 import com.example.demo.Product.ProductService;
-import com.example.demo.ShoppingCart.ShoppingCartService;
-import com.example.demo.ShoppingCart.Shopping_cart;
-import com.example.demo.ShoppingCart.ShoppingcartRepository;
 import com.example.demo.User.User;
 import com.example.demo.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +28,6 @@ import java.util.stream.Collectors;
 
 @Controller
 public class MyController implements ErrorController {
-    public ArrayList<Product> products = new ArrayList<>();
-    public ArrayList<Order> orders = new ArrayList<>();
-    public ArrayList<Category> categories = new ArrayList<>();
-    boolean isauth = false;
     @Autowired
     private UserService userService;
     @Autowired
@@ -46,8 +37,6 @@ public class MyController implements ErrorController {
     @Autowired
     private CartItemService cartItemService;
     @Autowired
-    private ShoppingCartService shoppingCartService;
-    @Autowired
     private ConfirmationTokenService confirmationTokenService;
     @Autowired
     private OrderService orderService;
@@ -56,22 +45,17 @@ public class MyController implements ErrorController {
         if(!user.getPassword().equals(user.getPassword2())){
             model.addAttribute("Problem","sign");
             model.addAttribute("Status","pass1!=pass2");
-            model.addAttribute("kolvo", products.size());
-            model.addAttribute("isauth", isauth);
-            System.out.println("ddsdsds2");
+            model.addAttribute("kolvo", size());
             return "login";
         }
         if(userService.uniqueEmail(user.getEmail())){
             model.addAttribute("Problem","sign");
             model.addAttribute("Status","oldemail");
-            model.addAttribute("kolvo", products.size());
-            System.out.println("ddsdsds1");
-            model.addAttribute("isauth", isauth);
+            model.addAttribute("kolvo", size());
             return "login";
         }
         model.addAttribute("status","noconfirm");
-        model.addAttribute("kolvo",products.size());
-        model.addAttribute("isauth",isauth);
+        model.addAttribute("kolvo", size());
         userService.signUpUser(user);
         return "sign-up";
     }
@@ -79,38 +63,34 @@ public class MyController implements ErrorController {
     String confirmMail(@RequestParam("token") String token,Model model) {
         Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);
         userService.confirmUser(optionalConfirmationToken.get());
-        model.addAttribute("kolvo",products.size());
-        model.addAttribute("isauth",isauth);
+        model.addAttribute("kolvo", size());
         model.addAttribute("status","confirm");
         return "sign-up";
     }
     @GetMapping("/admin")
     public String admin(Model model) {
-        model.addAttribute("isauth", isauth);
-        model.addAttribute("kolvo", products.size());
+        model.addAttribute("kolvo", size());
         model.addAttribute("users", userService.readAll());
         return "admin";
     }
     @GetMapping("/about")
     public String about(Model model) {
-        model.addAttribute("isauth", isauth);
-        model.addAttribute("kolvo", products.size());
+        model.addAttribute("kolvo", size());
         return "about";
     }
     @RequestMapping(path="admin/{number}")
     public String Adminuserinfo(@PathVariable(value = "number") int number, Model model) {
         model.addAttribute("user",userService.loadUserById(number));
-        model.addAttribute("orders",orders);
-        model.addAttribute("kolvo",products.size());
-        model.addAttribute("isauth",isauth);
+        model.addAttribute("orders",1);
+        model.addAttribute("kolvo", size());
         model.addAttribute("not_my","not_my");
         return "user_info";
     }
+
     @GetMapping("/login")
     public String viewLoginPage(Model model, User user) {
         model.addAttribute("Problem","login");
-        model.addAttribute("kolvo", products.size());
-        model.addAttribute("isauth", isauth);
+        model.addAttribute("kolvo", size());
         return "login";
     }
     @GetMapping("/categories")
@@ -119,10 +99,21 @@ public class MyController implements ErrorController {
         path.add("Каталог");
         path.add("Категории");
         model.addAttribute("path", path);
-        model.addAttribute("isauth", isauth);
         model.addAttribute("categories", categoryService.readAll());
 
         return "newcategories";
+    }
+    private int size(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(Objects.equals(authentication.getName(), "anonymousUser"))) {
+            if (orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().noneMatch(o -> o.getStatus() == -1)) {
+                return 0;
+            } else {
+                return orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream()
+                        .filter(o -> o.getStatus() == -1).findAny().get().getProducts().size();
+            }
+        }
+        return 0;
     }
     @RequestMapping(path = "/")
     public String add() {
@@ -133,8 +124,7 @@ public class MyController implements ErrorController {
         model.addAttribute("user", new User());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
-        model.addAttribute("isauth", isauth);
-        model.addAttribute("kolvo", products.size());
+        model.addAttribute("kolvo", size());
         model.addAttribute("users", userService.readAll());
         model.addAttribute("products", productService.readAll());
         model.addAttribute("categories", categoryService.readAll());
@@ -154,7 +144,6 @@ public class MyController implements ErrorController {
     public @ResponseBody String addname(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String firstName = request.getParameter("firstname");
         String email = request.getParameter("email");
-        System.out.println(firstName);
         userService.updateUserName(userService.loadUserByUsername(email).getId(),firstName);
         return firstName;
     }
@@ -221,7 +210,7 @@ public class MyController implements ErrorController {
         else{
             model.addAttribute("products",new ArrayList<>());
         }
-        model.addAttribute("isauth", isauth);
+        model.addAttribute("kolvo", size());
         return "shopping_card";
     }
     @GetMapping("shoppingcard/change")
@@ -235,28 +224,22 @@ public class MyController implements ErrorController {
           //  }
         //}
         //products.removeIf(product -> product.getOpisanie().equals("nulll"));
-        model.addAttribute("products",products);
-        model.addAttribute("kolvo",products.size());
-        model.addAttribute("isauth",isauth);
+        model.addAttribute("kolvo", size());
         return "redirect:/shoppingcard";
     }
     @GetMapping("shoppingcard/delete")
     public String delete(@RequestParam(value = "opisanie") String opisanie,Model model) {
         //products.removeIf(product -> product.getOpisanie().equals(opisanie));
-        model.addAttribute("products",products);
-        model.addAttribute("kolvo",products.size());
-        model.addAttribute("isauth",isauth);
+        model.addAttribute("kolvo", size());
         return "redirect:/shoppingcard";
     }
 
     @RequestMapping(path="/user_info")
     public String userinfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        isauth=true;
         model.addAttribute("user",userService.loadUserByUsername(authentication.getName()));
         model.addAttribute("orders",orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()));
-        model.addAttribute("kolvo",products.size());
-        model.addAttribute("isauth",isauth);
+        model.addAttribute("kolvo", size());
         return "user_info";
     }
     @RequestMapping(path="shoppingcard/orderconfirm")
@@ -269,8 +252,7 @@ public class MyController implements ErrorController {
                     .sum();
             model.addAttribute("price",sum);
         }
-        model.addAttribute("kolvo",products.size());
-        model.addAttribute("isauth",isauth);
+        model.addAttribute("kolvo", size());
         return "order_confirm";
     }
     @RequestMapping(path="shoppingcard/addorder")
@@ -297,8 +279,7 @@ public class MyController implements ErrorController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId());
         model.addAttribute("order",orderService.findbynumber(number));
-        model.addAttribute("isauth",isauth);
-        model.addAttribute("kolvo",products.size());
+        model.addAttribute("kolvo", size());
         return "orderinfo";
     }
     @RequestMapping(path="user_info/orders/deleteinfo/{number}")
@@ -310,7 +291,7 @@ public class MyController implements ErrorController {
         model.addAttribute("products", productService.findById_category(categoryService.findByEngname(engname).getId()));
         model.addAttribute("current_category", categoryService.findByEngname(engname).getName());
         model.addAttribute("categories", categoryService.readAll());
-        model.addAttribute("isauth", isauth);
+        model.addAttribute("kolvo", size());
         return "product_list1";
     }
 
@@ -320,17 +301,17 @@ public class MyController implements ErrorController {
     }
     @RequestMapping("/error")
     public String handleError(Model model) {
-        model.addAttribute("isauth", isauth);
+        model.addAttribute("kolvo", size());
         return "error";
     }
     @GetMapping("/wishlist")
     public String wishlist(Model model) {
-        model.addAttribute("isauth", isauth);
+        model.addAttribute("kolvo", size());
         return "wishlist";
     }
     @RequestMapping(path="product/{id}")
     public String product_info(@PathVariable(value = "id") int id, Model model) {
-        model.addAttribute("isauth",isauth);
+        model.addAttribute("kolvo", size());
         model.addAttribute("product",productService.findById(id));
         model.addAttribute("category",categoryService.findById(productService.findById(id).getCategoryId()));
         return "product";
