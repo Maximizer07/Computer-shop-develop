@@ -81,6 +81,7 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "about";
     }
+
     @RequestMapping(path="admin/{number}")
     public String Adminuserinfo(@PathVariable(value = "number") int number, Model model) {
         model.addAttribute("user",userService.loadUserById(number));
@@ -198,6 +199,23 @@ public class MyController implements ErrorController {
             }
         }
         return "redirect:/shoppingcard";
+    }
+    @GetMapping("/shop")
+    public String shop(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().anyMatch(o->o.getStatus()==-1)){
+            Order order = orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().filter(o->o.getStatus()==-1).findAny().get();
+            int sum = (int) order.getProducts().stream()
+                    .mapToDouble(a -> a.getProduct().getPrice()*a.getQuantity())
+                    .sum();
+            model.addAttribute("sum",sum);
+            model.addAttribute("products",order.getProducts());
+        }
+        else{
+            model.addAttribute("products",new ArrayList<>());
+        }
+        model.addAttribute("kolvo", size());
+        return "shop";
     }
     @RequestMapping(path = "/shoppingcard")
     public String shoppingcard(Model model) {
