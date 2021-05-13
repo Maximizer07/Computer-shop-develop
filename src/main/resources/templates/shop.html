@@ -22,7 +22,7 @@
           <div class="media d-block d-sm-flex text-center text-sm-left">
             <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img th:src="${product.getProduct().getLink()}" alt="Product"></a>
             <div class="media-body pt-3">
-              <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a th:href="@{/product/{number}(number=${product.getId()})}" th:text="${product.getProduct().getName()}" ></a></h3>
+              <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a th:href="@{/product/{number}(number=${product.getProduct().getId()})}" th:text="${product.getProduct().getName()}" ></a></h3>
               <div class="font-size-lg text-primary pt-2" th:text="${product.getProduct().getPrice()+' рублей'}" ></div>
             </div>
           </div>
@@ -47,6 +47,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-xl-3 col-md-4 pt-3 pt-md-0">
         <h2 class="h6 px-4 py-3 bg-warning text-center">Итого</h2>
         <div class="h3 font-weight-semibold text-center py-3" th:text="${sum+' рублей'}"></div>

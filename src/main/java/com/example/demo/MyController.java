@@ -130,6 +130,7 @@ public class MyController implements ErrorController {
         model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
         model.addAttribute("kolvo", size());
         model.addAttribute("users", userService.readAll());
+        model.addAttribute("orders", orderService.readAll());
         model.addAttribute("products", productService.readAll());
         model.addAttribute("categories", categoryService.readAll());
         return "admin2";
@@ -232,7 +233,7 @@ public class MyController implements ErrorController {
             model.addAttribute("products",new ArrayList<>());
         }
         model.addAttribute("kolvo", size());
-        return "shopping_card";
+        return "shop";
     }
     @GetMapping("shoppingcard/change")
     public String deleteIncome(@RequestParam(value = "opisanie") String opisanie,@RequestParam(value = "quantity") int quantity,Model model) {

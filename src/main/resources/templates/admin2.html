@@ -119,6 +119,34 @@
           </tr>
           </thead>
           <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+          <th:block th:each="order :${orders}">
+              <tr>
+                <th th:text="${order.getId()}"></th>
+                <th th:text="${order.getUserid()}"></th>
+                <th >
+                  <select th:value="${order.getStatus()}" th:if="${order.getStatus()}==0">
+                    <option th:value="0" selected>Доставлен на склад</option>
+                    <option th:value="1">Отправлен в пункт самовывоза</option>
+                    <option th:value="2">Готов к получению</option>
+                  </select>
+                  <select th:value="${order.getStatus()}" th:if="${order.getStatus()}==1">
+                    <option th:value="0" >Доставлен на склад</option>
+                    <option th:value="1" selected>Отправлен в пункт самовывоза</option>
+                    <option th:value="2">Готов к получению</option>
+                  </select>
+                  <select th:value="${order.getStatus()}" th:if="${order.getStatus()}==2">
+                    <option th:value="0" >Доставлен на склад</option>
+                    <option th:value="1" >Отправлен в пункт самовывоза</option>
+                    <option th:value="2" selected>Готов к получению</option>
+                  </select>
+                </th>
+                <th><span class="badge badge-info"><a style="color: whitesmoke" th:href="@{admin/{number}(number=${order.getId()})}">Edit</a></span></th>
+                <th>
+                  <button type="submit" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                  <a href="" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                </th>
+              </tr>
+          </th:block>
           </tbody>
         </table>
       </div>
