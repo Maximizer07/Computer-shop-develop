@@ -11,6 +11,8 @@ import com.example.demo.Order.OrderService;
 import com.example.demo.Product.ProductService;
 import com.example.demo.User.User;
 import com.example.demo.User.UserService;
+import com.example.demo.WishItem.WishItem;
+import com.example.demo.WishItem.WishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.core.Authentication;
@@ -43,6 +45,8 @@ public class MyController implements ErrorController {
     private ConfirmationTokenService confirmationTokenService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private WishService wishService;
     @PostMapping("/sign-up")
     String signUp(User user, Model model) {
         if(!user.getPassword().equals(user.getPassword2())){
@@ -201,6 +205,20 @@ public class MyController implements ErrorController {
         }
         return "redirect:/shoppingcard";
     }
+    @GetMapping("wishadd/{number}")
+    String addWishItem(@PathVariable(value = "number") int number, Model model) {
+        WishItem wishItem = new WishItem();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        wishItem.setProduct(productService.findBynumber(number));
+        wishItem.setUser(userService.loadUserByUsername(authentication.getName()));
+        wishService.save(wishItem);
+        return "redirect:/user_info";
+    }
+    @GetMapping("wishdelete/{number}")
+    String deleteWishItem(@PathVariable(value = "number") int number, Model model) {
+        wishService.delete((long) number);
+        return "redirect:/user_info";
+    }
     @GetMapping("/shop")
     public String shop(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -260,7 +278,14 @@ public class MyController implements ErrorController {
     public String userinfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("user",userService.loadUserByUsername(authentication.getName()));
-        model.addAttribute("orders",orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()));
+        List<Order> orders= new ArrayList<>();
+        for( Order order:orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId())){
+            if(order.getDateGet()!=null) {
+                orders.add(order);
+            }
+        }
+        model.addAttribute("wishlist",userService.loadUserByUsername(authentication.getName()).getWishItems());
+        model.addAttribute("orders", orders);
         model.addAttribute("kolvo", size());
         return "user_info";
     }

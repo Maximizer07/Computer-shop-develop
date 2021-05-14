@@ -2,6 +2,7 @@ package com.example.demo.User;
 
 import com.example.demo.CartItem.Cart_Item;
 import com.example.demo.ShoppingCart.Shopping_cart;
+import com.example.demo.WishItem.WishItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,6 +38,8 @@ public class User implements UserDetails {
     private Boolean enabled = false;
     @Transient
     private String password2;
+    @OneToMany(mappedBy="user")
+    private List<WishItem> wishItems;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         System.out.println(userRole.name());
