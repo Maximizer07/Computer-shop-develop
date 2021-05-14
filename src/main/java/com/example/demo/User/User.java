@@ -1,6 +1,7 @@
 package com.example.demo.User;
 
 import com.example.demo.CartItem.Cart_Item;
+import com.example.demo.Review.Review;
 import com.example.demo.ShoppingCart.Shopping_cart;
 import com.example.demo.WishItem.WishItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -40,6 +41,8 @@ public class User implements UserDetails {
     private String password2;
     @OneToMany(mappedBy="user")
     private List<WishItem> wishItems;
+    @OneToMany(mappedBy="user")
+    private List<Review> reviews;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         System.out.println(userRole.name());

@@ -9,6 +9,8 @@ import com.example.demo.Description.DescriptionService;
 import com.example.demo.Order.Order;
 import com.example.demo.Order.OrderService;
 import com.example.demo.Product.ProductService;
+import com.example.demo.Review.Review;
+import com.example.demo.Review.ReviewService;
 import com.example.demo.User.User;
 import com.example.demo.User.UserService;
 import com.example.demo.WishItem.WishItem;
@@ -47,6 +49,8 @@ public class MyController implements ErrorController {
     private OrderService orderService;
     @Autowired
     private WishService wishService;
+    @Autowired
+    private ReviewService reviewService;
     @PostMapping("/sign-up")
     String signUp(User user, Model model) {
         if(!user.getPassword().equals(user.getPassword2())){
@@ -113,6 +117,9 @@ public class MyController implements ErrorController {
     }
     private int size(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication==null){
+            return 0;
+        }
         if (!(Objects.equals(authentication.getName(), "anonymousUser"))) {
             if (orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().noneMatch(o -> o.getStatus() == -1)) {
                 return 0;
@@ -163,6 +170,23 @@ public class MyController implements ErrorController {
         String email = request.getParameter("email");
         userService.updateSurName(userService.loadUserByUsername(email).getId(),surname);
         return surname;
+    }
+    @RequestMapping(value = "/makereview", method = RequestMethod.POST)
+    public @ResponseBody String addreview(HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
+        int rating = Integer.parseInt(request.getParameter("rating"));
+        String comment = request.getParameter("comment");
+        int id = Integer.parseInt(request.getParameter("id"));
+        System.out.println("fdsfsdf");
+        Review review = new Review();
+        if(comment != null){
+            review.setComment(comment);
+            review.setRating(rating);
+            review.setProduct(productService.findBynumber(id));
+            review.setUser(userService.loadUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+            review.setCreated(LocalDate.now(ZoneId.of("Europe/Moscow")));
+            reviewService.save(review);
+        }
+        return String.valueOf(id);
     }
     @GetMapping("shoppingcardadd/{number}")
     String addCartItem(@PathVariable(value = "number") int number, Model model) {
@@ -359,6 +383,7 @@ public class MyController implements ErrorController {
     @RequestMapping(path="product/{id}")
     public String product_info(@PathVariable(value = "id") int id, Model model) {
         model.addAttribute("kolvo", size());
+        System.out.println("gdgfdgd");
         model.addAttribute("product",productService.findById(id));
         model.addAttribute("description",descriptionService.findByProductid(id));
         model.addAttribute("category",categoryService.findById(productService.findById(id).getCategoryId()));

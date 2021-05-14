@@ -1,8 +1,10 @@
 package com.example.demo.Product;
 
+import com.example.demo.Review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import javax.persistence.*;
+import java.util.List;
 
 
 @Getter
@@ -35,6 +37,7 @@ public class Product {
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
-
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
 }
