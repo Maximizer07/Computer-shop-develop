@@ -24,7 +24,7 @@
         <div id="deleteorder" style="padding: 10px;">
                 <div class="text-center">
                     <h3>Вы хотите отменить ваш заказ?</h3>
-                    <a  type="button" class="btn btn-danger" th:href="@{user_info/orders/deleteinfo/{number}(number=${order.getNumber()})}">Да</a>
+                    <a  type="button" class="btn btn-danger" th:href="@{/user_info/orders/deleteinfo/{number}(number=${order.getNumber()})}">Да</a>
                     <button  type="button" class="btn btn-success" onclick="delatmpno()">Нет</button>
                 </div>
         </div>

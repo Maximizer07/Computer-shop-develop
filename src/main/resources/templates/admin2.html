@@ -124,6 +124,7 @@
                 <th th:text="${order.getId()}"></th>
                 <th th:text="${order.getUserid()}"></th>
                 <th >
+                  <h5 th:if="${order.getStatus()}==-1" style="color: #fff1e1">В корзине</h5>
                   <select th:value="${order.getStatus()}" th:if="${order.getStatus()}==0">
                     <option th:value="0" selected>Доставлен на склад</option>
                     <option th:value="1">Отправлен в пункт самовывоза</option>

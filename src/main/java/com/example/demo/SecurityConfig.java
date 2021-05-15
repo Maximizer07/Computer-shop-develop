@@ -55,7 +55,8 @@ public class SecurityConfig extends
                 .and()
                 //Настройка для входа в систему
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/auth")
+                .loginProcessingUrl("/login")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/user_info",true)
                 .permitAll()

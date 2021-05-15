@@ -99,7 +99,7 @@ public class MyController implements ErrorController {
         return "user_info";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/auth")
     public String viewLoginPage(Model model, User user) {
         model.addAttribute("Problem","login");
         model.addAttribute("kolvo", size());
@@ -313,6 +313,10 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "user_info";
     }
+    @PostMapping(path="/user_info/findNumber")
+    public String userinfo(Model model,int number) {
+        return "redirect:/user_info/orders/"+number;
+    }
     @RequestMapping(path="shoppingcard/orderconfirm")
     public String orderconfirm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -354,7 +358,8 @@ public class MyController implements ErrorController {
         return "orderinfo";
     }
     @RequestMapping(path="user_info/orders/deleteinfo/{number}")
-    public String deleteinfo(@PathVariable(value = "number") int number,Model model) {
+    public String deleteinfo(@PathVariable(value = "number") String number,Model model) {
+        orderService.delete(number);
         return "redirect:/user_info";
     }
     @RequestMapping("/categories/{category}")
