@@ -93,8 +93,8 @@
                         </ul>
                         <p><span class="mr-1"><strong th:text="${product.getPrice()} + ' ₽'"></strong></span></p>
                         <hr>
-                        <p><span style="font-weight:bold">Производитель </span><span th:text="${product.getManufacturer()}"></span></p>
-                        <p><span style="font-weight:bold">Наличие </span><span th:text="${product.getQuantity()} + ' шт'"></span></p>
+                        <p><span style="font-weight:bold">Производитель: </span><span th:text="${product.getManufacturer()}"></span></p>
+                        <p><span style="font-weight:bold">Наличие: </span><span th:text="${product.getQuantity()} + ' шт'"></span></p>
                         <hr>
                         <a  th:href="@{/shoppingcardadd/{number}(number=${product.getId()})}"type="button" class="btn btn-warning btn-md mr-1 mb-2">В корзину</a>
                         <a th:href="@{/wishadd/{number}(number=${product.getId()})}" type="button" class="btn btn-light btn-md mr-1 mb-2"><i
@@ -141,22 +141,22 @@
                                 <thead>
                                 <tr>
                                     <th scope="row" class="w-150 dark-grey-text h6">Weight</th>
-                                    <td><em>0.3 kg</em></td>
+                                    <td class="w-150 dark-grey-text h6"><em>0.3 kg</em></td>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <th scope="row" class="w-150 dark-grey-text h6">Dimensions</th>
-                                    <td><em>50 × 60 cm</em></td>
+                                    <td class="w-150 dark-grey-text h6"><em>50 × 60 cm</em></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="tab-pane fade pt-2" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                            <h5><span th:text="${product.getReviews().size()}"></span> отзывовw <span th:text="${product.getName()}"></span></h5>
+                            <h5><span th:text="${product.getReviews().size()}"></span> отзывов о<span th:text="${product.getName()}"></span></h5>
                             <div class="media mt-3 mb-4"  th:each="review :${product.getReviews()}">
                                 <img class="d-flex mr-3 z-depth-1"
-                                     src="https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg"
+                                     src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_640.png"
                                      width="62" alt="Generic placeholder image">
                                 <div class="media-body">
                                     <div class="d-flex justify-content-between">
@@ -168,9 +168,12 @@
                                             <li th:each="i: ${#numbers.sequence(1, review.getRating())}">
                                                 <i class=" fa-star fas "></i>
                                             </li>
-                                            <li>
-                                                <i class=" fa-star far "></i>
-                                            </li>
+                                            <th:block th:if="${review.getRating()!=5}">
+                                                <li th:each="i: ${#numbers.sequence(1, 5 - review.getRating())}">
+                                                    <i class=" fa-star far "></i>
+                                                </li>
+                                            </th:block>
+
                                         </ul>
                                     </div>
                                     <p class="mb-0" th:text="${review.getComment()}"></p>
