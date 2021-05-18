@@ -23,6 +23,15 @@ public class CategoryService {
 
     public void create(Category c) {
         log.info("Save category {}", c);
+        var CYRILLIC_TO_LATIN = "Russian-Latin/BGN";
+        Transliterator toLatinTrans = Transliterator.getInstance(CYRILLIC_TO_LATIN);
+        String result = toLatinTrans.transliterate(c.getName());
+        result = result.replaceAll("\\s+", "-").toLowerCase();
+        c.setEngname(result);
+        categoryRepository.save(c);
+    }
+
+    public void change(Category c){
         categoryRepository.save(c);
     }
 
@@ -45,7 +54,11 @@ public class CategoryService {
         return categoryRepository.findById(Id);
     }
     public void delete(Category c){
-        log.info("Delete category, whose Name = {}",c.getName());
-        categoryRepository.deleteByName(c.getName());
+        log.info("Delete category, whose Id = {}",c.getName());
+        categoryRepository.deleteById(c.getId());
+    }
+    public void del(Category c){
+        log.info("Delete category, whose Name and Link= {}",c.getName() + c.getLink());
+        categoryRepository.deleteByNameAndAndLink(c.getName(),c.getLink());
     }
 }

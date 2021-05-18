@@ -6,5 +6,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Category findByName(String name);
     Category findById(int Id);
     Category findByEngname(String name);
-    Long deleteByName(String name);
+    Long deleteById(String name);
+    Long deleteByNameAndAndLink(String name, String Link);
 }

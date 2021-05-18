@@ -183,37 +183,53 @@
         </table>
       </div>
       <div id="categories">
-        <table class="table table-dark table-hover" th:if="${not users.isEmpty()}" >
+        <table class="table table-dark table-hover">
+          <p class="display-4 text-white">Добавление и удаление категорий</p>
+          <thead style="background-color: coral; ">
+          <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Ссылка на изображение</th>
+            <th>Действие</th>
+          </tr>
+          </thead>
+          <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+            <form method="post">
+              <tr>
+                <th><input type="text" name="Name" placeholder="Name"/></th>
+                <th><input type="text" name="Link" placeholder="Link"/></th>
+                <th>
+                  <button type="submit" th:formaction="@{/category/add}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                  <button type="submit" th:formaction="@{/category/delete}" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                </th>
+              </tr>
+            </form>
+          </tbody>
+        </table>
+          <p class="display-4 text-white">Все категории</p>
+          <table class="table table-dark table-hover" th:if="${categories}" >
           <thead style="background-color: coral; ">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Название</th>
-            <th scope="col">Английское название</th>
             <th scope="col">Ссылка на изображение</th>
-            <th>Данные</th>
             <th>Действие</th>
           </tr>
           </thead>
           <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
             <th:block th:each="category :${categories}">
-              <form th:action="@{/changeRole/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
+              <form method="post">
                 <tr>
-                  <th><input style="border: none" class="text-secondary" th:value="${category.getId()}"/></th>
-                  <th><input style="border: none" class="text-secondary" th:value="${category.getName()}"/></th>
-                  <th><input style="border: none" class="text-secondary" th:value="${category.getEngname()}"/></th>
-                  <th><input style="border: none" class="text-secondary" th:value="${category.getLink()}"/></th>
-                  <th><span class="badge badge-info"><a style="color: whitesmoke" onclick="change_text();">Edit</a></span></th>
+                  <th type="text" name="id" th:value="${category.getId()}" th:text="${category.getId()}"></th>
+                  <th><input type="text" name="Name" style="border: none" th:value="${category.getName()}"/></th>
+                  <th><input type="text" name="Link" style="border: none" th:value="${category.getLink()}"/></th>
                   <th>
-                    <button type="submit" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                    <a th:href="@{/deleteUser/{number}(number=${user.getId()})}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                    <button type="submit" th:formaction="@{/category/change/{id}(id=${category.getId()})}" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                    <button type="submit" th:formaction="@{/category/delete/{id}(id=${category.getId()})}" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
                   </th>
                 </tr>
               </form>
             </th:block>
           </tbody>
-
-
-
         </table>
       </div>
 <script>

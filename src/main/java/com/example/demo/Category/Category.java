@@ -32,11 +32,4 @@ public class Category {
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Product> products;
-
-    public String EngName() {
-        var CYRILLIC_TO_LATIN = "Russian-Latin/BGN";
-        Transliterator toLatinTrans = Transliterator.getInstance(CYRILLIC_TO_LATIN);
-        String result = toLatinTrans.transliterate(name);
-        return result.replaceAll("\\s+", "-").toLowerCase();
-    }
 }
