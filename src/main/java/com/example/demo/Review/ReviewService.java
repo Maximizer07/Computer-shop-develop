@@ -1,13 +1,12 @@
 package com.example.demo.Review;
 
-import com.example.demo.WishItem.WishItem;
-import com.example.demo.WishItem.WishItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class ReviewService {
-    final
+    @Autowired
     ReviewRepository reviewRepository;
 
     public ReviewService(ReviewRepository reviewRepository) {

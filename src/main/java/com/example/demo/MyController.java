@@ -8,6 +8,7 @@ import com.example.demo.ConfirmationToken.ConfirmationTokenService;
 import com.example.demo.Description.DescriptionService;
 import com.example.demo.Order.Order;
 import com.example.demo.Order.OrderService;
+import com.example.demo.Product.Product;
 import com.example.demo.Product.ProductService;
 import com.example.demo.Review.Review;
 import com.example.demo.Review.ReviewService;
@@ -186,6 +187,14 @@ public class MyController implements ErrorController {
             review.setCreated(LocalDate.now(ZoneId.of("Europe/Moscow")));
             reviewService.save(review);
         }
+        long rat = 0;
+        for (Review rev:productService.findBynumber(id).getReviews()) {
+            rat += rev.getRating();
+        }
+        int average = (int) (rat/productService.findBynumber(id).getReviews().size());
+        Product product = productService.findBynumber(id);
+        product.setRating(average);
+        productService.save(product);
         return String.valueOf(id);
     }
     @GetMapping("shoppingcardadd/{number}")
@@ -387,11 +396,11 @@ public class MyController implements ErrorController {
     }
     @RequestMapping(path="product/{id}")
     public String product_info(@PathVariable(value = "id") int id, Model model) {
-        model.addAttribute("kolvo", size());
-        System.out.println("gdgfdgd");
-        model.addAttribute("product",productService.findById(id));
+        Product product = productService.findById(id);
+        model.addAttribute("product",product);
+        model.addAttribute("products",product.getCategory().getProducts().subList(0, 3));
         model.addAttribute("description",descriptionService.findByProductid(id));
-        model.addAttribute("category",categoryService.findById(productService.findById(id).getCategoryId()));
+        model.addAttribute("category",product.getCategory());
         return "product";
     }
 }

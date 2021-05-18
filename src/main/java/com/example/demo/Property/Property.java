@@ -1,4 +1,5 @@
 package com.example.demo.Property;
+import com.example.demo.Product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ibm.icu.text.Transliterator;
 import lombok.*;
@@ -20,8 +21,11 @@ public class Property {
     @Column(name="property", length = 100, nullable = false)
     public String name;
 
-    @Column(name = "id_product", nullable = false)
-    private int productId;
+
+    @ManyToOne
+    @JoinColumn(name = "id_product")
+    private Product product;
+
     @Column(name="value", length = 100, nullable = false)
     private String value;
 }

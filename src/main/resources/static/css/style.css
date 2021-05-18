@@ -36,7 +36,6 @@ body {
 }
 table{
     box-shadow: 2px 4px 15px 0px rgb(0, 108, 170);
-    background-image: url('webb.png');
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

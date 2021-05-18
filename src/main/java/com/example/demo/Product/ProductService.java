@@ -1,5 +1,6 @@
 package com.example.demo.Product;
 
+import com.example.demo.Review.Review;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,6 @@ public class ProductService {
         log.info("Find all products");
         return productRepository.findAll();
     }
-
     public Product findByName(String Name){
         log.info("Find product, whose Name = {}",Name);
         return productRepository.findByName(Name);
@@ -50,4 +50,9 @@ public class ProductService {
         log.info("Delete product, whose Id = {}",p.getId());
         productRepository.deleteById(p.getId());
     }
+
+    public void save(Product product){
+        productRepository.save(product);
+    }
+
 }

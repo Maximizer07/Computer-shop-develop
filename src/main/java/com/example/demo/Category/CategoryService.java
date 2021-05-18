@@ -31,6 +31,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+
     public Category findByName(String Name){
         log.info("Find category, whose Name = {}",Name);
         return categoryRepository.findByName(Name);
