@@ -3,19 +3,6 @@
 <head>
     <th:block th:include="general.html :: headerfiles"></th:block>
     <link href="/static/css/categories.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href="css/mdb-pro.min.css">
-    <!-- Material Design Bootstrap Ecommerce -->
-    <link rel="stylesheet" href="css/mdb.ecommerce.min.css">
-    <!-- Your custom styles (optional) -->
 </head>
 <body>
     <header th:insert="general.html :: header"> </header>
@@ -37,8 +24,8 @@
             <div class="col-md">
                 <div class="row">
                     <th:block th:each="category : ${categories}">
-                        <div class="col-md-3">
-                            <div class="category">
+                        <div class="col-md-3" style="border: 15px solid #ff0303;">
+                            <div class="category" style="border: 15px solid #0037ff;">
                                 <div class="category-img">
                                     <a th:href="@{/categories/{category}(category=${category.getEngname()})}"><img th:src="${category.getLink()}" alt=""></a>
                                 </div>

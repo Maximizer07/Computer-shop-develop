@@ -3,13 +3,21 @@
 <head>
     <th:block th:include="general.html :: headerfiles"></th:block>
     <link rel="stylesheet" href="css/newcategories.css">
+    <style>
+        .category-img, .category{
+            height: 100%;
+            display: grid;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 <header th:insert="general.html :: header"> </header>
 <div class="container" style="margin-top: 3em; margin-bottom: 3em">
         <div class="row">
             <th:block th:each="category : ${categories}">
-                <div class="col-md-4 mb-5">
+                <div class="col-md-4 mb-5 category" style="height: 15em" >
                     <div class="category-img">
                         <a th:href="@{/categories/{category}(category=${category.getEngname()})}"><img
                                 th:src="${category.getLink()}" class="shadow" alt=""></a>

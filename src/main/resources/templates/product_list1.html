@@ -28,6 +28,11 @@
             color: #ffa000;
             list-style-type: none;
         }
+        .elem{
+            display: grid;
+            align-items: center;
+            justify-content: center;
+        }
         .fa-star{
             color: #ffa000;
         }
@@ -59,31 +64,9 @@
                         <h5 class="pt-2 mb-4">Filters</h5>
                         <section class="mb-4">
                             <div class="md-form md-outline mt-0 d-flex justify-content-between align-items-center">
-                                <input type="text" id="search12" class="form-control mb-0" placeholder="Search...">
+                                <input type="text" id="search12" class="form-control mb-0" placeholder="Название...">
                                 <a href="#!" class="btn btn-flat btn-md px-3 waves-effect"><i
                                         class="fas fa-search fa-lg"></i></a>
-                            </div>
-                        </section>
-                        <section class="mb-4">
-                            <h6 class="font-weight-bold mb-3">Condition</h6>
-                            <div class="form-check pl-0 mb-3">
-                                <input type="checkbox" class="form-check-input filled-in" id="new">
-                                <label class="form-check-label small text-uppercase card-link-secondary"
-                                       for="new">New</label>
-                            </div>
-                            <div class="form-check pl-0 mb-3">
-                                <input type="checkbox" class="form-check-input filled-in" id="used">
-                                <label class="form-check-label small text-uppercase card-link-secondary"
-                                       for="used">Used</label>
-                            </div>
-                            <div class="form-check pl-0 mb-3">
-                                <input type="checkbox" class="form-check-input filled-in" id="collectible">
-                                <label class="form-check-label small text-uppercase card-link-secondary"
-                                       for="collectible">Collectible</label>
-                            </div>
-                            <div class="form-check pl-0 mb-3 pb-1">
-                                <input type="checkbox" class="form-check-input filled-in" id="renewed">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Renewed</label>
                             </div>
                         </section>
                         <section class="mb-4">
@@ -174,45 +157,29 @@
                             </a>
                         </section>
                         <section class="mb-4">
-                            <h6 class="font-weight-bold mb-3">Price</h6>
+                            <h6 class="font-weight-bold mb-3">Наличие</h6>
                             <div class="form-check pl-0 mb-3">
                                 <input type="radio" class="form-check-input" id="under25" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="under25">Under
-                                    $25</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for="under25">Все</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="radio" class="form-check-input" id="2550" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="2550">$25
-                                    to $50</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for="2550">В наличии</label>
                             </div>
                             <div class="form-check pl-0 mb-3">
                                 <input type="radio" class="form-check-input" id="50100" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="50100">$50
-                                    to
-                                    $100</label>
-                            </div>
-                            <div class="form-check pl-0 mb-3">
-                                <input type="radio" class="form-check-input" id="100200" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="100200">$100
-                                    to
-                                    $200</label>
-                            </div>
-                            <div class="form-check pl-0 mb-3">
-                                <input type="radio" class="form-check-input" id="200above" name="materialExampleRadios">
-                                <label class="form-check-label small text-uppercase card-link-secondary" for="200above">$200
-                                    &
-                                    Above</label>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for="50100">Нет в наличии</label>
                             </div>
                             <form>
                                 <div class="d-flex align-items-center mt-4 pb-1">
                                     <div class="md-form md-outline my-0">
                                         <input id="from" type="text" class="form-control mb-0">
-                                        <labels>$ Min</labels>
+                                        <labels>₽ Min</labels>
                                     </div>
                                     <p class="px-2 mb-0 text-muted"> - </p>
-                                    <div class="md-form md-outline my-0">
+                                    <div class="md-form md-outline my-0" style="vertical-align: top;">
                                         <input id="to" type="text" class="form-control mb-0">
-                                        <label for="to">$ Max</label>
+                                        <labels>₽ Max</labels>
                                     </div>
                                 </div>
                             </form>
@@ -220,26 +187,12 @@
                         </section>
                         <!-- Section: Price -->
 
-                        <!-- Section: Price version 2 -->
-                        <section class="mb-4">
 
-                            <h6 class="font-weight-bold mb-3">Price</h6>
-
-                            <div class="slider-price d-flex align-items-center my-4">
-                                <span class="font-weight-normal small text-muted mr-2">$0</span>
-                                <form class="multi-range-field w-100">
-                                    <input id="multi" class="multi-range" type="range"/>
-                                </form>
-                                <span class="font-weight-normal small text-muted ml-2">$100</span>
-                            </div>
-
-                        </section>
-                        <!-- Section: Price version 2 -->
 
                         <!-- Section: Size -->
                         <section class="mb-4">
 
-                            <h6 class="font-weight-bold mb-3">Size</h6>
+                            <h6 class="font-weight-bold mb-3">Производитель</h6>
 
                             <div class="form-check pl-0 mb-3">
                                 <input type="checkbox" class="form-check-input filled-in" id="34">
@@ -290,48 +243,8 @@
 
                         </section>
                         <!-- Section: Size -->
+                        <button type="button" class="btn btn-warning">Применить</button>
 
-                        <!-- Section: Color -->
-                        <section class="mb-4">
-
-                            <h6 class="font-weight-bold mb-3">Color</h6>
-
-                            <div class="btn-group btn-group-toggle btn-color-group d-block mt-n2 ml-n2"
-                                 data-toggle="buttons">
-                                <label class="btn rounded-circle white border-inset-grey p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle grey p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle black p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle green p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle blue p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle purple p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle yellow p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle indigo p-3 m-2">
-                                    <input type="checkbox" checked autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle red p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                                <label class="btn rounded-circle orange p-3 m-2">
-                                    <input type="checkbox" autocomplete="off">
-                                </label>
-                            </div>
-
-                        </section>
-                        <!-- Section: Color -->
 
                     </section>
                     <!-- Section: Filters -->
@@ -344,44 +257,9 @@
             <!--Grid column-->
             <div class="col-md-8 mb-4 card">
                 <!-- Section: Block Content -->
-                <section style="background-color: white">
-                    <div class="row d-flex justify-content-around align-items-center pb-3 mr-3 ml-3 pt-3">
-                        <div class="col-12 col-md-3 text-center text-md-left">
-                            <a href="#!" class="text-reset"><i class="fas fa-th-list fa-lg mr-1"></i></a>
-                            <a href="#!" class="text-reset"><i class="fas fa-th-large fa-lg"></i></a>
-                        </div>
-                        <div class="col-12 col-md-5">
-                            <div class="d-flex flex-wrap">
-                                <div class="select-outline position-relative w-100">
-                                    <select class="mdb-select md-outline md-form" searchable="Search here..">
-                                        <option value="" disabled selected>Choose category</option>
-                                        <option value="1">Category 1</option>
-                                        <option value="2">Category 2</option>
-                                        <option value="3">Category 3</option>
-                                        <option value="4">Category 4</option>
-                                        <option value="5">Category 5</option>
-                                    </select>
-                                    <label th:text="${current_category}"></label>
-                                    <button class="btn-save btn btn-primary btn-sm mt-2">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4 text-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination pagination-circle justify-content-center float-md-right mb-0">
-                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-left"></i></a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link">1</a></li>
-                                    <li class="page-item"><a class="page-link">2</a></li>
-                                    <li class="page-item"><a class="page-link">3</a></li>
-                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-right"></i></a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-
-                </section>
+                <div class="m-3" style="text-align: center">
+                    <label th:text="${current_category}"></label>
+                </div>
                 <section style="background-color: white">
                     <!-- Grid row -->
                     <div class="row mr-3 ml-3">
@@ -403,43 +281,9 @@
                         </th:block>
                     </div>
                 </section>
-                <section style="background-color: white">
-                    <div class="row d-flex justify-content-around align-items-center pb-3 mr-3 ml-3 pt-3">
-                        <div class="col-12 col-md-3 text-center text-md-left">
-                            <a href="#!" class="text-reset"><i class="fas fa-th-list fa-lg mr-1"></i></a>
-                            <a href="#!" class="text-reset"><i class="fas fa-th-large fa-lg"></i></a>
-                        </div>
-                        <div class="col-12 col-md-5">
-                            <div class="d-flex flex-wrap">
-                                <div class="select-outline position-relative w-100">
-                                    <select class="mdb-select md-outline md-form" searchable="Search here..">
-                                        <option value="" disabled selected>Choose category</option>
-                                        <option value="1">Category 1</option>
-                                        <option value="2">Category 2</option>
-                                        <option value="3">Category 3</option>
-                                        <option value="4">Category 4</option>
-                                        <option value="5">Category 5</option>
-                                    </select>
-                                    <label th:text="${current_category}"></label>
-                                    <button class="btn-save btn btn-primary btn-sm mt-2">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4 text-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination pagination-circle justify-content-center float-md-right mb-0">
-                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-left"></i></a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link">1</a></li>
-                                    <li class="page-item"><a class="page-link">2</a></li>
-                                    <li class="page-item"><a class="page-link">3</a></li>
-                                    <li class="page-item"><a class="page-link"><i class="fas fa-chevron-right"></i></a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </section>
+                <div class="mb-3" style="text-align: center">
+                    <label th:text="${current_category}"></label>
+                </div>
             </div>
         </div>
     </div>
