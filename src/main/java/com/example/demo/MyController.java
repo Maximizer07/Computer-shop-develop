@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.CartItem.CartItemService;
 import com.example.demo.CartItem.Cart_Item;
+import com.example.demo.Category.Category;
 import com.example.demo.Category.CategoryService;
 import com.example.demo.ConfirmationToken.ConfirmationToken;
 import com.example.demo.ConfirmationToken.ConfirmationTokenService;
@@ -140,7 +141,6 @@ public class MyController implements ErrorController {
         model.addAttribute("user", new User());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
-        model.addAttribute("kolvo", size());
         model.addAttribute("users", userService.readAll());
         model.addAttribute("orders", orderService.readAll());
         model.addAttribute("products", productService.readAll());
@@ -155,6 +155,36 @@ public class MyController implements ErrorController {
     @GetMapping ("/deleteUser/{number}")
     public String deleteUser(@PathVariable(value = "number") long number,Model model) {
         userService.deleteUser(number);
+        return "redirect:/admin2";
+    }
+    @RequestMapping(path = "/category/add", method = RequestMethod.POST)
+    public String addNewCategory(@RequestParam String Name, @RequestParam String Link, Model model) {
+        Category  c = new Category();
+        c.setName(Name);
+        c.setLink(Link);
+        categoryService.create(c);
+        return "redirect:/admin2";
+    }
+    @RequestMapping(path = "/category/change/{id}", method = RequestMethod.POST)
+    public String changeCategoryData(@PathVariable(value = "id") int id, @RequestParam String Name, @RequestParam String Link, Model model) {
+        Category c = categoryService.findById(id);
+        c.setName(Name);
+        c.setLink(Link);
+        categoryService.change(c);
+        return "redirect:/admin2";
+    }
+    @RequestMapping(path = "/category/delete/{id}", method = RequestMethod.POST)
+    public String changeCategoryData(@PathVariable(value = "id") int id, Model model) {
+        Category c = categoryService.findById(id);
+        categoryService.delete(c);
+        return "redirect:/admin2";
+    }
+    @RequestMapping(path = "/category/delete", method = RequestMethod.POST)
+    public String DeleteCategory(@RequestParam String Name, @RequestParam String Link, Model model) {
+        Category  c = new Category();
+        c.setName(Name);
+        c.setLink(Link);
+        categoryService.del(c);
         return "redirect:/admin2";
     }
     @RequestMapping(value = "/user_info/changename", method = RequestMethod.POST)
