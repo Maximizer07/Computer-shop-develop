@@ -3,6 +3,7 @@ package com.example.demo.User;
 import com.example.demo.ConfirmationToken.ConfirmationToken;
 import com.example.demo.ConfirmationToken.ConfirmationTokenService;
 import com.example.demo.EmailService;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,6 +20,10 @@ import java.util.Optional;
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Autowired
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

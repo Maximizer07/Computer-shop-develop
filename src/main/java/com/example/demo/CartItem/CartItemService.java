@@ -1,6 +1,7 @@
 package com.example.demo.CartItem;
 
 import com.example.demo.Product.Product;
+import com.example.demo.User.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class CartItemService {
     public void create(Cart_Item cart_item) {
         log.info("Save product {}", cart_item);
         cartItemRepository.save(cart_item);
+    }
+    public List<Cart_Item> readAll() {
+        return cartItemRepository.findAll();
     }
     public List<Cart_Item> findbyid(int number){
         return cartItemRepository.findByProduct_Id(number);

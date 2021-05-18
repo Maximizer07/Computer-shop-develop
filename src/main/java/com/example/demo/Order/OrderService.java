@@ -32,8 +32,10 @@ public class OrderService {
         return orderRepository.findByNumber(number);
     }
     public void delete(String number){
-        for(Cart_Item cart_item: orderRepository.findByNumber(number).getProducts()){
-            cartItemService.delete(cart_item);
+        if(orderRepository.findByNumber(number).getProducts()!=null) {
+            for (Cart_Item cart_item : orderRepository.findByNumber(number).getProducts()) {
+                cartItemService.delete(cart_item);
+            }
         }
         orderRepository.deleteByNumber(number);
     }

@@ -132,8 +132,13 @@ public class MyController implements ErrorController {
         return 0;
     }
     @RequestMapping(path = "/")
-    public String add() {
-        return "redirect:/user_info";
+    public String add(Model model) {
+        List<String> path = new LinkedList<>();
+        path.add("Каталог");
+        path.add("Категории");
+        model.addAttribute("path", path);
+        model.addAttribute("categories", categoryService.readAll());
+        return "main";
     }
     @RequestMapping(path = "/admin2")
     public String admin2(Model model) {

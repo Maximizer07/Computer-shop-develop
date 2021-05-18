@@ -21,6 +21,9 @@ public class WishService {
     public void save(WishItem wishItem){
         wishItemRepository.save(wishItem);
     }
+    public List<WishItem> findbyid(long id){
+        return wishItemRepository.findById(id);
+    }
     public void delete(Long id){
         wishItemRepository.deleteById(id);
     }
