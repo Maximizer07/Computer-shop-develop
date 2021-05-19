@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
         mailMessage.setSubject("Ссылка для подтверждения аккаунта на сайте Технорай!");
         mailMessage.setFrom("<MAIL>");
         mailMessage.setText(
-                "Спасибо, что зарегистрировались на нашем сайте. Пожалуйста, перейдите по ссылке для активации вашего аккаунта." + "http://localhost:8080/sign-up/confirm?token="
+                "Спасибо, что зарегистрировались на нашем сайте. Пожалуйста, перейдите по ссылке для активации вашего аккаунта." + "https://tehnoparadise.herokuapp.com/sign-up/confirm?token="
                         + token);
         emailSenderService.sendmail(mailMessage);
     }
@@ -47,7 +47,6 @@ public class UserService implements UserDetailsService {
     }
     @Override
     public User loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println(userRepository.findAll());
         final Optional<User> optionalUser = userRepository.findByEmail(email);
         return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User.User with email {0} cannot be found.", email)));
     }

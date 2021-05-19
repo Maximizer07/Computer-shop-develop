@@ -116,7 +116,7 @@ public class MyController implements ErrorController {
         path.add("Категории");
         model.addAttribute("path", path);
         model.addAttribute("categories", categoryService.readAll());
-
+        model.addAttribute("kolvo", size());
         return "newcategories";
     }
     private int size(){
@@ -141,6 +141,7 @@ public class MyController implements ErrorController {
         path.add("Категории");
         model.addAttribute("path", path);
         model.addAttribute("categories", categoryService.readAll());
+        model.addAttribute("kolvo", size());
         return "main";
     }
     @RequestMapping(path = "/admin2")
@@ -152,6 +153,7 @@ public class MyController implements ErrorController {
         model.addAttribute("orders", orderService.readAll());
         model.addAttribute("products", productService.readAll());
         model.addAttribute("categories", categoryService.readAll());
+        model.addAttribute("kolvo", size());
         return "admin2";
     }
     @PostMapping ("/changeRole/{number}")
@@ -527,6 +529,7 @@ public class MyController implements ErrorController {
         }
         model.addAttribute("description",product.getDescription().getDescription());
         model.addAttribute("category",product.getCategory());
+        model.addAttribute("kolvo", size());
         return "product";
     }
 }
