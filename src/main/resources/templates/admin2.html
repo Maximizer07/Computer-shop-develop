@@ -7,6 +7,11 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
   <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <style>
+
+
+  </style>
 </head>
 <body class="d-flex flex-column" >
 <header th:insert="general.html :: header"> </header>
@@ -152,7 +157,34 @@
         </table>
       </div>
       <div id="products">
-        <table class="table table-dark table-hover" th:if="${not users.isEmpty()}" >
+        <p class="display-4 text-white">Поиск товаров</p>
+        <table class="table table-dark table-hover">
+          <thead style="background-color: coral; ">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Название</th>
+            <th scope="col">Стоимость</th>
+            <th scope="col">Количество</th>
+            <th>Действие</th>
+          </tr>
+          </thead>
+          <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+          <form method="post">
+            <tr>
+              <th><input type="text" name="Id" placeholder="Id"/></th>
+              <th><input type="text" name="Name" placeholder="Name"/></th>
+              <th><input type="text" name="Price" placeholder="Price"/></th>
+              <th><input type="text" name="Quantity" placeholder="Quantity"/></th>
+              <th>
+                <button type="submit" th:formaction="@{/product/search}" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </th>
+            </tr>
+          </form>
+          </tbody>
+        </table>
+        <p class="display-4 text-white">Товары<a type="button" th:href="@{/addproduct}" class="btn ml-2 btn-primary">Добавить товар</a><a type="button" th:href="@{/admin2}" class="btn ml-2 btn-warning">Показать все</a></p>
+        <table class="table table-dark table-hover">
           <thead style="background-color: coral; ">
           <tr>
             <th scope="col">#</th>
@@ -165,16 +197,17 @@
           </thead>
           <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
             <th:block th:each="product :${products}">
-              <form th:action="@{/changeRole/{number}(number=${user.getId()})}"  method="post" th:object="${user}">
+              <form th:action="@{/changeRole/{number}(number=${user.getId()})}"  method="post">
                 <tr>
-                    <th th:text="${product.getId()}"></th>
-                    <th th:text="${product.getName()}"></th>
-                    <th th:text="${product.getPrice()}"></th>
-                    <th th:text="${product.getQuantity()}"></th>
-                    <th><span class="badge badge-info"><a style="color: whitesmoke" th:href="@{admin/{number}(number=${user.getId()})}">Edit</a></span></th>
+                    <th type="text" name="id" th:value="${product.getId()}" th:text="${product.getId()}"></th>
+                    <th><input type="text" name="Name" th:value="${product.getName()}"/></th>
+                    <th><input type="text" name="Price" th:value="${product.getPrice()}"/></th>
+                    <th><input type="text" name="Quantity" th:value="${product.getQuantity()}"/></th>
+                    <th><button type="submit" class="btn btn-info" th:formaction="@{product/{id}(id=${product.getId()})}">Info</button>
                     <th>
-                     <button type="submit" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                     <a th:href="@{/deleteUser/{number}(number=${user.getId()})}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                      <button type="submit" th:formaction="@{/product/change/{id}(id=${product.getId()})}" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                      <button type="submit" th:formaction="@{/product/changeinfo/{id}(id=${product.getId()})}" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                      <button type="submit" th:formaction="@{/product/delete/{id}(id=${product.getId()})}" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
                     </th>
                 </tr>
               </form>
@@ -195,7 +228,7 @@
           <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
             <form method="post">
               <tr>
-                <th><input type="text" name="Name" placeholder="Name"/></th>
+                <th><input type="text" name="Name" placeholder="Name" required/></th>
                 <th><input type="text" name="Link" placeholder="Link"/></th>
                 <th>
                   <button type="submit" th:formaction="@{/category/add}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
@@ -205,7 +238,29 @@
             </form>
           </tbody>
         </table>
-          <p class="display-4 text-white">Все категории</p>
+        <p class="display-4 text-white">Поиск категорий</p>
+        <table class="table table-dark table-hover">
+          <thead style="background-color: coral; ">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Название</th>
+            <th>Действие</th>
+          </tr>
+          </thead>
+          <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
+          <form method="post">
+            <tr>
+              <th><input type="text" name="Id" placeholder="Id"/></th>
+              <th><input type="text" name="Name" placeholder="Name"/></th>
+              <th>
+                <button type="submit" th:formaction="@{/category/search}" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </th>
+            </tr>
+          </form>
+          </tbody>
+        </table>
+          <p class="display-4 text-white">Категории<a type="button" th:href="@{/admin2}" class="btn ml-2 btn-warning">Показать все</a></p>
           <table class="table table-dark table-hover" th:if="${categories}" >
           <thead style="background-color: coral; ">
           <tr>

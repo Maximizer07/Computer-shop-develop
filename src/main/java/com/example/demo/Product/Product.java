@@ -1,6 +1,7 @@
 package com.example.demo.Product;
 
 import com.example.demo.Category.Category;
+import com.example.demo.Description.Description;
 import com.example.demo.Property.Property;
 import com.example.demo.Review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -49,4 +50,11 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "id_category")
     private Category category;
+
+    @OneToOne(
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
+    @JoinColumn(name = "description_id")
+    private Description description;
+
 }

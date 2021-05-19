@@ -1,5 +1,6 @@
 package com.example.demo.Product;
 
+import com.example.demo.Category.Category;
 import com.example.demo.Review.Review;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,9 @@ public class ProductService {
     public Product findBynumber(int number){
         return productRepository.findById(number);
     }
-
+    public void change(Product p){
+        productRepository.save(p);
+    }
     public List<Product> findById_category(int categoryId){
         log.info("Find list of products, whose Id = {}",categoryId);
         return productRepository.findByCategoryId(categoryId);

@@ -29,10 +29,6 @@ public class DescriptionService {
         return descriptionRepository.findAll();
     }
 
-    public Description findByProductid(int Id){
-        log.info("Find description, whose Productid = {}",Id);
-        return descriptionRepository.findByProductid(Id);
-    }
     public Description findById(int Id){
         log.info("Find description, whose Id = {}",Id);
         return descriptionRepository.findById(Id);

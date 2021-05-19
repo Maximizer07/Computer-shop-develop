@@ -6,6 +6,7 @@ import com.example.demo.Category.Category;
 import com.example.demo.Category.CategoryService;
 import com.example.demo.ConfirmationToken.ConfirmationToken;
 import com.example.demo.ConfirmationToken.ConfirmationTokenService;
+import com.example.demo.Description.Description;
 import com.example.demo.Description.DescriptionService;
 import com.example.demo.Order.Order;
 import com.example.demo.Order.OrderService;
@@ -31,7 +32,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class MyController implements ErrorController {
@@ -53,6 +53,8 @@ public class MyController implements ErrorController {
     private WishService wishService;
     @Autowired
     private ReviewService reviewService;
+    @Autowired
+    private CriteriaService criteriaService;
     @PostMapping("/sign-up")
     String signUp(User user, Model model) {
         if(!user.getPassword().equals(user.getPassword2())){
@@ -170,6 +172,29 @@ public class MyController implements ErrorController {
         categoryService.create(c);
         return "redirect:/admin2";
     }
+    @GetMapping("/addproduct")
+    public String addProduct(Model model) {
+        return "product_add";
+    }
+    @RequestMapping(path = "/savenewproduct", method = { RequestMethod.GET, RequestMethod.POST })
+    public String saveNewProduct(@RequestParam String Name,@RequestParam String Category,
+                                 @RequestParam String Price, @RequestParam String Quantity,
+                                 @RequestParam String Manufacturer, @RequestParam String Link,
+                                 @RequestParam String Description, Model model) {
+        Product p = new Product();
+        Description description = new Description();
+        description.setDescription(Description);
+        p.setName(Name);
+        p.setManufacturer(Manufacturer);
+        p.setLink(Link);
+        description.setProduct(p);
+        p.setDescription(description);
+        p.setCategory(categoryService.findById(Integer.parseInt(Category)));
+        p.setPrice(Integer.parseInt(Price));
+        p.setQuantity(Integer.parseInt(Quantity));
+        productService.save(p);
+        return "redirect:/admin2";
+    }
     @RequestMapping(path = "/category/change/{id}", method = RequestMethod.POST)
     public String changeCategoryData(@PathVariable(value = "id") int id, @RequestParam String Name, @RequestParam String Link, Model model) {
         Category c = categoryService.findById(id);
@@ -178,11 +203,72 @@ public class MyController implements ErrorController {
         categoryService.change(c);
         return "redirect:/admin2";
     }
+    @RequestMapping(path = "/category/search", method = RequestMethod.POST)
+    public String categorySearch(@RequestParam String Id, @RequestParam String Name, Model model) {
+        model.addAttribute("user", new User());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
+        model.addAttribute("users", userService.readAll());
+        model.addAttribute("orders", orderService.readAll());
+        model.addAttribute("products", productService.readAll());
+        model.addAttribute("categories", criteriaService.takeCategories(Name, Id));
+        return "admin2";
+    }
+    @RequestMapping(path = "/product/search", method = RequestMethod.POST)
+    public String productSearch(@RequestParam String Id, @RequestParam String Name,@RequestParam String Quantity, @RequestParam String Price, Model model) {
+        model.addAttribute("user", new User());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
+        model.addAttribute("users", userService.readAll());
+        model.addAttribute("orders", orderService.readAll());
+        model.addAttribute("products", criteriaService.takeProducts(Name, Id, Price, Quantity));
+        model.addAttribute("categories", categoryService.readAll());
+        return "admin2";
+    }
     @RequestMapping(path = "/category/delete/{id}", method = RequestMethod.POST)
-    public String changeCategoryData(@PathVariable(value = "id") int id, Model model) {
+    public String deleteCategory(@PathVariable(value = "id") int id, Model model) {
         Category c = categoryService.findById(id);
         categoryService.delete(c);
         return "redirect:/admin2";
+    }
+    @RequestMapping(path = "/product/delete/{id}", method = RequestMethod.POST)
+    public String deleteProduct(@PathVariable(value = "id") int id, Model model) {
+        Product p = productService.findById(id);
+        productService.delete(p);
+        return "redirect:/admin2";
+    }
+    @RequestMapping(path = "/product/change/{id}", method = RequestMethod.POST)
+    public String changeProductData(@PathVariable(value = "id") int id, @RequestParam String Name, @RequestParam String Price, @RequestParam String Quantity, Model model) {
+        Product p = productService.findById(id);
+        p.setName(Name);
+        p.setPrice(Integer.parseInt(Price));
+        p.setQuantity(Integer.parseInt(Quantity));
+        productService.change(p);
+        return "redirect:/admin2";
+    }
+    @RequestMapping(path = "/product/savechangeinfo/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+    public String saveChangeInfo(@PathVariable(value = "id") int id, @RequestParam String Name,
+                                 @RequestParam String Price, @RequestParam String Quantity,
+                                 @RequestParam String Manufacturer, @RequestParam String Link,
+                                 @RequestParam String Category, @RequestParam String Description, Model model) {
+        Product p = productService.findById(id);
+        Description description = p.getDescription();
+        description.setDescription(Description);
+        p.setName(Name);
+        p.setCategory(categoryService.findById(Integer.parseInt(Category)));
+        p.setManufacturer(Manufacturer);
+        p.setLink(Link);
+        p.setDescription(description);
+        p.setPrice(Integer.parseInt(Price));
+        p.setQuantity(Integer.parseInt(Quantity));
+        productService.change(p);
+        return "redirect:/admin2";
+    }
+    @RequestMapping(path = "/product/changeinfo/{id}", method = RequestMethod.POST)
+    public String changeAllProductData(@PathVariable(value = "id") int id, Model model) {
+        Product product = productService.findById(id);
+        model.addAttribute("product",product);
+        return "product_edit";
     }
     @RequestMapping(path = "/category/delete", method = RequestMethod.POST)
     public String DeleteCategory(@RequestParam String Name, @RequestParam String Link, Model model) {
@@ -433,8 +519,13 @@ public class MyController implements ErrorController {
     public String product_info(@PathVariable(value = "id") int id, Model model) {
         Product product = productService.findById(id);
         model.addAttribute("product",product);
-        model.addAttribute("products",product.getCategory().getProducts().subList(0, 3));
-        model.addAttribute("description",descriptionService.findByProductid(id));
+        List <Product> products = product.getCategory().getProducts();
+        if (products.size() >= 3) {
+            model.addAttribute("products", products.subList(0, 3));
+        } else {
+            model.addAttribute("products", products);
+        }
+        model.addAttribute("description",product.getDescription().getDescription());
         model.addAttribute("category",product.getCategory());
         return "product";
     }

@@ -129,7 +129,7 @@
                             <a class="mb-2 text-muted text-uppercase small" th:href="@{/categories/{category}(category=${category.getEngname()})} "th:text="${category.getName()}"></a>
 
                             <h6 th:text="${product.getPrice()} + ' ₽'"></h6>
-                            <p class="pt-1" th:text="${description.getDescription()}"></p>
+                            <p class="pt-1" th:text="${product.getDescription().getDescription()}"></p>
                         </div>
                         <div class="tab-pane fade pt-2" id="info" role="tabpanel" aria-labelledby="info-tab">
                             <h5>Additional Information</h5>

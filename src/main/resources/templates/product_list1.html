@@ -262,7 +262,7 @@
                 </div>
                 <section style="background-color: white">
                     <!-- Grid row -->
-                    <div class="row mr-3 ml-3">
+                    <div class="row mr-3 ml-3" th:if="${products}">
                         <th:block th:each="product : ${products}">
                             <th:block th:each="product : ${products}">
                                 <div class="col-md-4 mb-5">
@@ -280,9 +280,10 @@
                             </th:block>
                         </th:block>
                     </div>
+                    <div th:unless="${products}">Нет товаров</div>
                 </section>
                 <div class="mb-3" style="text-align: center">
-                    <label th:text="${current_category}"></label>
+                    <label th:if="${products}" th:text="${current_category}"></label>
                 </div>
             </div>
         </div>

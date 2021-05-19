@@ -53,6 +53,10 @@ public class CategoryService {
         log.info("Find category, whose Id = {}",Id);
         return categoryRepository.findById(Id);
     }
+    public List<Category> findByIdAndName(int Id, String Name){
+        log.info("Find categories, whose Id and Name = {}",Id);
+        return categoryRepository.findByIdAndName(Id,Name);
+    }
     public void delete(Category c){
         log.info("Delete category, whose Id = {}",c.getName());
         categoryRepository.deleteById(c.getId());
