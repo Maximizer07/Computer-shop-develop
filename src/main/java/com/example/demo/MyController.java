@@ -179,8 +179,8 @@ public class MyController implements ErrorController {
         return "product_add";
     }
     @RequestMapping(path = "/savenewproduct", method = { RequestMethod.GET, RequestMethod.POST })
-    public String saveNewProduct(@RequestParam String Name,@RequestParam String Category,
-                                 @RequestParam String Price, @RequestParam String Quantity,
+    public String saveNewProduct(@RequestParam String Name,@RequestParam int Category,
+                                 @RequestParam int Price, @RequestParam int Quantity,
                                  @RequestParam String Manufacturer, @RequestParam String Link,
                                  @RequestParam String Description, Model model) {
         Product p = new Product();
@@ -191,9 +191,9 @@ public class MyController implements ErrorController {
         p.setLink(Link);
         description.setProduct(p);
         p.setDescription(description);
-        p.setCategory(categoryService.findById(Integer.parseInt(Category)));
-        p.setPrice(Integer.parseInt(Price));
-        p.setQuantity(Integer.parseInt(Quantity));
+        p.setCategory(categoryService.findById(Category));
+        p.setPrice(Price);
+        p.setQuantity(Quantity);
         productService.save(p);
         return "redirect:/admin2";
     }
@@ -206,9 +206,10 @@ public class MyController implements ErrorController {
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/category/search", method = RequestMethod.POST)
-    public String categorySearch(@RequestParam String Id, @RequestParam String Name, Model model) {
+    public String categorySearch(@RequestParam(required =false) Integer Id, @RequestParam String Name, Model model) {
         model.addAttribute("user", new User());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("lol " + Id);
         model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
         model.addAttribute("users", userService.readAll());
         model.addAttribute("orders", orderService.readAll());
@@ -219,18 +220,19 @@ public class MyController implements ErrorController {
         return "admin2";
     }
     @RequestMapping(path = "/product/search", method = RequestMethod.POST)
-    public String productSearch(@RequestParam String Id, @RequestParam String Name,@RequestParam String Quantity, @RequestParam String Price, Model model) {
+    public String productSearch(@RequestParam(required =false) Integer Id, @RequestParam String Name,@RequestParam(required =false) Integer Quantity,@RequestParam(required =false) Integer Idcategory, @RequestParam(required =false) Integer Price, Model model) {
         model.addAttribute("user", new User());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("User",userService.loadUserByUsername(authentication.getName()));
         model.addAttribute("users", userService.readAll());
         model.addAttribute("orders", orderService.readAll());
-        model.addAttribute("products", criteriaService.takeProducts(Name, Id, Price, Quantity));
+        model.addAttribute("products", criteriaService.takeProducts(Name, Id, Price, Quantity, Idcategory));
         model.addAttribute("categories", categoryService.readAll());
         model.addAttribute("search_id", Id);
         model.addAttribute("search_name", Name);
         model.addAttribute("search_quantity", Quantity);
         model.addAttribute("search_price", Price);
+        model.addAttribute("search_idcategory", Idcategory);
         return "admin2";
     }
     @RequestMapping(path = "/category/delete/{id}", method = RequestMethod.POST)
@@ -246,29 +248,29 @@ public class MyController implements ErrorController {
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/product/change/{id}", method = RequestMethod.POST)
-    public String changeProductData(@PathVariable(value = "id") int id, @RequestParam String Name, @RequestParam String Price, @RequestParam String Quantity, Model model) {
+    public String changeProductData(@PathVariable(value = "id") int id, @RequestParam String Name, @RequestParam int Price, @RequestParam int Quantity, Model model) {
         Product p = productService.findById(id);
         p.setName(Name);
-        p.setPrice(Integer.parseInt(Price));
-        p.setQuantity(Integer.parseInt(Quantity));
+        p.setPrice(Price);
+        p.setQuantity(Quantity);
         productService.change(p);
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/product/savechangeinfo/{id}", method = { RequestMethod.GET, RequestMethod.POST })
     public String saveChangeInfo(@PathVariable(value = "id") int id, @RequestParam String Name,
-                                 @RequestParam String Price, @RequestParam String Quantity,
+                                 @RequestParam int Price, @RequestParam int Quantity,
                                  @RequestParam String Manufacturer, @RequestParam String Link,
-                                 @RequestParam String Category, @RequestParam String Description, Model model) {
+                                 @RequestParam int Category, @RequestParam String Description, Model model) {
         Product p = productService.findById(id);
         Description description = p.getDescription();
         description.setDescription(Description);
         p.setName(Name);
-        p.setCategory(categoryService.findById(Integer.parseInt(Category)));
+        p.setCategory(categoryService.findById(Category));
         p.setManufacturer(Manufacturer);
         p.setLink(Link);
         p.setDescription(description);
-        p.setPrice(Integer.parseInt(Price));
-        p.setQuantity(Integer.parseInt(Quantity));
+        p.setPrice(Price);
+        p.setQuantity(Quantity);
         productService.change(p);
         return "redirect:/admin2";
     }

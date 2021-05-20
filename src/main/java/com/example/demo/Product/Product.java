@@ -12,7 +12,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Data
 @Table(name = "products", schema = "public")
@@ -33,13 +32,13 @@ public class Product {
     private String manufacturer;
 
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = true)
     private int price;
 
     @Column(name = "rating", nullable = false)
     private int rating;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity", nullable = true)
     private int quantity;
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Review> reviews;
@@ -57,4 +56,16 @@ public class Product {
     @JoinColumn(name = "description_id")
     private Description description;
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", price=" + price +
+                ", rating=" + rating +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

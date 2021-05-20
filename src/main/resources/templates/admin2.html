@@ -14,6 +14,26 @@
   </style>
 </head>
 <body class="d-flex flex-column" >
+        <a href="#x" class="overlay" id="win1"></a>
+        <div class="popup">
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Id Category</th>
+              <th scope="col">Название</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="category :${categories}">
+              <tr>
+                <th scope="row" th:text="${category.getId()}"></th>
+                <th th:text="${category.getName()}"></th>
+              </tr>
+            </th:block>
+            </tbody>
+          </table>
+          <a class="close"title="Закрыть" href="#close"></a>
+        </div>
 <header th:insert="general.html :: header"> </header>
 <div style="position: relative">
 <div class="vertical-nav bg-white" id="sidebar">
@@ -163,6 +183,7 @@
           <tr>
             <th scope="col">Id</th>
             <th scope="col">Название</th>
+            <th scope="col">Id Категории</th>
             <th scope="col">Стоимость</th>
             <th scope="col">Количество</th>
             <th>Действие</th>
@@ -173,6 +194,7 @@
             <tr>
               <th><input type="number" name="Id" placeholder="Id" th:value="${search_id}"/></th>
               <th><input type="text" name="Name" placeholder="Name" th:value="${search_name}"/></th>
+              <th><input type="number" name="Idcategory" placeholder="Id Category" th:value="${search_idcategory}"/></th>
               <th><input type="number" name="Price" placeholder="Price" th:value="${search_price}"/></th>
               <th><input type="number" name="Quantity" placeholder="Quantity" th:value="${search_quantity}"/></th>
               <th>
@@ -183,12 +205,18 @@
           </form>
           </tbody>
         </table>
-        <p class="display-4 text-white">Товары<a type="button" th:href="@{/addproduct}" class="btn ml-2 btn-primary">Добавить товар</a><a type="button" th:href="@{/admin2}" class="btn ml-2 btn-warning">Показать все</a></p>
+        <p class="display-4 text-white">
+          Товары
+          <a type="button" th:href="@{/addproduct}" class="btn ml-2 btn-primary">Добавить товар</a>
+          <a type="button" th:href="@{/admin2}" class="btn ml-2 btn-warning">Показать все</a>
+          <a type="button" href="#win1" class="btn btn-info">Показать Id категорий</a>
+        </p>
         <table class="table table-dark table-hover">
           <thead style="background-color: coral; ">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Название</th>
+            <th scope="col">Id Категории</th>
             <th scope="col">Стоимость</th>
             <th scope="col">Количество</th>
             <th scope="col">Данные</th>
@@ -201,6 +229,7 @@
                 <tr>
                     <th type="text" name="id" th:value="${product.getId()}" th:text="${product.getId()}"></th>
                     <th><input type="text" name="Name" th:value="${product.getName()}"/></th>
+                    <th><input type="number" name="Idcategory" th:value="${product.getCategory().getId()}"/></th>
                     <th><input type="number" name="Price" th:value="${product.getPrice()}"/></th>
                     <th><input type="number" name="Quantity" th:value="${product.getQuantity()}"/></th>
                     <th><button type="submit" class="btn btn-info" th:formaction="@{product/{id}(id=${product.getId()})}">Info</button>

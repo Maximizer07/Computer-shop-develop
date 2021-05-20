@@ -18,7 +18,7 @@ import javax.annotation.PreDestroy;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
 @Component
 @RequiredArgsConstructor
@@ -39,87 +39,44 @@ public class CriteriaService {
     void closeSession() {
         session.close();
     }
-    public List<Product> takeProducts(String Name, String Id, String Price, String Quantity) {
+    public List<Product> takeProducts(String Name, Integer Id, Integer Price, Integer Quantity, Integer Idcategory) {
         Product product = new Product();
-        ExampleMatcher matcher;
-        if (!Id.isEmpty()) {
-            product.setId(Integer.parseInt(Id));
-        }
-        else {
-            product.setId(null);
-        }
-        if (!Name.isEmpty()) {
-            product.setName(Name);
-        }
-        else {
-            product.setName(null);
-        }
-        if (!Price.isEmpty()&!Quantity.isEmpty()){
-            product.setPrice(Integer.parseInt(Price));
-            product.setQuantity(Integer.parseInt(Quantity));
-            matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
-                    .withIgnorePaths("rating")
-                    .withMatcher("Id", startsWith())
-                    .withMatcher("Name", startsWith())
-                    .withMatcher("Price", exact())
-                    .withMatcher("Quantity", exact());
-        }
-        else if (!Price.isEmpty() & Quantity.isEmpty()) {
-            product.setPrice(Integer.parseInt(Price));
-            matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
-                    .withIgnorePaths("rating")
-                    .withIgnorePaths("quantity")
-                    .withMatcher("Id", startsWith())
-                    .withMatcher("Name", startsWith())
-                    .withMatcher("Price", exact());
-        }
-        else if (!Quantity.isEmpty() & Price.isEmpty()) {
-            product.setQuantity(Integer.parseInt(Quantity));
-            matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
-                    .withIgnorePaths("rating")
-                    .withIgnorePaths("price")
-                    .withMatcher("Id", startsWith())
-                    .withMatcher("Name", startsWith())
-                    .withMatcher("Quantity", exact());
-        }
-        else {
-            matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
-                    .withIgnorePaths("rating")
-                    .withIgnorePaths("price")
-                    .withIgnorePaths("quantity")
-                    .withMatcher("Id", startsWith())
-                    .withMatcher("Name", startsWith());
-        }
+        Category category = new Category();
+        ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
+                .withIgnorePaths("rating")
+                .withMatcher("Id", exact())
+                .withMatcher("Category", exact())
+                .withMatcher("Price", exact())
+                .withMatcher("Quantity", exact());
+        if (Id==null) product.setId(null);
+        else product.setId(Id);
+        if (Price==null)  matcher = matcher.withIgnorePaths("price");
+        else product.setPrice(Price);
+        if (Quantity==null)  matcher = matcher.withIgnorePaths("quantity");
+        else product.setQuantity(Quantity);
+        if (Idcategory==null)  matcher = matcher.withIgnorePaths("category");
+        else product.setCategory(categoryRepository.findById(Idcategory.intValue()));
+        if (!Name.isEmpty()) product.setName(Name);
+        else product.setName(null);
+
         Example<Product> example = Example.of(product, matcher);
         System.out.println(example);
         return productRepository.findAll(example);
     }
-    public List<Category> takeCategories(String Name, String Id) {
+    public List<Category> takeCategories(String Name, Integer Id) {
         Category category = new Category();
-        if (!Id.isEmpty() & !Name.isEmpty()){
-            category.setId(Integer.parseInt(Id));
+        category.setId(Id);
+        if (!Name.isEmpty()) {
             category.setName(Name);
-            ExampleMatcher matcher = ExampleMatcher.matching()
-                    .withMatcher("Id", exact())
-                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
-            Example<Category> example = Example.of(category, matcher);
-            System.out.println(example);
-            return categoryRepository.findAll(example);
         }
-        else if (!Id.isEmpty()){
-            category.setId(Integer.parseInt(Id));
-            ExampleMatcher matcher = ExampleMatcher.matching()
-                    .withMatcher("Id", startsWith());
-            Example<Category> example = Example.of(category, matcher);
-            return categoryRepository.findAll(example);
+        else {
+            category.setName(null);
         }
-        else if (!Name.isEmpty()){
-            category.setName(Name);
-            ExampleMatcher matcher = ExampleMatcher.matchingAll()
-                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
-            Example<Category> example = Example.of(category, matcher);
-            return categoryRepository.findAll(example);
-        }
-        return categoryRepository.findAll();
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("Id", exact())
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
+        Example<Category> example = Example.of(category, matcher);
+        System.out.println(example);
+        return categoryRepository.findAll(example);
     }
 }

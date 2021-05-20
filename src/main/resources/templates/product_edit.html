@@ -26,7 +26,7 @@
             <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
             <tr>
                 <th type="text">Id</th>
-                <th type="text" name="id" th:value="${product.getId()}" th:text="${product.getId()}"></th>
+                <th type="number" name="id" th:value="${product.getId()}" th:text="${product.getId()}"></th>
             </tr>
             <tr>
                 <th type="text">Name</th>
@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <th type="text">Id Category</th>
-                <th><input type="text" name="Category" th:value="${product.getCategory().getId()}"/></th>
+                <th><input type="number" name="Category" th:value="${product.getCategory().getId()}"/></th>
             </tr>
             <tr>
                 <th type="text">Manufacturer</th>
@@ -42,7 +42,7 @@
             </tr>
             <tr>
                 <th type="text">Price</th>
-                <th><input type="text" name="Price" th:value="${product.getPrice()}"/></th>
+                <th><input type="number" name="Price" th:value="${product.getPrice()}"/></th>
             </tr>
             <tr>
                 <th type="text">Picture_link</th>
@@ -50,7 +50,7 @@
             </tr>
             <tr>
                 <th type="text">Quantity</th>
-                <th><input type="text" name="Quantity" th:value="${product.getQuantity()}"/></th>
+                <th><input type="number" name="Quantity" th:value="${product.getQuantity()}"/></th>
             </tr>
             <tr>
                 <th type="text">Description</th>
