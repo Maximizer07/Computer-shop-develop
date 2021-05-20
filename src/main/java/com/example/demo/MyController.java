@@ -214,6 +214,8 @@ public class MyController implements ErrorController {
         model.addAttribute("orders", orderService.readAll());
         model.addAttribute("products", productService.readAll());
         model.addAttribute("categories", criteriaService.takeCategories(Name, Id));
+        model.addAttribute("search_id", Id);
+        model.addAttribute("search_name", Name);
         return "admin2";
     }
     @RequestMapping(path = "/product/search", method = RequestMethod.POST)
@@ -225,6 +227,10 @@ public class MyController implements ErrorController {
         model.addAttribute("orders", orderService.readAll());
         model.addAttribute("products", criteriaService.takeProducts(Name, Id, Price, Quantity));
         model.addAttribute("categories", categoryService.readAll());
+        model.addAttribute("search_id", Id);
+        model.addAttribute("search_name", Name);
+        model.addAttribute("search_quantity", Quantity);
+        model.addAttribute("search_price", Price);
         return "admin2";
     }
     @RequestMapping(path = "/category/delete/{id}", method = RequestMethod.POST)

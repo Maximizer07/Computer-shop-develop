@@ -18,8 +18,7 @@ import javax.annotation.PreDestroy;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 
 @Component
 @RequiredArgsConstructor
@@ -58,38 +57,38 @@ public class CriteriaService {
         if (!Price.isEmpty()&!Quantity.isEmpty()){
             product.setPrice(Integer.parseInt(Price));
             product.setQuantity(Integer.parseInt(Quantity));
-            matcher = ExampleMatcher.matching()
+            matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
                     .withIgnorePaths("rating")
                     .withMatcher("Id", startsWith())
-                    .withMatcher("Name", exact())
+                    .withMatcher("Name", startsWith())
                     .withMatcher("Price", exact())
                     .withMatcher("Quantity", exact());
         }
         else if (!Price.isEmpty() & Quantity.isEmpty()) {
             product.setPrice(Integer.parseInt(Price));
-            matcher = ExampleMatcher.matching()
+            matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
                     .withIgnorePaths("rating")
                     .withIgnorePaths("quantity")
                     .withMatcher("Id", startsWith())
-                    .withMatcher("Name", exact())
+                    .withMatcher("Name", startsWith())
                     .withMatcher("Price", exact());
         }
         else if (!Quantity.isEmpty() & Price.isEmpty()) {
             product.setQuantity(Integer.parseInt(Quantity));
-            matcher = ExampleMatcher.matching()
+            matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
                     .withIgnorePaths("rating")
                     .withIgnorePaths("price")
                     .withMatcher("Id", startsWith())
-                    .withMatcher("Name", exact())
+                    .withMatcher("Name", startsWith())
                     .withMatcher("Quantity", exact());
         }
         else {
-            matcher = ExampleMatcher.matching()
+            matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
                     .withIgnorePaths("rating")
                     .withIgnorePaths("price")
                     .withIgnorePaths("quantity")
                     .withMatcher("Id", startsWith())
-                    .withMatcher("Name", exact());
+                    .withMatcher("Name", startsWith());
         }
         Example<Product> example = Example.of(product, matcher);
         System.out.println(example);
@@ -101,9 +100,10 @@ public class CriteriaService {
             category.setId(Integer.parseInt(Id));
             category.setName(Name);
             ExampleMatcher matcher = ExampleMatcher.matching()
-                    .withMatcher("Id", startsWith())
-                    .withMatcher("Name", exact());
+                    .withMatcher("Id", exact())
+                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
             Example<Category> example = Example.of(category, matcher);
+            System.out.println(example);
             return categoryRepository.findAll(example);
         }
         else if (!Id.isEmpty()){
@@ -115,8 +115,8 @@ public class CriteriaService {
         }
         else if (!Name.isEmpty()){
             category.setName(Name);
-            ExampleMatcher matcher = ExampleMatcher.matching()
-                    .withMatcher("Name", startsWith());
+            ExampleMatcher matcher = ExampleMatcher.matchingAll()
+                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
             Example<Category> example = Example.of(category, matcher);
             return categoryRepository.findAll(example);
         }
