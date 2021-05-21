@@ -46,6 +46,8 @@
             $("form#filter").trigger('reset');
             $('#from,#search12,#to').val("");
             $('.filled-in').prop('checked', false);
+            $('input[type=radio]').prop('checked', false);
+            $('input[name="quantity"]')[0].checked = true;
         }
         $(function() {
             $('.clearbutton').on('click', clear);
@@ -255,11 +257,11 @@
 
                             <h6 class="font-weight-bold mb-3">Производитель</h6>
                             <th:block th:if="${manufactures.size} < 4">
-                                <th:block  th:each="manufacture :${manufactures}">
+                                <th:block  th:each="i: ${#numbers.sequence(0, manufactures.size - 1)}">
                                     <div class="form-check pl-0 mb-3">
-                                        <input type="checkbox" name="manufactures" class="form-check-input filled-in" th:id="${manufacture}">
+                                        <input type="checkbox" name="manufactures_list" th:checked="*{manufactures_checked[i]}" th:value="${manufactures[i]}" class="form-check-input filled-in" th:id="${manufactures[i]}">
                                         <label class="form-check-label small card-link-secondary"
-                                               th:text="${manufacture}" th:for="${manufacture}"></label>
+                                               th:text="${manufactures[i]}" th:for="${manufactures[i]}"></label>
                                     </div>
                                 </th:block>
                             </th:block>
