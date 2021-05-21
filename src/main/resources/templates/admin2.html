@@ -192,11 +192,11 @@
           <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
           <form method="post">
             <tr>
-              <th><input type="number" name="Id" placeholder="Id" th:value="${search_id}"/></th>
+              <th><input type="number" name="Id" placeholder="Id" min ="1" max ="1000000" th:value="${search_id}"/></th>
               <th><input type="text" name="Name" placeholder="Name" th:value="${search_name}"/></th>
-              <th><input type="number" name="Idcategory" placeholder="Id Category" th:value="${search_idcategory}"/></th>
-              <th><input type="number" name="Price" placeholder="Price" th:value="${search_price}"/></th>
-              <th><input type="number" name="Quantity" placeholder="Quantity" th:value="${search_quantity}"/></th>
+              <th><input type="number" name="Idcategory" placeholder="Id Category" min ="1" max ="1000000" th:value="${search_idcategory}"/></th>
+              <th><input type="number" name="Price" placeholder="Price" min ="1" max ="1000000" th:value="${search_price}"/></th>
+              <th><input type="number" name="Quantity" placeholder="Quantity" min ="1" max ="1000000" th:value="${search_quantity}"/></th>
               <th>
                 <button type="submit" th:formaction="@{/product/search}" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i>
                 </button>
@@ -209,7 +209,7 @@
           Товары
           <a type="button" th:href="@{/addproduct}" class="btn ml-2 btn-primary">Добавить товар</a>
           <a type="button" th:href="@{/admin2}" class="btn ml-2 btn-warning">Показать все</a>
-          <a type="button" href="#win1" class="btn btn-info">Показать Id категорий</a>
+          <a type="button" href="#win1" class="btn ml-2 btn-info">Показать Id категорий</a>
         </p>
         <table class="table table-dark table-hover">
           <thead style="background-color: coral; ">
@@ -227,11 +227,11 @@
             <th:block th:each="product :${products}">
               <form th:action="@{/changeRole/{number}(number=${user.getId()})}"  method="post">
                 <tr>
-                    <th type="text" name="id" th:value="${product.getId()}" th:text="${product.getId()}"></th>
+                    <th type="text" name="id" min ="1" max ="1000000" th:value="${product.getId()}" th:text="${product.getId()}"></th>
                     <th><input type="text" name="Name" th:value="${product.getName()}"/></th>
-                    <th><input type="number" name="Idcategory" th:value="${product.getCategory().getId()}"/></th>
-                    <th><input type="number" name="Price" th:value="${product.getPrice()}"/></th>
-                    <th><input type="number" name="Quantity" th:value="${product.getQuantity()}"/></th>
+                    <th><input type="number" name="Idcategory" min ="1" max ="1000000" th:value="${product.getCategory().getId()}"/></th>
+                    <th><input type="number" name="Price" min ="1" max ="1000000" th:value="${product.getPrice()}"/></th>
+                    <th><input type="number" name="Quantity" min ="1" max ="1000000" th:value="${product.getQuantity()}"/></th>
                     <th><button type="submit" class="btn btn-info" th:formaction="@{product/{id}(id=${product.getId()})}">Info</button>
                     <th>
                       <button type="submit" th:formaction="@{/product/change/{id}(id=${product.getId()})}" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
@@ -279,7 +279,7 @@
           <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)">
           <form method="post">
             <tr>
-              <th><input type="number" name="Id" placeholder="Id" th:value="${search_id}"/></th>
+              <th><input type="number" name="Id" placeholder="Id" min ="1" max ="1000000" th:value="${search_id}"/></th>
               <th><input type="text" name="Name" placeholder="Name" th:value="${search_name}"/></th>
               <th>
                 <button type="submit" th:formaction="@{/category/search}" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i>
