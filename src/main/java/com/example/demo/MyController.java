@@ -168,6 +168,7 @@ public class MyController implements ErrorController {
     }
     @GetMapping("/addproduct")
     public String addProduct(Model model) {
+        model.addAttribute("categories", categoryService.readAll());
         return "product_add";
     }
     @RequestMapping(path = "/savenewproduct", method = { RequestMethod.GET, RequestMethod.POST })
@@ -269,6 +270,7 @@ public class MyController implements ErrorController {
     @RequestMapping(path = "/product/changeinfo/{id}", method = RequestMethod.POST)
     public String changeAllProductData(@PathVariable(value = "id") int id, Model model) {
         Product product = productService.findById(id);
+        model.addAttribute("categories", categoryService.readAll());
         model.addAttribute("product",product);
         return "product_edit";
     }
@@ -473,11 +475,96 @@ public class MyController implements ErrorController {
     }
     @RequestMapping("/categories/{category}")
     public String categoryProducts(@PathVariable(value = "category") String engname, Model model){
-        model.addAttribute("products", productService.findById_category(categoryService.findByEngname(engname).getId()));
-        model.addAttribute("current_category", categoryService.findByEngname(engname).getName());
+        Category category = categoryService.findByEngname(engname);
+        List<Product> products = productService.findById_category(category.getId());
+        ArrayList<String> manufactures = new ArrayList<String>();
+        if (!products.isEmpty()){
+            for (Product product:products){
+                manufactures.add(product.getManufacturer());
+            }
+        }
+        Set<String> set_manufactures =new LinkedHashSet<>(manufactures);
+        model.addAttribute("products", products);
+        model.addAttribute("current_category", category);
         model.addAttribute("categories", categoryService.readAll());
         model.addAttribute("kolvo", size());
+        String [] manufactures_checked = new String[set_manufactures.size()];
+        Arrays.fill(manufactures_checked, null);
+        model.addAttribute("manufactures_checked", manufactures_checked);
+
+        String[] list_rating = {null,null,null,null,null,null};
+        model.addAttribute("list_rating", list_rating);
+
+        model.addAttribute("manufactures", set_manufactures);
+        String[] confirm = {"on",null,null};
+        model.addAttribute("confirm", confirm);
         return "product_list1";
+    }
+    @RequestMapping("/categories/filter")
+    public String categoryFilter(@RequestParam String category,@RequestParam int quantity,
+                                 @RequestParam(required =false) int[] rating,
+                                 @RequestParam(required =false) String[] manufactures_list,
+                                 @RequestParam(required =false) String filterName,
+                                 @RequestParam(required =false) Integer minPrice,
+                                 @RequestParam(required =false) Integer maxPrice,
+                                 Model model)
+    {
+        Category c = categoryService.findByEngname(category);
+        List<Product> products = productService.findById_category(c.getId());
+        ArrayList<String> manufactures = new ArrayList<String>();
+        if (!products.isEmpty()){
+            for (Product product:products){
+                manufactures.add(product.getManufacturer());
+            }
+        }
+        Set<String> set_manufactures =new LinkedHashSet<>(manufactures);
+        model.addAttribute("products", products);
+        model.addAttribute("current_category", c);
+        model.addAttribute("categories", categoryService.readAll());
+        model.addAttribute("kolvo", size());
+        model.addAttribute("manufactures", set_manufactures);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("filterName", filterName);
+        List<String> manufactures_set = new ArrayList<>(set_manufactures);
+        String [] manufactures_checked = new String[set_manufactures.size()];
+        Arrays.fill(manufactures_checked, null);
+        if (manufactures_list!=null) {
+            for (int i = 0; i < manufactures_list.length; i++) {
+                if (manufactures_set.contains(manufactures_list[i])) {
+                    manufactures_checked[manufactures_set.indexOf(manufactures_list[i])] = "on";
+                }
+            }
+        }
+        model.addAttribute("manufactures_checked", manufactures_checked);
+
+
+        String[] list_rating = {null,null,null,null,null,null};
+        if (rating!=null){
+            for (int i=0;i<rating.length;i++){
+                switch (rating[i]){
+                    case 0: list_rating[0] = "on";
+                        break;
+                    case 1: list_rating[1] = "on";
+                        break;
+                    case 2: list_rating[2] = "on";
+                        break;
+                    case 3: list_rating[3] = "on";
+                        break;
+                    case 4: list_rating[4] = "on";
+                        break;
+                    case 5: list_rating[5] = "on";
+                        break;
+                }
+            }
+        }
+        model.addAttribute("list_rating", list_rating);
+
+        String[] confirm = {null,null,null};
+        confirm[quantity-1] = "on";
+        model.addAttribute("confirm", confirm);
+
+        return  "product_list1";
     }
 
     @Override

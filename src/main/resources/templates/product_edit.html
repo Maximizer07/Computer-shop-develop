@@ -12,10 +12,32 @@
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body class="skin-light">
+<a href="#x" class="overlay" id="win1"></a>
+<div class="popup">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id Category</th>
+            <th scope="col">Название</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="category :${categories}">
+            <tr>
+                <th scope="row" th:text="${category.getId()}"></th>
+                <th th:text="${category.getName()}"></th>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <a class="close"title="Закрыть" href="#close"></a>
+</div>
 <header th:insert="general.html :: header"></header>
 <div class="p-5">
     <form method="post">
-        <p class="display-4 text-white">Редактирование данных товара<button type="submit" th:formaction="@{/product/savechangeinfo/{id}(id=${product.getId()})}" class=" ml-2 btn btn-success">Сохранить</button></p>
+        <p class="display-4 text-white">Редактирование данных товара<button type="submit" th:formaction="@{/product/savechangeinfo/{id}(id=${product.getId()})}" class=" ml-2 btn btn-success">Сохранить</button>
+            <a type="button" class="btn btn-warning ml-2" th:href="@{/admin2}">Назад</a>
+        </p>
         <table class="table table-dark table-hover">
             <thead style="background-color: coral; ">
             <tr>
@@ -30,11 +52,11 @@
             </tr>
             <tr>
                 <th type="text">Name</th>
-                <th><input type="text" name="Name" th:value="${product.getName()}"/></th>
+                <th><input type="text" name="Name" th:value="${product.getName()}" required/></th>
             </tr>
             <tr>
                 <th type="text">Id Category</th>
-                <th><input type="number" name="Category" th:value="${product.getCategory().getId()}"/></th>
+                <th><input type="number" name="Category" th:value="${product.getCategory().getId()}" required/></th>
             </tr>
             <tr>
                 <th type="text">Manufacturer</th>
@@ -42,7 +64,7 @@
             </tr>
             <tr>
                 <th type="text">Price</th>
-                <th><input type="number" name="Price" th:value="${product.getPrice()}"/></th>
+                <th><input type="number" name="Price" th:value="${product.getPrice()}" required/></th>
             </tr>
             <tr>
                 <th type="text">Picture_link</th>
