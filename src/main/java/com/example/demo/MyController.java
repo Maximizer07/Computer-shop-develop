@@ -82,18 +82,11 @@ public class MyController implements ErrorController {
         model.addAttribute("status","confirm");
         return "sign-up";
     }
-    @GetMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("kolvo", size());
-        model.addAttribute("users", userService.readAll());
-        return "admin";
-    }
     @GetMapping("/about")
     public String about(Model model) {
         model.addAttribute("kolvo", size());
         return "about";
     }
-
     @RequestMapping(path="admin/{number}")
     public String Adminuserinfo(@PathVariable(value = "number") int number, Model model) {
         model.addAttribute("user",userService.loadUserById(number));
@@ -102,7 +95,6 @@ public class MyController implements ErrorController {
         model.addAttribute("not_my","not_my");
         return "user_info";
     }
-
     @GetMapping("/auth")
     public String viewLoginPage(Model model, User user) {
         model.addAttribute("Problem","login");
@@ -328,7 +320,7 @@ public class MyController implements ErrorController {
         productService.save(product);
         return String.valueOf(id);
     }
-    @GetMapping("shoppingcardadd/{number}")
+    @GetMapping("shopping_card/add/{number}")
     String addCartItem(@PathVariable(value = "number") int number, Model model) {
         Cart_Item cart_item = new Cart_Item();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -367,7 +359,7 @@ public class MyController implements ErrorController {
                 cartItemService.create(cart_item);
             }
         }
-        return "redirect:/shoppingcard";
+        return "redirect:/shopping_card";
     }
     @GetMapping("wishadd/{number}")
     String addWishItem(@PathVariable(value = "number") int number, Model model) {
@@ -383,24 +375,7 @@ public class MyController implements ErrorController {
         wishService.delete((long) number);
         return "redirect:/user_info";
     }
-    @GetMapping("/shop")
-    public String shop(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().anyMatch(o->o.getStatus()==-1)){
-            Order order = orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().filter(o->o.getStatus()==-1).findAny().get();
-            int sum = (int) order.getProducts().stream()
-                    .mapToDouble(a -> a.getProduct().getPrice()*a.getQuantity())
-                    .sum();
-            model.addAttribute("sum",sum);
-            model.addAttribute("products",order.getProducts());
-        }
-        else{
-            model.addAttribute("products",new ArrayList<>());
-        }
-        model.addAttribute("kolvo", size());
-        return "shop";
-    }
-    @RequestMapping(path = "/shoppingcard")
+    @RequestMapping(path = "/shopping_card")
     public String shoppingcard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().anyMatch(o->o.getStatus()==-1)){
@@ -417,25 +392,19 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "shop";
     }
-    @GetMapping("shoppingcard/change")
-    public String deleteIncome(@RequestParam(value = "opisanie") String opisanie,@RequestParam(value = "quantity") int quantity,Model model) {
-     //   for(Product p:products){
-       //     if (p.getOpisanie().equals(opisanie)){
-         //       p.setQuantity(quantity);
-         //       if (p.getQuantity()==0){
-          //          p.setOpisanie("nulll");
-          //      }
-          //  }
-        //}
-        //products.removeIf(product -> product.getOpisanie().equals("nulll"));
-        model.addAttribute("kolvo", size());
-        return "redirect:/shoppingcard";
+    @RequestMapping(value = "shopping_card/change", method = RequestMethod.POST)
+    public @ResponseBody String ShoppingCardChange(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int new_quantity = Integer.parseInt(request.getParameter("quantity"));
+        int id = Integer.parseInt(request.getParameter("id"));
+        Cart_Item cart_item = cartItemService.findbyid(id).get(0);
+        cart_item.setQuantity(new_quantity);
+        cartItemService.create(cart_item);
+        return "ok";
     }
-    @GetMapping("shoppingcard/delete")
-    public String delete(@RequestParam(value = "opisanie") String opisanie,Model model) {
-        //products.removeIf(product -> product.getOpisanie().equals(opisanie));
-        model.addAttribute("kolvo", size());
-        return "redirect:/shoppingcard";
+    @GetMapping("shopping_card/delete")
+    public String delete(@RequestParam(value = "id") int id,Model model) {
+        cartItemService.delete(cartItemService.findbyid(id).get(0));
+        return "redirect:/shopping_card";
     }
 
     @RequestMapping(path="/user_info")
@@ -457,7 +426,7 @@ public class MyController implements ErrorController {
     public String userinfo(Model model,int number) {
         return "redirect:/user_info/orders/"+number;
     }
-    @RequestMapping(path="shoppingcard/orderconfirm")
+    @RequestMapping(path="shopping_card/order_confirm")
     public String orderconfirm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().anyMatch(o->o.getStatus()==-1)){
@@ -470,7 +439,7 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "order_confirm";
     }
-    @RequestMapping(path="shoppingcard/addorder")
+    @RequestMapping(path="shopping_card/order_confirm/success")
     public String addorder(@RequestParam String data, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().anyMatch(o->o.getStatus()==-1)) {

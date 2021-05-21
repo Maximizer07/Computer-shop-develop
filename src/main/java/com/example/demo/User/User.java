@@ -16,6 +16,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * сущность пользователя
+ * @author mike
+ */
 @Getter
 @Setter
 @Builder
@@ -25,34 +29,71 @@ import java.util.Set;
 @Entity(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails {
+    /**
+     * id пользователя
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * имя пользователя
+     */
     private String name;
+    /**
+     * фамилия пользователя
+     */
     private String surname;
+    /**
+     * почта пользователя
+     */
     private String email;
+    /**
+     * пароль пользователя
+     */
     private String password;
+    /**
+     * роль пользователя
+     */
     private UserRole userRole;
+    /**
+     * доступность аккаунта
+     */
     @Builder.Default
     private Boolean locked = false;
+    /**
+     * активированность аккаунта
+     */
     @Builder.Default
     private Boolean enabled = false;
     @Transient
     private String password2;
+    /**
+     * список желаемых товаров
+     */
     @OneToMany(mappedBy="user")
     private List<WishItem> wishItems;
+    /**
+     * список отзывов
+     */
     @OneToMany(mappedBy="user")
     private List<Review> reviews;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println(userRole.name());
         final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
         return Collections.singletonList(simpleGrantedAuthority);
     }
+
+    /**
+     * @return пароль
+     */
     @Override
     public String getPassword() {
         return password;
     }
+
+    /**
+     * @return почта пользователя
+     */
     @Override
     public String getUsername() {
         return email;
@@ -61,6 +102,10 @@ public class User implements UserDetails {
     public boolean isAccountNonExpired() {
         return true;
     }
+
+    /**
+     * @return заблокированность аккаунта
+     */
     @Override
     public boolean isAccountNonLocked() {
         return !locked;
@@ -69,6 +114,10 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
+    /**
+     * @return доступность аккаунта
+     */
     @Override
     public boolean isEnabled() {
         return enabled;

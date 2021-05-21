@@ -15,7 +15,7 @@
         <div class="card-body" >
             <div class="text-center">
                <h3>Данные заказа</h3>
-                <form method="post" class=" needs-validation" action="/shoppingcard/addorder">
+                <form method="post" class=" needs-validation" action="/shopping_card/order_confirm/success">
                 <div class="table-responsive">
                 <table class="table table-borderless table-hover" style="background: #fff1e1">
                     <tbody>
@@ -37,6 +37,7 @@
                             <script>
                                 $('#datepicker').datepicker({
                                     uiLibrary: 'bootstrap4',
+                                    minDate: new Date(),
                                 });
                             </script></h6></td>
                     </tr>

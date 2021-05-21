@@ -17,20 +17,46 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * сервис работы с пользователями
+ * @author mike
+ */
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
+    /**
+     * конструктор
+     * @param userRepository репозиторий работы с пользователями
+     */
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * репозиторий работы с пользователями
+     */
     @Autowired
     private UserRepository userRepository;
+    /**
+     *  bCryptPasswordEncoder
+     */
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    /**
+     * токен подтверждения аккаунта
+     */
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
+    /**
+     * сервис отправки письма на почту
+     */
     @Autowired
     private EmailService emailSenderService;
+
+    /**
+     * отправка сообщения на почту с подтверждением аккаунта
+     * @param userMail почта пользователя
+     * @param token содержание токена
+     */
     @SneakyThrows
     void sendConfirmationMail(String userMail, String token) {
         final SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -42,14 +68,32 @@ public class UserService implements UserDetailsService {
                         + token);
         emailSenderService.sendmail(mailMessage);
     }
+
+    /**
+     * проверка уникальности почты
+     * @param email почта пользователя
+     * @return результат проверки
+     */
     public boolean uniqueEmail(String email){
         return userRepository.findByEmail(email).isPresent();
     }
+
+    /**
+     * поиск пользователей
+     * @param email почта пользователя
+     * @return пользователь
+     * @throws UsernameNotFoundException если пользователь не найден
+     */
     @Override
     public User loadUserByUsername(String email) throws UsernameNotFoundException {
         final Optional<User> optionalUser = userRepository.findByEmail(email);
         return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User.User with email {0} cannot be found.", email)));
     }
+
+    /**
+     * создание аккаунта
+     * @param user пользователь
+     */
     public void signUpUser(User user) {
         final String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
@@ -60,37 +104,76 @@ public class UserService implements UserDetailsService {
         sendConfirmationMail(user.getEmail(), confirmationToken.getConfirmationToken());
     }
 
+    /**
+     * подтверждения пользователя
+     * @param confirmationToken токен подтверждения
+     */
     public void confirmUser(ConfirmationToken confirmationToken) {
         final User user = confirmationToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);
         confirmationTokenService.deleteConfirmationToken(confirmationToken.getId());
     }
+
+    /**
+     * получение всех пользователей
+     * @return список пользователей
+     */
     public List<User> readAll() {
         return userRepository.findAll();
     }
+
+    /**
+     * поиск пользователя по id
+     * @param id id пользователя
+     * @return пользователь
+     * @throws UsernameNotFoundException если пользователь не найден
+     */
     public User loadUserById(long id) throws UsernameNotFoundException {
         final Optional<User> optionalUser = userRepository.findById(id);
         return optionalUser.orElseThrow(() -> new UsernameNotFoundException(MessageFormat.format("com.example.demo.User.User with id {0} cannot be found.", id)));
     }
+
+    /**
+     * обновление роли пользователя
+     * @param id id пользователя
+     * @param role роль пользователя
+     */
     public void updateUserRole(long id, UserRole role) {
         Optional<User> u = userRepository.findById(id);
          User uu = u.get();
         uu.setUserRole(role);
         userRepository.save(uu);
     }
+
+    /**
+     * обновление имени пользователя
+     * @param id пользователя
+     * @param name имя пользователя
+     */
     public void updateUserName(long id, String name) {
         Optional<User> u = userRepository.findById(id);
         User uu = u.get();
         uu.setName(name);
         userRepository.save(uu);
     }
+
+    /**
+     * обновление фамилии пользователя
+     * @param id пользователя
+     * @param surname фамилия пользователя
+     */
     public void updateSurName(long id, String surname) {
         Optional<User> u = userRepository.findById(id);
         User uu = u.get();
         uu.setSurname(surname);
         userRepository.save(uu);
     }
+
+    /**
+     * удаление пользователя
+     * @param id id пользователя
+     */
     public void deleteUser(long id){
         userRepository.deleteUserById(id);
     }
