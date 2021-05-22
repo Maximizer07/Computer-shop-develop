@@ -319,7 +319,7 @@
                         <th:block th:each="product : ${products}">
                                 <div class="col-md-4 mb-5">
                                     <!-- Card -->
-                                    <div class="">
+                                    <div class="" style="text-align: center;">
                                         <div class="img-product">
                                             <a th:href="@{/product/{id}(id=${product.getId()})}"><img th:src="${product.getLink()}"></a>
                                         </div>
@@ -327,6 +327,24 @@
                                             <a th:href="@{/product/{id}(id=${product.getId()})}" th:text="${product.getName}" class="href"></a>
                                             <p><span class="mr-1"><strong th:text="${product.getPrice} + ' ₽'"></strong></span></p>
                                         </div>
+                                        <ul class="rating mb-5">
+                                            <div th:switch="${product.getRating()}">
+                                                <p th:case="0" class="mb-2 text-muted text-uppercase small">Нет отзывов</p>
+                                                <th:block th:case="5">
+                                                    <li th:each="i: ${#numbers.sequence(1, product.getRating())}">
+                                                        <i class=" fa-star fas "></i>
+                                                    </li>
+                                                </th:block>
+                                                <th:block th:case="*">
+                                                    <li th:each="i: ${#numbers.sequence(1, product.getRating())}">
+                                                        <i class=" fa-star fas "></i>
+                                                    </li>
+                                                    <li th:each="i: ${#numbers.sequence(1, 5 - product.getRating())}">
+                                                        <i class=" fa-star far "></i>
+                                                    </li>
+                                                </th:block>
+                                            </div>
+                                        </ul>
                                     </div>
                                 </div>
                         </th:block>
