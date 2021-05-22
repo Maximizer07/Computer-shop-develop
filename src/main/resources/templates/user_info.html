@@ -60,7 +60,7 @@
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSriFFJXaLLV3g1bFT8PrDRFbD50XjQ7lm_0g&usqp=CAU" alt="Admin" class="rounded-circle" width="150">
                             <div class="mt-5">
                                 <h4 id="email" th:text="${user.getEmail()}"></h4>
-                                <a type="button" class="btn btn-success" th:href="@{/admin2}" style="margin-bottom: 3px">Администрирование</a>
+                                <a type="button" class="btn btn-success" th:href="@{/admin2}" style="margin-bottom: 3px" th:if="${(user.getUserRole()=='ADMIN')}">Администрирование</a>
                                 <div th:if="${not_my != 'not_my'}">
                                 <a type="button" class="btn btn-danger" th:href="@{/logout}"> Выйти</a>
                                 </div>
