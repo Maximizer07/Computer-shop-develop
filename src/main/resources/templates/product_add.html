@@ -58,7 +58,7 @@
             </tr>
             <tr>
                 <th type="text">Id Category</th>
-                <th><input type="number" name="Category" placeholder="Id_Category" required/></th>
+                <th><input type="number" name="Category" min ="1" max ="1000000" placeholder="Id_Category" required/></th>
             </tr>
             <tr>
                 <th type="text">Manufacturer</th>
@@ -66,7 +66,7 @@
             </tr>
             <tr>
                 <th type="text">Price</th>
-                <th><input type="number" name="Price" placeholder="Price" required/></th>
+                <th><input type="number" name="Price" min ="1" max ="1000000" placeholder="Price" required/></th>
             </tr>
             <tr>
                 <th type="text">Picture_link</th>
@@ -74,7 +74,7 @@
             </tr>
             <tr>
                 <th type="text">Quantity</th>
-                <th><input type="number" name="Quantity" placeholder="Quantity"/></th>
+                <th><input type="number" name="Quantity" min ="0" max ="1000000" placeholder="Quantity" required/></th>
             </tr>
             <tr>
                 <th type="text">Description</th>
@@ -82,9 +82,46 @@
             </tr>
             </tbody>
         </table>
+
+        <table class="table table-dark table-hover">
+            <thead style="background-color: coral; ">
+            <tr>
+                <th scope="col">Характеристика</th>
+                <th scope="col">Значение</th>
+            </tr>
+            </thead>
+            <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)" id="tabl">
+                <tr>
+                    <th><input type="text" name="characteristics" placeholder="Характеристика"/></th>
+                    <th><input type="text" name="values" placeholder="Значение"/></th>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success" onClick='add();'>Новая категория</button>
+        <button type="button" class="btn btn-danger" onClick='del();'>Удалить категорию</button>
+
     </form>
 </div>
 <!--Main layout-->
 <div th:replace="general.html :: footer"></div>
 </body>
+<script>
+    function add() {
+        var nodet = document.createElement('tr');
+        var node1 = document.createElement('th');
+        var node2 = document.createElement('th');
+        node1.innerHTML = "<input type='text' name='characteristics' placeholder='Характеристика'/>";
+        node2.innerHTML = "<input type='text' name='values' placeholder='Значение'/>";
+        document.getElementById('tabl').appendChild(nodet);
+        nodet.appendChild(node1);
+        nodet.appendChild(node2);
+    }
+    function del() {
+        var table = document.getElementById("tabl");
+        var rowCount = table.rows.length;
+        if (rowCount>1) {
+            table.deleteRow(rowCount-1);
+        }
+    }
+</script>
 </html>

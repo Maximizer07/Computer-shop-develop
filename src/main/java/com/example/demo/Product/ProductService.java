@@ -50,7 +50,6 @@ public class ProductService {
         return productRepository.findByCategoryId(categoryId);
     }
     public void delete(Product p){
-        log.info("Delete product, whose Id = {}",p.getId());
         productRepository.deleteById(p.getId());
     }
 

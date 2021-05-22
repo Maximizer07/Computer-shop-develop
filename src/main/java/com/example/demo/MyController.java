@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -146,24 +147,36 @@ public class MyController implements ErrorController {
         model.addAttribute("products", productService.readAll());
         model.addAttribute("categories", categoryService.readAll());
         model.addAttribute("kolvo", size());
+        String message = (String) model.asMap().get("selector");
+        if (message==null){
+            message = "user";
+        }
+        System.out.println(message);
+        model.addAttribute("message",message);
         return "admin2";
     }
     @PostMapping ("/changeRole/{number}")
-    public String changeRole(@PathVariable(value = "number") long number,Model model,User user) {
+    public String changeRole(@PathVariable(value = "number") long number,Model model,
+                             User user, final RedirectAttributes redirectAttrs) {
         userService.updateUserRole(number,user.getUserRole());
+        redirectAttrs.addFlashAttribute("selector", "user");
         return "redirect:/admin2";
     }
     @GetMapping ("/deleteUser/{number}")
-    public String deleteUser(@PathVariable(value = "number") long number,Model model) {
+    public String deleteUser(@PathVariable(value = "number") long number,
+                             Model model, final RedirectAttributes redirectAttrs) {
         userService.deleteUser(number);
+        redirectAttrs.addFlashAttribute("selector", "user");
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/category/add", method = RequestMethod.POST)
-    public String addNewCategory(@RequestParam String Name, @RequestParam String Link, Model model) {
+    public String addNewCategory(@RequestParam String Name, @RequestParam String Link,
+                                 Model model, final RedirectAttributes redirectAttrs) {
         Category  c = new Category();
         c.setName(Name);
         c.setLink(Link);
         categoryService.create(c);
+        redirectAttrs.addFlashAttribute("selector", "category");
         return "redirect:/admin2";
     }
     @GetMapping("/addproduct")
@@ -172,10 +185,11 @@ public class MyController implements ErrorController {
         return "product_add";
     }
     @RequestMapping(path = "/savenewproduct", method = { RequestMethod.GET, RequestMethod.POST })
-    public String saveNewProduct(@RequestParam String Name,@RequestParam int Category,
-                                 @RequestParam int Price, @RequestParam int Quantity,
+    public String saveNewProduct(@RequestParam String Name,@RequestParam Integer Category,
+                                 @RequestParam Integer Price, @RequestParam Integer Quantity,
                                  @RequestParam String Manufacturer, @RequestParam String Link,
-                                 @RequestParam String Description, Model model) {
+                                 @RequestParam String Description, Model model,
+                                 final RedirectAttributes redirectAttrs) {
         Product p = new Product();
         Description description = new Description();
         description.setDescription(Description);
@@ -188,14 +202,17 @@ public class MyController implements ErrorController {
         p.setPrice(Price);
         p.setQuantity(Quantity);
         productService.save(p);
+        redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/category/change/{id}", method = RequestMethod.POST)
-    public String changeCategoryData(@PathVariable(value = "id") int id, @RequestParam String Name, @RequestParam String Link, Model model) {
+    public String changeCategoryData(@PathVariable(value = "id") int id, @RequestParam String Name,
+                                     @RequestParam String Link, Model model, final RedirectAttributes redirectAttrs) {
         Category c = categoryService.findById(id);
         c.setName(Name);
         c.setLink(Link);
         categoryService.change(c);
+        redirectAttrs.addFlashAttribute("selector", "category");
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/category/search", method = RequestMethod.POST)
@@ -210,6 +227,7 @@ public class MyController implements ErrorController {
         model.addAttribute("categories", criteriaService.takeCategories(Name, Id));
         model.addAttribute("search_id", Id);
         model.addAttribute("search_name", Name);
+        model.addAttribute("message","category");
         return "admin2";
     }
     @RequestMapping(path = "/product/search", method = RequestMethod.POST)
@@ -226,34 +244,41 @@ public class MyController implements ErrorController {
         model.addAttribute("search_quantity", Quantity);
         model.addAttribute("search_price", Price);
         model.addAttribute("search_idcategory", Idcategory);
+        model.addAttribute("message","product");
         return "admin2";
     }
     @RequestMapping(path = "/category/delete/{id}", method = RequestMethod.POST)
-    public String deleteCategory(@PathVariable(value = "id") int id, Model model) {
+    public String deleteCategory(@PathVariable(value = "id") int id, Model model, final RedirectAttributes redirectAttrs) {
         Category c = categoryService.findById(id);
         categoryService.delete(c);
+        redirectAttrs.addFlashAttribute("selector", "category");
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/product/delete/{id}", method = RequestMethod.POST)
-    public String deleteProduct(@PathVariable(value = "id") int id, Model model) {
+    public String deleteProduct(@PathVariable(value = "id") int id, Model model, final RedirectAttributes redirectAttrs) {
         Product p = productService.findById(id);
         productService.delete(p);
+        redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/product/change/{id}", method = RequestMethod.POST)
-    public String changeProductData(@PathVariable(value = "id") int id, @RequestParam String Name, @RequestParam int Price, @RequestParam int Quantity, Model model) {
+    public String changeProductData(@PathVariable(value = "id") int id, @RequestParam String Name,
+                                    @RequestParam int Price, @RequestParam int Quantity, Model model,
+                                    final RedirectAttributes redirectAttrs) {
         Product p = productService.findById(id);
         p.setName(Name);
         p.setPrice(Price);
         p.setQuantity(Quantity);
         productService.change(p);
+        redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/product/savechangeinfo/{id}", method = { RequestMethod.GET, RequestMethod.POST })
     public String saveChangeInfo(@PathVariable(value = "id") int id, @RequestParam String Name,
                                  @RequestParam int Price, @RequestParam int Quantity,
                                  @RequestParam String Manufacturer, @RequestParam String Link,
-                                 @RequestParam int Category, @RequestParam String Description, Model model) {
+                                 @RequestParam int Category, @RequestParam String Description,
+                                 Model model, final RedirectAttributes redirectAttrs) {
         Product p = productService.findById(id);
         Description description = p.getDescription();
         description.setDescription(Description);
@@ -265,6 +290,7 @@ public class MyController implements ErrorController {
         p.setPrice(Price);
         p.setQuantity(Quantity);
         productService.change(p);
+        redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
     @RequestMapping(path = "/product/changeinfo/{id}", method = RequestMethod.POST)
@@ -275,11 +301,13 @@ public class MyController implements ErrorController {
         return "product_edit";
     }
     @RequestMapping(path = "/category/delete", method = RequestMethod.POST)
-    public String DeleteCategory(@RequestParam String Name, @RequestParam String Link, Model model) {
+    public String DeleteCategory(@RequestParam String Name, @RequestParam String Link,
+                                 Model model, final RedirectAttributes redirectAttrs) {
         Category  c = new Category();
         c.setName(Name);
         c.setLink(Link);
         categoryService.del(c);
+        redirectAttrs.addFlashAttribute("selector", "category");
         return "redirect:/admin2";
     }
     @RequestMapping(value = "/user_info/changename", method = RequestMethod.POST)
@@ -484,6 +512,9 @@ public class MyController implements ErrorController {
             }
         }
         Set<String> set_manufactures =new LinkedHashSet<>(manufactures);
+        if (set_manufactures.contains("")){
+            set_manufactures.remove("");
+        }
         model.addAttribute("products", products);
         model.addAttribute("current_category", category);
         model.addAttribute("categories", categoryService.readAll());
@@ -518,6 +549,9 @@ public class MyController implements ErrorController {
             }
         }
         Set<String> set_manufactures =new LinkedHashSet<>(manufactures);
+        if (set_manufactures.contains("")){
+            set_manufactures.remove("");
+        }
         model.addAttribute("current_category", c);
         model.addAttribute("categories", categoryService.readAll());
         model.addAttribute("kolvo", size());
@@ -591,6 +625,7 @@ public class MyController implements ErrorController {
         } else {
             model.addAttribute("products", products);
         }
+        Collections.shuffle(products);
         model.addAttribute("description",product.getDescription().getDescription());
         model.addAttribute("category",product.getCategory());
         model.addAttribute("kolvo", size());
