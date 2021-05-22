@@ -12,6 +12,8 @@ import com.example.demo.Order.Order;
 import com.example.demo.Order.OrderService;
 import com.example.demo.Product.Product;
 import com.example.demo.Product.ProductService;
+import com.example.demo.Property.Property;
+import com.example.demo.Property.PropertyService;
 import com.example.demo.Review.Review;
 import com.example.demo.Review.ReviewService;
 import com.example.demo.User.User;
@@ -38,6 +40,8 @@ import java.util.*;
 public class MyController implements ErrorController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PropertyService propertyService;
     @Autowired
     private ProductService productService;
     @Autowired
@@ -189,7 +193,8 @@ public class MyController implements ErrorController {
                                  @RequestParam Integer Price, @RequestParam Integer Quantity,
                                  @RequestParam String Manufacturer, @RequestParam String Link,
                                  @RequestParam String Description, Model model,
-                                 final RedirectAttributes redirectAttrs) {
+                                 final RedirectAttributes redirectAttrs,
+                                 String[] characteristics, String[] values) {
         Product p = new Product();
         Description description = new Description();
         description.setDescription(Description);
@@ -202,6 +207,15 @@ public class MyController implements ErrorController {
         p.setPrice(Price);
         p.setQuantity(Quantity);
         productService.save(p);
+        for (int i = 0; i < characteristics.length; i++) {
+            if (!characteristics[i].isEmpty() & !values[i].isEmpty()){
+                Property property = new Property();
+                property.setName(characteristics[i]);
+                property.setValue(values[i]);
+                property.setProduct(p);
+                propertyService.save(property);
+            }
+        }
         redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
@@ -257,6 +271,10 @@ public class MyController implements ErrorController {
     @RequestMapping(path = "/product/delete/{id}", method = RequestMethod.POST)
     public String deleteProduct(@PathVariable(value = "id") int id, Model model, final RedirectAttributes redirectAttrs) {
         Product p = productService.findById(id);
+        List<Property> properties = p.getProperties();
+        for (Property property : properties) {
+            propertyService.delete(property);
+        }
         productService.delete(p);
         redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
@@ -278,7 +296,8 @@ public class MyController implements ErrorController {
                                  @RequestParam int Price, @RequestParam int Quantity,
                                  @RequestParam String Manufacturer, @RequestParam String Link,
                                  @RequestParam int Category, @RequestParam String Description,
-                                 Model model, final RedirectAttributes redirectAttrs) {
+                                 Model model, final RedirectAttributes redirectAttrs,
+                                 String[] characteristics, String[] values) {
         Product p = productService.findById(id);
         Description description = p.getDescription();
         description.setDescription(Description);
@@ -290,6 +309,22 @@ public class MyController implements ErrorController {
         p.setPrice(Price);
         p.setQuantity(Quantity);
         productService.change(p);
+        List<Property> properties = p.getProperties();
+        if (!properties.isEmpty()) {
+            for (Property property : properties) {
+                propertyService.delete(property);
+            }
+        }
+
+        for (int i = 0; i < characteristics.length; i++) {
+            if (!characteristics[i].isEmpty() & !values[i].isEmpty()){
+                Property property = new Property();
+                property.setName(characteristics[i]);
+                property.setValue(values[i]);
+                property.setProduct(p);
+                propertyService.save(property);
+            }
+        }
         redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }

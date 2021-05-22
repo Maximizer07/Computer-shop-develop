@@ -80,9 +80,56 @@
             </tr>
             </tbody>
         </table>
+
+        <table class="table table-dark table-hover">
+            <thead style="background-color: coral; ">
+            <tr>
+                <th scope="col">Характеристика</th>
+                <th scope="col">Значение</th>
+            </tr>
+            </thead>
+            <tbody style="background: linear-gradient(to right, #599fd9, #c2e59c)" id="tabl">
+                <th:block th:if="${product.getProperties().size()>0}">
+                    <th:block th:each="property : ${product.getProperties()}">
+                        <tr>
+                                <th><input type="text" th:value="${property.getName()}" name="characteristics" placeholder="Характеристика"/></th>
+                                <th><input type="text" th:value="${property.getValue()}" name="values" placeholder="Значение"/></th>
+                        </tr>
+                    </th:block>
+                </th:block>
+                <th:block th:if="${product.getProperties().size()<1}">
+                    <tr>
+                        <th><input type="text" name="characteristics" placeholder="Характеристика"/></th>
+                        <th><input type="text" name="values" placeholder="Значение"/></th>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success" onClick='add();'>Новая категория</button>
+        <button type="button" class="btn btn-danger" onClick='del();'>Удалить категорию</button>
+
     </form>
 </div>
 <!--Main layout-->
 <div th:replace="general.html :: footer"></div>
 </body>
+<script>
+    function add() {
+        var nodet = document.createElement('tr');
+        var node1 = document.createElement('th');
+        var node2 = document.createElement('th');
+        node1.innerHTML = "<input type='text' name='characteristics' placeholder='Характеристика'/>";
+        node2.innerHTML = "<input type='text' name='values' placeholder='Значение'/>";
+        document.getElementById('tabl').appendChild(nodet);
+        nodet.appendChild(node1);
+        nodet.appendChild(node2);
+    }
+    function del() {
+        var table = document.getElementById("tabl");
+        var rowCount = table.rows.length;
+        if (rowCount>1) {
+            table.deleteRow(rowCount-1);
+        }
+    }
+</script>
 </html>
