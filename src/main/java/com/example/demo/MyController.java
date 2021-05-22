@@ -518,7 +518,6 @@ public class MyController implements ErrorController {
             }
         }
         Set<String> set_manufactures =new LinkedHashSet<>(manufactures);
-        model.addAttribute("products", products);
         model.addAttribute("current_category", c);
         model.addAttribute("categories", categoryService.readAll());
         model.addAttribute("kolvo", size());
@@ -564,6 +563,7 @@ public class MyController implements ErrorController {
         confirm[quantity-1] = "on";
         model.addAttribute("confirm", confirm);
 
+        model.addAttribute("products", criteriaService.takeProductList(c, rating, quantity, manufactures_list, filterName ,minPrice,maxPrice, manufactures_set));
         return  "product_list1";
     }
 
