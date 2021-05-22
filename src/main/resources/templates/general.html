@@ -18,7 +18,7 @@
 <header th:fragment="header">
     <nav  class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(29,60,69,0.8);">
 
-        <img src="/css/tehn.png" style="height: 5em; width: 15%;">
+        <a th:href="@{/}"><img src="/css/tehn.png" style="height: 4em;"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -58,10 +58,10 @@
                         <h5 class="widget-title">Меню<span></span></h5>
                         <ul class="thumbnail-widget">
                             <li>
-                                <div class="thumb-content"><a th:href="@{/product_list1}">Главная</a></div>
+                                <div class="thumb-content"><a th:href="@{/}">Главная</a></div>
                             </li>
                             <li>
-                                <div class="thumb-content"><a th:href="@{/categories}">Категории</a></div>
+                                <div class="thumb-content"><a th:href="@{/categories/protsessory}">Каталог</a></div>
                             </li>
                             <li>
                                 <div class="thumb-content"><a th:href="@{/shopping_card}"> Корзина <i class="bi bi-basket"></i></a></div>
@@ -73,7 +73,7 @@
                     <div class="widget no-box">
                         <h5 class="widget-title">Присоединяйтесь<span></span></h5>
                         <p>Покупайте все необходимые компьютерные комплектующие на нашем сайте</p>
-                        <a class="btn" th:href="@{/login}" target="_blank">Зарегистрироваться</a>
+                        <a class="btn" th:href="@{/auth}" target="_blank">Зарегистрироваться</a>
                     </div>
                 </div>
 
@@ -105,7 +105,7 @@
         </div>
     </div>
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </footer>

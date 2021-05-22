@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <th:block th:include="general.html :: headerfiles"></th:block>
@@ -64,7 +64,7 @@
                     <section>
                         <h5>Categories</h5>
                         <div class="text-muted small text-uppercase mb-5">
-                            <p class="mb-4">return to <a th:href="@{/categories}" class="card-link-secondary"><strong>list
+                            <p class="mb-4">return to <a th:href="@{/}" class="card-link-secondary"><strong>list
                                 of Categories</strong></a></p>
                             <th:block th:each="category : ${categories}">
                                 <p class="mb-3"><a

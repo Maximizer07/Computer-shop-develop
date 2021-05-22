@@ -7,6 +7,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * сущность описание продукта
+ * @author Maximus
+ */
 @Getter
 @Setter
 @ToString
@@ -16,17 +20,24 @@ import javax.persistence.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 public class Description {
+    /**
+     * id описания
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
+    /**
+     * id продукта, чье описание
+     */
     @OneToOne(
             orphanRemoval = true,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "id_product")
     private Product product;
-
+    /**
+     * описание товара
+     */
     @Column(name="description", length = 1000, nullable = false)
     public String description;
 

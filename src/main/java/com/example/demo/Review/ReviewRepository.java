@@ -7,7 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * репозиторий работы с отзывами товаров
+ * @author Maximus
+ */
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    List<Review> findByProduct(int id);
+    /**
+     * удаление отзыва по id
+     * @param id отзыва
+     */
+    void deleteById(Long id);
 }

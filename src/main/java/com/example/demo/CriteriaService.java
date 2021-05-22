@@ -26,25 +26,58 @@ import java.util.stream.IntStream;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
+/**
+ * сервис критериев
+ * @author Maximus
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
 public class CriteriaService {
+    /**
+     * репозиторий работы с категориями товаров
+     */
     @Autowired
     private CategoryRepository categoryRepository;
+    /**
+     * репозиторий работы с товарами
+     */
     @Autowired
     private ProductRepository productRepository;
+    /**
+     * Фабрика сессий
+     */
     private final SessionFactory sessionFactory;
+    /**
+     * Сессия
+     */
     private Session session;
+
+    /**
+     * Открытие сессии
+     */
     @PostConstruct
     void init() {
         session = sessionFactory.openSession();
     }
+
+    /**
+     * Закрытие сессии
+     */
     @PreDestroy
     void closeSession() {
         session.close();
     }
+    /**
+     * получение фильтрованного списка продуктов
+     * @param Name фрагмент названия продукта
+     * @param Id id продукта
+     * @param Price цена продукта
+     * @param Quantity количество продукта
+     * @param Idcategory id категории продуктов
+     * @return список категорий
+     */
     public List<Product> takeProducts(String Name, Integer Id, Integer Price, Integer Quantity, Integer Idcategory) {
         Product product = new Product();
         Category category = new Category();
@@ -69,6 +102,12 @@ public class CriteriaService {
         System.out.println(example);
         return productRepository.findAll(example);
     }
+    /**
+     * получение списка категорий по фрагменту названия и id категории
+     * @param Name фрагмент названия категории
+     * @param Id id категории
+     * @return список категорий
+     */
     public List<Category> takeCategories(String Name, Integer Id) {
         Category category = new Category();
         category.setId(Id);
@@ -85,7 +124,18 @@ public class CriteriaService {
         System.out.println(example);
         return categoryRepository.findAll(example);
     }
-
+    /**
+     * получение фильтрованного списка продуктов
+     * @param category объект категории
+     * @param rating массив выбранного рейтинга
+     * @param quantity количество продукта
+     * @param manufactures_list массив выбранных производителей
+     * @param filterName фрагмент названия продукта
+     * @param minPrice минимальная цена продукта
+     * @param maxPrice максимальная цена продукта
+     * @param manufactures_set список всех производителей
+     * @return список продуктов
+     */
     public List<Product> takeProductList(Category category, int[] rating, int quantity,
                                           String[] manufactures_list, String filterName,
                                           Integer minPrice, Integer maxPrice, List<String> manufactures_set) {

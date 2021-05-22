@@ -65,6 +65,9 @@ public class User implements UserDetails {
      */
     @Builder.Default
     private Boolean enabled = false;
+    /**
+     * пароль
+     */
     @Transient
     private String password2;
     /**
