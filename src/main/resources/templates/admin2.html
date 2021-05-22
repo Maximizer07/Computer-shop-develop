@@ -231,7 +231,7 @@
                     <th><input type="text" name="Name" th:value="${product.getName()}"/></th>
                     <th><input type="number" name="Idcategory" min ="1" max ="1000000" th:value="${product.getCategory().getId()}"/></th>
                     <th><input type="number" name="Price" min ="1" max ="1000000" th:value="${product.getPrice()}"/></th>
-                    <th><input type="number" name="Quantity" min ="1" max ="1000000" th:value="${product.getQuantity()}"/></th>
+                    <th><input type="number" name="Quantity" min ="0" max ="1000000" th:value="${product.getQuantity()}"/></th>
                     <th><button type="submit" class="btn btn-info" th:formaction="@{product/{id}(id=${product.getId()})}">Info</button>
                     <th>
                       <button type="submit" th:formaction="@{/product/change/{id}(id=${product.getId()})}" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
@@ -316,18 +316,46 @@
           </tbody>
         </table>
       </div>
-<script>
-  $(function() {
-    // Sidebar toggle behavior
-    $("#orders").hide();
-    $("#products").hide();
-    $("#categories").hide();
-    $("#nazvanie").text("Пользователи")
-    $('#sidebarCollapse').on('click', function() {
-      $('#sidebar, #content').toggleClass('active');
-    });
-  });
-  function section(x){
+      <script>
+        $(function () {
+          // Sidebar toggle behavior
+          var selector = "[[${message}]]";
+          //alert(selector)
+          switch (selector) {
+            case 'user':
+              $("#orders").hide();
+              $("#products").hide();
+              $("#categories").hide();
+              $("#nazvanie").text("Пользователи")
+              break;
+
+            case 'order':
+              $("#users").hide();
+              $("#products").hide();
+              $("#categories").hide();
+              $("#nazvanie").text("Заказы")
+              break;
+
+            case 'product':
+              $("#orders").hide();
+              $("#users").hide();
+              $("#categories").hide();
+              $("#nazvanie").text("Продукты")
+              break;
+
+            case 'category':
+              $("#orders").hide();
+              $("#products").hide();
+              $("#users").hide();
+              $("#nazvanie").text("Категории")
+              break;
+          }
+          $('#sidebarCollapse').on('click', function () {
+            $('#sidebar, #content').toggleClass('active');
+          });
+        });
+
+        function section(x) {
     $("#orders").hide();
     $("#products").hide();
     $("#users").hide();

@@ -36,7 +36,7 @@
             <tbody>
             <th:block th:each="product :${products}">
                 <tr>
-                    <td><img th:src="${product.getProduct().getLink()}" class="img-cart"></td>
+                    <td><img th:src="${product.getProduct().getLink()}" class="img-cart" onerror="src='https://doorlock78.ru/templates/img/foto_not_found.jpg'"></td>
                     <td><h6 th:text="${product.getProduct().getName()}" style="color: #1d3c45"></h6></td>
                     <td>
                         <form class="form-inline">

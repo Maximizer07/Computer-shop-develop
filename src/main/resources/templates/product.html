@@ -60,7 +60,7 @@
                     <div class="col-md-6 mb-4 mb-md-0">
                         <div class="img-product">
                             <div class="img-product">
-                                <img th:src="${product.getLink()}">
+                                <img th:src="${product.getLink()}" onerror="src='https://doorlock78.ru/templates/img/foto_not_found.jpg'">
                             </div>
                         </div>
                     </div>
@@ -232,14 +232,14 @@
        <div class="card" style="margin-top: 3em">
            <div class="card-body">
                <section class="text-center">
-                   <h4 class="text-center mb-2" ><strong>Other products in the same category</strong></h4>
+                   <h4 class="text-center mb-3" ><strong>Other products in the same category</strong></h4>
                    <div class="row">
                        <th:block th:each="other_product : ${products}">
                            <div class="col-md-4">
                                <!-- Card -->
                                <div class="img-product">
                                    <div class="img-product">
-                                       <a th:href="@{/product/{id}(id=${other_product.getId()})}"><img th:src="${other_product.getLink()}"></a>
+                                       <a th:href="@{/product/{id}(id=${other_product.getId()})}"><img th:src="${other_product.getLink()}" width="150" height="150" onerror="src='https://doorlock78.ru/templates/img/foto_not_found.jpg'"></a>
                                    </div>
                                    <div class="text-center pt-4">
                                        <a th:href="@{/product/{id}(id=${other_product.getId()})}" th:text="${other_product.getName}" class="href"></a>

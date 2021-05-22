@@ -173,7 +173,7 @@
                 <h2>Ваши желаемые товары</h2>
                 <div class="card card-body mt-3" th:each="wish :${wishlist}">
                     <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
-                        <div class="mr-2 mb-3 mb-lg-0"> <img th:src="${wish.getProduct().getLink()}" width="150" height="150" alt=""> </div>
+                        <div class="mr-2 mb-3 mb-lg-0"> <img th:src="${wish.getProduct().getLink()}" onerror="src='https://doorlock78.ru/templates/img/foto_not_found.jpg'" width="150" height="150" alt=""> </div>
                         <div class="media-body">
                             <h6 class="media-title font-weight-semibold"> <a href="#" data-abc="true" th:text="${wish.getProduct().getName()}"></a> </h6>
                         </div>

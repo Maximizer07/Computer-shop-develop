@@ -321,28 +321,38 @@
                                     <!-- Card -->
                                     <div class="" style="text-align: center;">
                                         <div class="img-product">
-                                            <a th:href="@{/product/{id}(id=${product.getId()})}"><img th:src="${product.getLink()}"></a>
+                                            <a th:href="@{/product/{id}(id=${product.getId()})}"><img th:src="${product.getLink()}" onerror="src='https://doorlock78.ru/templates/img/foto_not_found.jpg'"></a>
                                         </div>
                                         <div class="text-center pt-4">
                                             <a th:href="@{/product/{id}(id=${product.getId()})}" th:text="${product.getName}" class="href"></a>
-                                            <p><span class="mr-1"><strong th:text="${product.getPrice} + ' ₽'"></strong></span></p>
+                                            <p class="mb-1 mt-1"><span><strong style="font-weight:bold;" th:text="${product.getPrice} + ' ₽'"></strong></span></p>
                                         </div>
                                         <ul class="rating mb-5">
                                             <div th:switch="${product.getRating()}">
-                                                <p th:case="0" class="mb-2 text-muted text-uppercase small">Нет отзывов</p>
-                                                <th:block th:case="5">
-                                                    <li th:each="i: ${#numbers.sequence(1, product.getRating())}">
-                                                        <i class=" fa-star fas "></i>
-                                                    </li>
+                                                <th:block th:switch="${product.getQuantity()}">
+                                                    <th:block th:case="0">
+                                                        <span class="mb-2 text-uppercase small" style="color: red; font-weight:bold;">Нет в наличии</span>
+                                                    </th:block>
+                                                    <th:block th:case="*">
+                                                        <span class="mb-2 text-uppercase small" style="color: green; font-weight:bold;">В наличии</span>
+                                                    </th:block>
                                                 </th:block>
-                                                <th:block th:case="*">
-                                                    <li th:each="i: ${#numbers.sequence(1, product.getRating())}">
-                                                        <i class=" fa-star fas "></i>
-                                                    </li>
-                                                    <li th:each="i: ${#numbers.sequence(1, 5 - product.getRating())}">
-                                                        <i class=" fa-star far "></i>
-                                                    </li>
-                                                </th:block>
+                                                <div th:case="0" class="mb-2 text-muted text-uppercase small">Нет отзывов</div>
+                                                <div>
+                                                    <th:block th:case="5">
+                                                        <li th:each="i: ${#numbers.sequence(1, product.getRating())}">
+                                                            <i class=" fa-star fas "></i>
+                                                        </li>
+                                                    </th:block>
+                                                    <th:block th:case="*">
+                                                        <li th:each="i: ${#numbers.sequence(1, product.getRating())}">
+                                                            <i class=" fa-star fas "></i>
+                                                        </li>
+                                                        <li th:each="i: ${#numbers.sequence(1, 5 - product.getRating())}">
+                                                            <i class=" fa-star far "></i>
+                                                        </li>
+                                                    </th:block>
+                                                </div>
                                             </div>
                                         </ul>
                                     </div>
