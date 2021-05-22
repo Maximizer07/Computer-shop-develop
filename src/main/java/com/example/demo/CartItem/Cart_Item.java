@@ -9,6 +9,10 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 
+/**
+ * сущность продукта в корзине
+ * @author mike
+ */
 @Table(name = "cart_items")
 @Entity
 @Getter
@@ -16,15 +20,27 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cart_Item {
+    /**
+     * id продукта в корзине
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * связь много к одному с продуктом в каталоге
+     */
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    /**
+     * связь много к одному с заказом
+     */
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+    /**
+     * количество элементов товара в корзине
+     */
     @Column(name = "quantity")
     private int quantity;
 

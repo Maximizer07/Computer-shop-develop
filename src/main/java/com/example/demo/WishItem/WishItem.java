@@ -8,6 +8,10 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 
+/**
+ * сущность товара в списке желемых
+ * @author mike
+ */
 @Table(name = "wish_items")
 @Entity
 @Getter
@@ -16,12 +20,21 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class WishItem {
+    /**
+     * id товара в списке
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * продукт в каталоге
+     */
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    /**
+     * пользователь
+     */
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

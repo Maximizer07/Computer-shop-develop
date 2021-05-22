@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.User.User;
 import com.example.demo.User.UserRepository;
+import com.example.demo.User.UserRole;
 import com.example.demo.User.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +37,7 @@ public class UserServiceTests {
                 userRepository.findAll().get(0).getName());
     }
     @Test
-    void userExists() {
+    void userExistsbyName() {
         User user = new User();
         user.setName("Vasya");
         user.setEmail("vasia@gmail.com");
@@ -46,5 +47,77 @@ public class UserServiceTests {
         Mockito.when(userRepository.findByEmail("vasia@gmail.com")).thenReturn(java.util.Optional.of(user));
         assertEquals("Vasya",
                 us.loadUserByUsername("vasia@gmail.com").getName());
+    }
+    @Test
+    void userExistsbyId() {
+        User user = new User();
+        user.setName("Vasya");
+        user.setEmail("vasia@gmail.com");
+        user.setId(1L);
+        user.setPassword("123456");
+        UserService us =new UserService(userRepository);
+        Mockito.when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(user));
+        assertEquals("Vasya",
+                us.loadUserById(1L).getName());
+    }
+    @Test
+    void updateUserName() {
+        User user = new User();
+        user.setName("Vasya");
+        user.setEmail("vasia@gmail.com");
+        user.setId(1L);
+        user.setPassword("123456");
+        UserService us =new UserService(userRepository);
+        Mockito.when(userRepository.findByEmail("vasia@gmail.com")).thenReturn(java.util.Optional.of(user));
+        assertEquals("Vasya",
+                us.loadUserByUsername("vasia@gmail.com").getName());
+        us.loadUserByUsername("vasia@gmail.com").setName("Maksim");
+        assertEquals("Maksim",
+                us.loadUserByUsername("vasia@gmail.com").getName());
+    }
+    @Test
+    void updateUserSurName() {
+        User user = new User();
+        user.setSurname("Zikov");
+        user.setEmail("vasia@gmail.com");
+        user.setId(1L);
+        user.setPassword("123456");
+        UserService us =new UserService(userRepository);
+        Mockito.when(userRepository.findByEmail("vasia@gmail.com")).thenReturn(java.util.Optional.of(user));
+        assertEquals("Zikov",
+                us.loadUserByUsername("vasia@gmail.com").getSurname());
+        us.loadUserByUsername("vasia@gmail.com").setSurname("Tumanov");
+        assertEquals("Tumanov",
+                us.loadUserByUsername("vasia@gmail.com").getSurname());
+    }
+    @Test
+    void updateUserRole() {
+        User user = new User();
+        user.setSurname("Zikov");
+        user.setEmail("vasia@gmail.com");
+        user.setId(1L);
+        user.setUserRole(UserRole.USER);
+        UserService us =new UserService(userRepository);
+        Mockito.when(userRepository.findByEmail("vasia@gmail.com")).thenReturn(java.util.Optional.of(user));
+        assertEquals("Zikov",
+                us.loadUserByUsername("vasia@gmail.com").getSurname());
+        us.loadUserByUsername("vasia@gmail.com").setUserRole(UserRole.ADMIN);
+        assertEquals(UserRole.ADMIN,
+                us.loadUserByUsername("vasia@gmail.com").getUserRole());
+    }
+    @Test
+    void userDelete() {
+        User user = new User();
+        user.setName("Vasya");
+        user.setEmail("vasia@gmail.com");
+        user.setId(1L);
+        user.setPassword("123456");
+        UserService us =new UserService(userRepository);
+        Mockito.when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(user));
+        assertEquals("Vasya",
+                us.loadUserById(1L).getName());
+        us.deleteUser(1L);
+        Mockito.verify(userRepository).deleteUserById(1L);
+        assertEquals(0,us.readAll().size());
     }
 }

@@ -1,5 +1,16 @@
 package com.example.demo.User;
 
+/**
+ * роли пользователей
+ * @author mike
+ */
 public enum UserRole {
-    ADMIN, USER
+    /**
+     * Администратор
+     */
+    ADMIN,
+    /**
+    * Пользователь
+    */
+    USER
 }
