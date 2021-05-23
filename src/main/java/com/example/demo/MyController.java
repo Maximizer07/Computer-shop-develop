@@ -370,17 +370,17 @@ public class MyController implements ErrorController {
         if(comment != null){
             review.setComment(comment);
             review.setRating(rating);
-            review.setProduct(productService.findBynumber(id));
+            review.setProduct(productService.findById(id));
             review.setUser(userService.loadUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
             review.setCreated(LocalDate.now(ZoneId.of("Europe/Moscow")));
             reviewService.save(review);
         }
         long rat = 0;
-        for (Review rev:productService.findBynumber(id).getReviews()) {
+        for (Review rev:productService.findById(id).getReviews()) {
             rat += rev.getRating();
         }
-        int average = (int) (rat/productService.findBynumber(id).getReviews().size());
-        Product product = productService.findBynumber(id);
+        int average = (int) (rat/productService.findById(id).getReviews().size());
+        Product product = productService.findById(id);
         product.setRating(average);
         productService.save(product);
         return String.valueOf(id);
@@ -394,7 +394,7 @@ public class MyController implements ErrorController {
             o.setStatus(-1);
             o.setUserid(userService.loadUserByUsername(authentication.getName()).getId());
             orderService.save(o);
-            cart_item.setProduct(productService.findBynumber(number));
+            cart_item.setProduct(productService.findById(number));
             cart_item.setQuantity(1);
             cart_item.setOrder(o);
             cartItemService.create(cart_item);
@@ -418,7 +418,7 @@ public class MyController implements ErrorController {
                         .stream().filter(o -> o.getStatus() == -1).findAny().get()).findAny().get());
             }
             else {
-                cart_item.setProduct(productService.findBynumber(number));
+                cart_item.setProduct(productService.findById(number));
                 cart_item.setQuantity(1);
                 cart_item.setOrder(orderService.findbyuser(userService.loadUserByUsername(authentication.getName()).getId()).stream().filter(o -> o.getStatus() == -1).findAny().get());
                 cartItemService.create(cart_item);
@@ -430,7 +430,7 @@ public class MyController implements ErrorController {
     String addWishItem(@PathVariable(value = "number") int number, Model model) {
         WishItem wishItem = new WishItem();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        wishItem.setProduct(productService.findBynumber(number));
+        wishItem.setProduct(productService.findById(number));
         wishItem.setUser(userService.loadUserByUsername(authentication.getName()));
         wishService.save(wishItem);
         return "redirect:/user_info";

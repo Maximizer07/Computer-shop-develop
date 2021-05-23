@@ -1,5 +1,6 @@
 package com.example.demo.Review;
 
+import com.example.demo.Description.Description;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,14 @@ public class ReviewService {
      */
     public List<Review> findAll(){
         return reviewRepository.findAll();
+    }
+    /**
+     * получение отзыва по id
+     * @param Id id отзыва
+     * @return объект отзыва
+     */
+    public Review findById(int Id){
+        return reviewRepository.findById(Id);
     }
     /**
      * добавление отзыва

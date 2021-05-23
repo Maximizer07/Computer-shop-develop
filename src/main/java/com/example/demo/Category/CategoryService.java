@@ -90,16 +90,6 @@ public class CategoryService {
         return categoryRepository.findById(Id);
     }
     /**
-     * получения списка категорий по названию и id
-     * @param Id id категории
-     * @param Name название категории
-     * @return список категорий по id продукта и названию
-     */
-    public List<Category> findByIdAndName(int Id, String Name){
-        log.info("Find categories, whose Id and Name = {}",Id);
-        return categoryRepository.findByIdAndName(Id,Name);
-    }
-    /**
      * удаление категории по id
      * @param c объект категории
      */
