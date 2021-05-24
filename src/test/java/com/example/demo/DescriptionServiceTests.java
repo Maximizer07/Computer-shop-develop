@@ -21,7 +21,7 @@ public class DescriptionServiceTests {
     @Mock
     private DescriptionRepository descriptionRepository;
     @Captor
-    ArgumentCaptor<Product> captor;
+    ArgumentCaptor<Description> captor;
     @Test
     void getDescriptions() {
         Description description1 = new Description();
@@ -35,7 +35,7 @@ public class DescriptionServiceTests {
         DescriptionService ds =new DescriptionService(descriptionRepository);
         assertEquals(2,
                 ds.readAll().size());
-        assertEquals("Test2",
+        assertEquals("Test1",
                 descriptionRepository.findAll().get(0).getDescription());
     }
     @Test
