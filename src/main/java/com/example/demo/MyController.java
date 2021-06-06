@@ -28,7 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.apache.commons.validator.routines.EmailValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
@@ -62,15 +62,21 @@ public class MyController implements ErrorController {
     private CriteriaService criteriaService;
     @PostMapping("/sign-up")
     String signUp(User user, Model model) {
-        if(!user.getPassword().equals(user.getPassword2())){
-            model.addAttribute("Problem","sign");
-            model.addAttribute("Status","pass1!=pass2");
-            model.addAttribute("kolvo", size());
-            return "login";
-        }
         if(userService.uniqueEmail(user.getEmail())){
             model.addAttribute("Problem","sign");
             model.addAttribute("Status","oldemail");
+            model.addAttribute("kolvo", size());
+            return "login";
+        }
+        if(!EmailValidator.getInstance().isValid(user.getEmail())){
+            model.addAttribute("Problem","sign");
+            model.addAttribute("Status","bademail");
+            model.addAttribute("kolvo", size());
+            return "login";
+        }
+        if(!user.getPassword().equals(user.getPassword2())){
+            model.addAttribute("Problem","sign");
+            model.addAttribute("Status","pass1!=pass2");
             model.addAttribute("kolvo", size());
             return "login";
         }

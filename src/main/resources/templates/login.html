@@ -59,9 +59,10 @@
                                         <input type="text" id="name" name="name" th:field="*{name}" placeholder="Имя">
                                         <input type="text" id="surname" name="surname" th:field="*{surname}" placeholder="Фамилия">
                                         <div th:if="${Status} == 'oldemail'" class="text-danger">данная почта уже привязана к другому аккаунту</div>
-                                        <input type="text" id="email" name="email" th:field="*{email}" placeholder="Почта">
-                                        <input type="password" id="password" name="password" th:field="*{password}" placeholder="Пароль">
-                                        <input type="password" id="password2" name="password2" th:field="*{password2}" placeholder="Повторите пароль">
+                                        <div th:if="${Status} == 'bademail'" class="text-danger">пожалуйста, введите почту</div>
+                                        <input type="text" id="email" name="email" th:field="*{email}" placeholder="Почта" required>
+                                        <input type="password" id="password" name="password" th:field="*{password}" placeholder="Пароль" required>
+                                        <input type="password" id="password2" name="password2" th:field="*{password2}" placeholder="Повторите пароль" required>
                                         <div th:if="${Status} == 'pass1!=pass2'" class="text-danger">неправильный пароль подтверждения</div>
                                         <input type="submit"  value="Создать аккаунт">
                                     </form>
@@ -74,9 +75,10 @@
                                             <input type="text" id="name" name="name" th:field="*{name}" placeholder="Имя">
                                             <input type="text" id="surname" name="surname" th:field="*{surname}" placeholder="Фамилия">
                                             <div th:if="${Status} == 'oldemail'" class="text-danger">данная почта уже привязана к другому аккаунту</div>
-                                            <input type="text" id="email" name="email" th:field="*{email}" placeholder="Почта">
-                                            <input type="password" id="password" name="password" th:field="*{password}" placeholder="Пароль">
-                                            <input type="password" id="password2" name="password2" th:field="*{password2}" placeholder="Повторите пароль">
+                                            <div th:if="${Status} == 'bademail'" class="text-danger">пожалуйста, введите почту</div>
+                                            <input type="text" id="email" name="email" th:field="*{email}" placeholder="Почта" required>
+                                            <input type="password" id="password" name="password" th:field="*{password}" placeholder="Пароль" required>
+                                            <input type="password" id="password2" name="password2" th:field="*{password2}" placeholder="Повторите пароль" required>
                                             <div th:if="${Status} == 'pass1!=pass2'" class="text-danger">неправильный пароль подтверждения</div>
                                             <input type="submit"  value="Создать аккаунт">
                                         </form>
