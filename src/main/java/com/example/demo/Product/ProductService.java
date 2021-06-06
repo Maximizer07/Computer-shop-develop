@@ -65,18 +65,7 @@ public class ProductService {
         log.info("Find product, whose Id = {}",Id);
         return productRepository.findById(Id);
     }
-    /**
-     * получение продукта по id
-     * @param number id продукта
-     * @return объект продукта
-     */
-    public Product findBynumber(int number){
-        return productRepository.findById(number);
-    }
-    /**
-     * изменение продукта
-     * @param p объект продукта
-     */
+
     public void change(Product p){
         productRepository.save(p);
     }
