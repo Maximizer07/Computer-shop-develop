@@ -128,7 +128,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param token
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @GetMapping("sign-up/confirm")
@@ -141,9 +141,9 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /about
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу о нас
      */
     @GetMapping("/about")
     public String about(Model model) {
@@ -154,7 +154,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param number
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @RequestMapping(path="admin/{number}")
@@ -168,7 +168,7 @@ public class MyController implements ErrorController {
 
     /**
      *
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @param user
      * @return
      */
@@ -180,9 +180,9 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /categories
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу категорий товаров
      */
     @GetMapping("/categories")
     public String viewCategoriesPage(Model model) {
@@ -216,9 +216,9 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает главную страницу
      */
     @RequestMapping(path = "/")
     public String add(Model model) {
@@ -232,9 +232,9 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /admin2
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу админ панели
      */
     @RequestMapping(path = "/admin2")
     public String admin2(Model model) {
@@ -258,10 +258,10 @@ public class MyController implements ErrorController {
     /**
      *
      * @param number
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @param user
-     * @param redirectAttrs
-     * @return
+     * @param redirectAttrs Flash-атрибуты
+     * @return Перенаправление на страницу админ панели
      */
     @PostMapping ("/changeRole/{number}")
     public String changeRole(@PathVariable(value = "number") long number,Model model,
@@ -274,9 +274,9 @@ public class MyController implements ErrorController {
     /**
      *
      * @param number
-     * @param model
-     * @param redirectAttrs
-     * @return
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @return Перенаправление на страницу админ панели
      */
     @GetMapping ("/deleteUser/{number}")
     public String deleteUser(@PathVariable(value = "number") long number,
@@ -287,12 +287,12 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param Name
-     * @param Link
-     * @param model
-     * @param redirectAttrs
-     * @return
+     * Метод слушающий все запросы по /category/add, добавляет новую категорию товаров
+     * @param Name Название категории
+     * @param Link Ссылка на изображение
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @return Перенаправление на страницу админ панели
      */
     @RequestMapping(path = "/category/add", method = RequestMethod.POST)
     public String addNewCategory(@RequestParam String Name, @RequestParam String Link,
@@ -306,9 +306,9 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /addproduct
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу добавления нового товара
      */
     @GetMapping("/addproduct")
     public String addProduct(Model model) {
@@ -317,19 +317,19 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param Name
-     * @param Category
-     * @param Price
-     * @param Quantity
-     * @param Manufacturer
-     * @param Link
-     * @param Description
-     * @param model
-     * @param redirectAttrs
-     * @param characteristics
-     * @param values
-     * @return
+     * Метод слушающий все запросы по /savenewproduct, добавляет новый продукт
+     * @param Name Название товара
+     * @param Price Цена продукта
+     * @param Quantity Количество продукта
+     * @param Manufacturer Производитель продукта
+     * @param Link Ссылка на изображение
+     * @param Category Категория товара
+     * @param Description Описание товара
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @param characteristics Список добавленных характеристик
+     * @param values Список значений характеристик
+     * @return Перенаправление на страницу админ панели
      */
     @RequestMapping(path = "/savenewproduct", method = { RequestMethod.GET, RequestMethod.POST })
     public String saveNewProduct(@RequestParam String Name,@RequestParam Integer Category,
@@ -364,13 +364,13 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param id
-     * @param Name
-     * @param Link
-     * @param model
-     * @param redirectAttrs
-     * @return
+     * Метод слушающий все запросы по /category/change/{id}, изменяет категорию товаров
+     * @param id Идентификатор категории
+     * @param Name Название категории
+     * @param Link Ссылка на изображение
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @return Перенаправление на страницу админ панели
      */
     @RequestMapping(path = "/category/change/{id}", method = RequestMethod.POST)
     public String changeCategoryData(@PathVariable(value = "id") int id, @RequestParam String Name,
@@ -384,11 +384,11 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param Id
-     * @param Name
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /category/search, фильтрует категории товаров
+     * @param Id Идентификатор категории
+     * @param Name Название категории
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу админ панели
      */
     @RequestMapping(path = "/category/search", method = RequestMethod.POST)
     public String categorySearch(@RequestParam(required =false) Integer Id, @RequestParam String Name, Model model) {
@@ -407,14 +407,14 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param Id
-     * @param Name
-     * @param Quantity
-     * @param Idcategory
-     * @param Price
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /product/search, фильтрует продукты
+     * @param Id Идентификатор продукта
+     * @param Name Название товара
+     * @param Price Цена продукта
+     * @param Quantity Количество продукта
+     * @param Idcategory Идентификатор категории
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу админ панели
      */
     @RequestMapping(path = "/product/search", method = RequestMethod.POST)
     public String productSearch(@RequestParam(required =false) Integer Id, @RequestParam String Name,@RequestParam(required =false) Integer Quantity,@RequestParam(required =false) Integer Idcategory, @RequestParam(required =false) Integer Price, Model model) {
@@ -435,11 +435,11 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param id
-     * @param model
-     * @param redirectAttrs
-     * @return
+     * Метод слушающий все запросы по /category/delete/{id}, удаляет категорию товаров
+     * @param id Идентификатор категории
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @return Перенаправление на страницу админ панели
      */
     @RequestMapping(path = "/category/delete/{id}", method = RequestMethod.POST)
     public String deleteCategory(@PathVariable(value = "id") int id, Model model, final RedirectAttributes redirectAttrs) {
@@ -450,11 +450,11 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param id
-     * @param model
-     * @param redirectAttrs
-     * @return
+     * Метод слушающий все запросы по /product/delete/{id}, удаляет продукт
+     * @param id Идентификатор продукта
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @return Перенаправление на страницу админ панели
      */
     @RequestMapping(path = "/product/delete/{id}", method = RequestMethod.POST)
     public String deleteProduct(@PathVariable(value = "id") int id, Model model, final RedirectAttributes redirectAttrs) {
@@ -469,14 +469,14 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param id
-     * @param Name
-     * @param Price
-     * @param Quantity
-     * @param model
-     * @param redirectAttrs
-     * @return
+     * Метод слушающий все запросы по /product/change/{id}, изменяет поля продукта
+     * @param id Идентификатор продукта
+     * @param Name Название товара
+     * @param Price Цена продукта
+     * @param Quantity Количество продукта
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @return Перенаправление на страницу админ панели
      */
     @RequestMapping(path = "/product/change/{id}", method = RequestMethod.POST)
     public String changeProductData(@PathVariable(value = "id") int id, @RequestParam String Name,
@@ -492,20 +492,20 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param id
-     * @param Name
-     * @param Price
-     * @param Quantity
-     * @param Manufacturer
-     * @param Link
-     * @param Category
-     * @param Description
-     * @param model
-     * @param redirectAttrs
-     * @param characteristics
-     * @param values
-     * @return
+     * Метод слушающий все запросы по /product/savechangeinfo/{id}, изменяет поля продукта
+     * @param id Идентификатор продукта
+     * @param Name Название товара
+     * @param Price Цена продукта
+     * @param Quantity Количество продукта
+     * @param Manufacturer Производитель продукта
+     * @param Link Ссылка на изображение
+     * @param Category Категория товара
+     * @param Description Описание товара
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @param characteristics Список добавленных характеристик
+     * @param values Список значений характеристик
+     * @return Перенаправление на страницу админ панели
      */
     @RequestMapping(path = "/product/savechangeinfo/{id}", method = { RequestMethod.GET, RequestMethod.POST })
     public String saveChangeInfo(@PathVariable(value = "id") int id, @RequestParam String Name,
@@ -546,10 +546,10 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param id
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /product/changeinfo/{id}
+     * @param id Идентификатор продукта
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу редактирвоания продукта
      */
     @RequestMapping(path = "/product/changeinfo/{id}", method = RequestMethod.POST)
     public String changeAllProductData(@PathVariable(value = "id") int id, Model model) {
@@ -560,12 +560,12 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param Name
-     * @param Link
-     * @param model
-     * @param redirectAttrs
-     * @return
+     * Метод слушающий все запросы по /category/delete, удаляет существующую категорию товара
+     * @param Name Название категории
+     * @param Link Ссылка на картинку обложки
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @param redirectAttrs Flash-атрибуты
+     * @return Перенаправление на админ панель
      */
     @RequestMapping(path = "/category/delete", method = RequestMethod.POST)
     public String DeleteCategory(@RequestParam String Name, @RequestParam String Link,
@@ -579,11 +579,11 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Метод слушающий все запросы по /user_info/changename
+     * @param request Объект запроса
+     * @param response Объект ответа
+     * @return Возвращает имя
+     * @throws Exception Исключение
      */
     @RequestMapping(value = "/user_info/changename", method = RequestMethod.POST)
     public @ResponseBody String addname(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -594,11 +594,11 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Метод слушающий все запросы по /user_info/changesurname
+     * @param request Объект запроса
+     * @param response Объект ответа
+     * @return Возвращает фамилию
+     * @throws Exception Исключение
      */
     @RequestMapping(value = "/user_info/changesurname", method = RequestMethod.POST)
     public @ResponseBody String addsurname(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -609,12 +609,12 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param request
-     * @param response
-     * @param model
-     * @return
-     * @throws Exception
+     * Метод слушающий все запросы по /makereview, добавляет новый отзыв продукту
+     * @param request Объект запроса
+     * @param response Объект ответа
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает строковое представление идентификатора товара
+     * @throws Exception Исключение
      */
     @RequestMapping(value = "/makereview", method = RequestMethod.POST)
     public @ResponseBody String addreview(HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
@@ -645,7 +645,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param number
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @GetMapping("shopping_card/add/{number}")
@@ -693,7 +693,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param number
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @GetMapping("wishadd/{number}")
@@ -709,7 +709,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param number
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @GetMapping("wishdelete/{number}")
@@ -720,7 +720,7 @@ public class MyController implements ErrorController {
 
     /**
      *
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @RequestMapping(path = "/shopping_card")
@@ -743,10 +743,10 @@ public class MyController implements ErrorController {
 
     /**
      *
-     * @param request
-     * @param response
+     * @param request Объект запроса
+     * @param response Объект ответа
      * @return
-     * @throws Exception
+     * @throws Exception Исключение
      */
     @RequestMapping(value = "shopping_card/change", method = RequestMethod.POST)
     public @ResponseBody String ShoppingCardChange(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -761,7 +761,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param id
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @GetMapping("shopping_card/delete")
@@ -772,7 +772,7 @@ public class MyController implements ErrorController {
 
     /**
      *
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @RequestMapping(path="/user_info")
@@ -793,7 +793,7 @@ public class MyController implements ErrorController {
 
     /**
      *
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @param number
      * @return
      */
@@ -804,7 +804,7 @@ public class MyController implements ErrorController {
 
     /**
      *
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @RequestMapping(path="shopping_card/order_confirm")
@@ -824,7 +824,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param data
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @RequestMapping(path="shopping_card/order_confirm/success")
@@ -850,7 +850,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param number
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @RequestMapping(path="user_info/orders/{number}")
@@ -865,7 +865,7 @@ public class MyController implements ErrorController {
     /**
      *
      * @param number
-     * @param model
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
      * @return
      */
     @RequestMapping(path="user_info/orders/deleteinfo/{number}")
@@ -875,10 +875,10 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param engname
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /categories/{category}
+     * @param engname Английское название категории
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу с запрашиваемой категорией товаров
      */
     @RequestMapping("/categories/{category}")
     public String categoryProducts(@PathVariable(value = "category") String engname, Model model){
@@ -912,16 +912,16 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param category
-     * @param quantity
-     * @param rating
-     * @param manufactures_list
-     * @param filterName
-     * @param minPrice
-     * @param maxPrice
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /categories/filter
+     * @param category Объект категории
+     * @param rating Массив выбранного рейтинга
+     * @param quantity Количество продукта
+     * @param manufactures_list Массив выбранных производителей
+     * @param filterName Фрагмент названия продукта
+     * @param minPrice Минимальная цена продукта
+     * @param maxPrice Максимальная цена продукта
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу отфильтрованных товаров
      */
     @RequestMapping("/categories/filter")
     public String categoryFilter(@RequestParam String category,@RequestParam int quantity,
@@ -1003,9 +1003,9 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /error
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу ошибки
      */
     @RequestMapping("/error")
     public String handleError(Model model) {
@@ -1014,9 +1014,9 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /wishlist
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу желаемых товаров
      */
     @GetMapping("/wishlist")
     public String wishlist(Model model) {
@@ -1025,10 +1025,10 @@ public class MyController implements ErrorController {
     }
 
     /**
-     *
-     * @param id
-     * @param model
-     * @return
+     * Метод слушающий все запросы по /product/{id}
+     * @param id Идентификатор продукта
+     * @param model - Объект предоставляющий атрибуты, используемые для визуализации представлений
+     * @return Возвращает страницу с конкретным продуктом
      */
     @RequestMapping(path="product/{id}")
     public String product_info(@PathVariable(value = "id") int id, Model model) {

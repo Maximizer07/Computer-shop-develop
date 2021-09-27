@@ -66,6 +66,10 @@ public class ProductService {
         return productRepository.findById(Id);
     }
 
+    /**
+     * Метод изменяет продукт в БД
+     * @param p Объект продукта
+     */
     public void change(Product p){
         productRepository.save(p);
     }
