@@ -1,0 +1,12 @@
+com.example.demo
+com.example.demo.CartItem
+com.example.demo.Category
+com.example.demo.ConfirmationToken
+com.example.demo.Description
+com.example.demo.Order
+com.example.demo.Product
+com.example.demo.Property
+com.example.demo.Review
+com.example.demo.ShoppingCart
+com.example.demo.User
+com.example.demo.WishItem
