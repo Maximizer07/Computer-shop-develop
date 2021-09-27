@@ -77,7 +77,7 @@ public class SecurityConfig extends
                 .antMatchers("/admin","/admin2").hasAuthority("ADMIN")
                 .antMatchers("/user_info","/shoppingcard").hasAnyAuthority("ADMIN","USER")
                 //Доступ разрешен всем пользователей
-                .antMatchers("/categories/**","/product/**").permitAll()
+                .antMatchers("/categories/**","/product/**","/about/**").permitAll()
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()
