@@ -7,47 +7,47 @@ import org.springframework.stereotype.Repository;
 import java.util.Arrays;
 import java.util.List;
 /**
- * репозиторий работы с продуктами
+ * Репозиторий для работы с продуктами из таблицы БД
  * @author Maximus
  */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     /**
-     * получение продукта по названию
-     * @param name название продукта
-     * @return объект продукта
+     * Метод получает продукт по названию
+     * @param name Название продукта
+     * @return Искомый продукт
      */
     Product findByName(String name);
     /**
-     * получение продукта по id
-     * @param id id продукта
-     * @return объект продукта
+     * Метод получает продукт по идентификатору
+     * @param id Идентификатор продукта
+     * @return Искомый продукт
      */
     Product findById(int id);
     /**
-     * получение списка продуктов по id категории
-     * @param categoryId id категории
-     * @return список продуктов
+     * Метод получает список продуктов по идентификатору категории
+     * @param categoryId Идентификатор категории
+     * @return Искомый список продуктов
      */
     List<Product> findByCategoryId(int categoryId);
     /**
-     * поиск списка продуктов по фильтру
-     * @param filterName фрагмент названия
-     * @param categoryId id категории
-     * @param minPrice минимальная цена продукта
-     * @param maxPrice максимальная цена продукта
-     * @param minQuantity минимальное количество продукта
-     * @param maxQuantity максимальное количество продукта
-     * @param manufactures_list список производителей
-     * @param Rating список рейтинга
-     * @return список продуктов
+     * Метод производит поиск списка продуктов по определенному фильтру
+     * @param filterName Фрагмент названия
+     * @param categoryId Идентификатор категории
+     * @param minPrice Минимальная цена продукта
+     * @param maxPrice Максимальная цена продукта
+     * @param minQuantity Минимальное количество продукта
+     * @param maxQuantity Максимальное количество продукта
+     * @param manufactures_list Список производителей
+     * @param Rating Список рейтинга
+     * @return Искомый список продуктов
      */
     List<Product> findByNameContainingIgnoreCaseAndAndCategoryIdAndPriceBetweenAndQuantityBetweenAndManufacturerInAndRatingIn(
             String filterName, int categoryId, int minPrice, int maxPrice, int minQuantity
             , int maxQuantity, List<String> manufactures_list, List<Integer> Rating);
     /**
-     * удаление продукта по id
-     * @param id id продукта
+     * Метод удаляет продукт по идентификатору
+     * @param id Идентификатор продукта
      */
     Void deleteById(Long id);
 }

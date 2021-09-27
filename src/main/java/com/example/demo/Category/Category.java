@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * сущность категория продуктов
+ * Класс представляющий модель категории продуктов
  * @author Maximus
  */
 @Getter
@@ -23,28 +23,28 @@ import java.util.List;
 
 public class Category {
     /**
-     * id категории
+     * Идентификатор категории
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
-     * название категории
+     * Название категории
      */
     @Column(name="name", length = 100, nullable = false)
     public String name;
     /**
-     * английское название категории
+     * Английское название категории
      */
     @Column(name="eng_name", length = 100, nullable = false)
     public String engname;
     /**
-     * ссылка на изображение
+     * Ссылка на изображение
      */
     @Column(name="picture_link", length = 100, nullable = false)
     private String link;
     /**
-     * продукты категории
+     * Продукты категории
      */
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Product> products;

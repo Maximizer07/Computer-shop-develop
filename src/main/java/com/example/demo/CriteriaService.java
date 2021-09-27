@@ -27,7 +27,7 @@ import java.util.stream.IntStream;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
 /**
- * сервис критериев
+ * Сервис для фильтрации объектов по критериям
  * @author Maximus
  */
 @Component
@@ -36,26 +36,26 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 @Transactional
 public class CriteriaService {
     /**
-     * репозиторий работы с категориями товаров
+     * Репозиторий для работы с категориями товаров из таблицы БД
      */
     @Autowired
     private CategoryRepository categoryRepository;
     /**
-     * репозиторий работы с товарами
+     * Репозиторий для работы с продуктами из таблицы БД
      */
     @Autowired
     private ProductRepository productRepository;
     /**
-     * Фабрика сессий
+     * Неизменяемый потокобезопасный объект с компилированным маппингом для одной базы данных
      */
     private final SessionFactory sessionFactory;
     /**
-     * Сессия
+     * Однопоточный короткоживущий объект, который предоставляет связь между объектами приложения и базой данных
      */
     private Session session;
 
     /**
-     * Открытие сессии
+     * Конструктор определяющий session
      */
     @PostConstruct
     void init() {
@@ -63,20 +63,20 @@ public class CriteriaService {
     }
 
     /**
-     * Закрытие сессии
+     * Деструктор освобождающий session
      */
     @PreDestroy
     void closeSession() {
         session.close();
     }
     /**
-     * получение фильтрованного списка продуктов
-     * @param Name фрагмент названия продукта
-     * @param Id id продукта
-     * @param Price цена продукта
-     * @param Quantity количество продукта
-     * @param Idcategory id категории продуктов
-     * @return список категорий
+     * Метод получающий фильтрованный список продуктов для администрирования
+     * @param Name Фрагмент названия продукта
+     * @param Id Идентификатор продукта
+     * @param Price Цена продукта
+     * @param Quantity Количество продукта
+     * @param Idcategory Идентификатор категории продуктов
+     * @return Список продуктов
      */
     public List<Product> takeProducts(String Name, Integer Id, Integer Price, Integer Quantity, Integer Idcategory) {
         Product product = new Product();
@@ -103,10 +103,10 @@ public class CriteriaService {
         return productRepository.findAll(example);
     }
     /**
-     * получение списка категорий по фрагменту названия и id категории
-     * @param Name фрагмент названия категории
-     * @param Id id категории
-     * @return список категорий
+     * Метод получает фильтрованный список категорий
+     * @param Name Фрагмент названия категории
+     * @param Id Идентификатор категории
+     * @return Список категорий
      */
     public List<Category> takeCategories(String Name, Integer Id) {
         Category category = new Category();
@@ -125,16 +125,16 @@ public class CriteriaService {
         return categoryRepository.findAll(example);
     }
     /**
-     * получение фильтрованного списка продуктов
-     * @param category объект категории
-     * @param rating массив выбранного рейтинга
-     * @param quantity количество продукта
-     * @param manufactures_list массив выбранных производителей
-     * @param filterName фрагмент названия продукта
-     * @param minPrice минимальная цена продукта
-     * @param maxPrice максимальная цена продукта
-     * @param manufactures_set список всех производителей
-     * @return список продуктов
+     * Метод получает отфильтрованный список продуктов
+     * @param category Объект категории
+     * @param rating Массив выбранного рейтинга
+     * @param quantity Количество продукта
+     * @param manufactures_list Массив выбранных производителей
+     * @param filterName Фрагмент названия продукта
+     * @param minPrice Минимальная цена продукта
+     * @param maxPrice Максимальная цена продукта
+     * @param manufactures_set Список всех производителей
+     * @return Список продуктов
      */
     public List<Product> takeProductList(Category category, int[] rating, int quantity,
                                           String[] manufactures_list, String filterName,

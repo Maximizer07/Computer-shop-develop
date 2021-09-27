@@ -7,7 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 
 /**
- * сущность характеристика продукта
+ * Класс представляющий модель характеристики продукта
  * @author Maximus
  */
 @Getter
@@ -19,24 +19,24 @@ import javax.persistence.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Property {
     /**
-     * id характеристики
+     * Идентификатор характеристики
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
-     * название характеристики
+     * Название характеристики
      */
     @Column(name="property", length = 100, nullable = false)
     public String name;
     /**
-     * связь много к одному с продуктом
+     * Связь много к одному с продуктом
      */
     @ManyToOne
     @JoinColumn(name = "id_product")
     private Product product;
     /**
-     * значение характеристики
+     * Значение характеристики
      */
     @Column(name="value", length = 100, nullable = false)
     private String value;

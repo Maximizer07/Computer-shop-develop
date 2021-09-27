@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 /**
- * сервис работы с описантями товаров
+ * Сервис для работы с описаниями товаров из таблицы БД
  * @author Maximus
  */
 @Service
@@ -16,21 +16,21 @@ import java.util.List;
 @Transactional
 public class DescriptionService {
     /**
-     * репозиторий работы с описаниями товаров
+     * Репозиторий для работы с описаниями товаров из таблицы БД
      */
     @Autowired
     private DescriptionRepository descriptionRepository;
     /**
-     * конструктор сервиса
-     * @param descriptionRepository репозиторий работы с описаниями товаров
+     * Конструктор сервиса для работы с описаниями товаров из таблицы БД
+     * @param descriptionRepository Репозиторий для работы с описаниями товаров из таблицы БД
      */
     public DescriptionService(DescriptionRepository descriptionRepository) {
         this.descriptionRepository = descriptionRepository;
     }
 
     /**
-     * добавление описания
-     * @param p объект описания
+     * Метод добавляет описание товара в БД
+     * @param p Объект описания товара
      */
     public void create(Description p) {
         log.info("Save description {}", p);
@@ -38,25 +38,25 @@ public class DescriptionService {
     }
 
     /**
-     * получение всех описаний
-     * @return список всех описаний
+     * Метод получает все описания товаров из БД
+     * @return Список всех описаний товаров
      */
     public List<Description> readAll() {
         log.info("Find all descriptions");
         return descriptionRepository.findAll();
     }
     /**
-     * получение описания по id
-     * @param Id id описания
-     * @return объект описания
+     * Метод получает описание товара по идентификатору
+     * @param Id Идентификатор описания товара
+     * @return Искомое описание товара
      */
     public Description findById(int Id){
         log.info("Find description, whose Id = {}",Id);
         return descriptionRepository.findById(Id);
     }
     /**
-     * удаления описания
-     * @param p объект описания
+     * Метод удаляет описание товара
+     * @param p Объект описания товара
      */
     public void delete(Description p){
         log.info("Delete description, whose Id = {}",p.getId());

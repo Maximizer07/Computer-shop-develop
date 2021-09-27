@@ -9,21 +9,21 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * репозиторий работы с отзывами товаров
+ * Репозиторий для работы с отзывами товаров из таблицы БД
  * @author Maximus
  */
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     /**
-     * удаление отзыва по id
-     * @param id отзыва
+     * Метод удаляющий отзыв по идентификатору
+     * @param id Идентификатор отзыва
      */
     void deleteById(Long id);
 
     /**
-     * получение отзыва по id
-     * @param id id отзыва
-     * @return объект отзыва
+     * Метод получающий отзыв по идентификатору
+     * @param id Идентификатор отзыва
+     * @return Искомый отзыв
      */
     Review findById(int id);
 }

@@ -4,20 +4,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * репозиторий работы с характеристиками товаров
+ * Репозиторий работы с характеристиками товаров из таблицы БД
  * @author Maximus
  */
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Integer> {
     /**
-     * получение характеристики по id
-     * @param id id характеристики
-     * @return объект характеристики
+     * Метод получает характеристику по идентификатору
+     * @param id Идентификатор характеристики
+     * @return Искомая характеристика
      */
     Property findById(int id);
     /**
-     * удаление характеристики по id
-     * @param id id характеристики
+     * Метод удаляет характеристику по идентификатору
+     * @param id Идентификатор характеристики
      */
     void deleteById(Long id);
 }

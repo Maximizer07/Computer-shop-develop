@@ -8,7 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 
 /**
- * сущность описание продукта
+ * Класс представляющий модель описания продукта
  * @author Maximus
  */
 @Getter
@@ -21,14 +21,14 @@ import javax.persistence.*;
 
 public class Description {
     /**
-     * id описания
+     * Идентификатор описания
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * id продукта, чье описание
+     * Идентификатор продукта, чье описание
      */
     @OneToOne(
             orphanRemoval = true,
@@ -36,7 +36,7 @@ public class Description {
     @JoinColumn(name = "id_product")
     private Product product;
     /**
-     * описание товара
+     * Описание товара
      */
     @Column(name="description", length = 1000, nullable = false)
     public String description;

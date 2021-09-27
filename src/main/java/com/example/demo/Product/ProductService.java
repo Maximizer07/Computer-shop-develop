@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 /**
- * сервис работы с продуктами
+ * Сервис для работы с продуктами из таблицы БД
  * @author Maximus
  */
 @Service
@@ -18,48 +18,48 @@ import java.util.List;
 @Transactional
 public class ProductService {
     /**
-     * репозиторий работы с продуктами
+     * Репозиторий для работы с продуктами из таблицы БД
      */
     @Autowired
     private ProductRepository productRepository;
 
     /**
-     * конструктор сервиса
-     * @param productRepository репозиторий работы с продуктами
+     * Конструктор сервиса для работы с продуктами из таблицы БД
+     * @param productRepository Репозиторий для работы с продуктами из таблицы БД
      */
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     /**
-     * добавление продукта
-     * @param p объект продукта
+     * Метод добавляет продукт в БД
+     * @param p Объект продукта
      */
     public void create(Product p) {
         log.info("Save product {}", p);
         productRepository.save(p);
     }
     /**
-     * получение всех продуктов
-     * @return список всех продуктов
+     * Метод получает список всех продуктов из БД
+     * @return Список всех продуктов
      */
     public List<Product> readAll() {
         log.info("Find all products");
         return productRepository.findAll();
     }
     /**
-     * получение продукта по названию
-     * @param Name название продукта
-     * @return продукт
+     * Метод получает продукт по названию
+     * @param Name Название продукта
+     * @return Искомый продукт
      */
     public Product findByName(String Name){
         log.info("Find product, whose Name = {}",Name);
         return productRepository.findByName(Name);
     }
     /**
-     * получение продукта по id
-     * @param Id id продукта
-     * @return объект продукта
+     * Метод получает продукт по идентификатору
+     * @param Id Идентификатор продукта
+     * @return Искомый продукт
      */
     public Product findById(int Id){
         log.info("Find product, whose Id = {}",Id);
@@ -70,24 +70,24 @@ public class ProductService {
         productRepository.save(p);
     }
     /**
-     * получение списка продуктов по id категории
-     * @param categoryId id категории
-     * @return список продуктов
+     * Метод получает список продуктов по идентификатору категории
+     * @param categoryId Идентификатор категории
+     * @return Искомый список продуктов
      */
     public List<Product> findById_category(int categoryId){
         log.info("Find list of products, whose Id = {}",categoryId);
         return productRepository.findByCategoryId(categoryId);
     }
     /**
-     * удаления продукта
-     * @param p объект продукта
+     * Метод удаляет продукт из БД
+     * @param p Объект продукта
      */
     public void delete(Product p){
         productRepository.deleteById(p.getId());
     }
     /**
-     * сохранение продукта
-     * @param product объект продукта
+     * Метод сохраняет продукт в БД
+     * @param product Объект продукта
      */
     public void save(Product product){
         productRepository.save(product);

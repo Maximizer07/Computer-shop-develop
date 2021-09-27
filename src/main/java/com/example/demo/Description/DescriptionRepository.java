@@ -4,15 +4,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * репозиторий работы с описаниями товаров
+ * Репозиторий для работы с описаниями товаров из таблицы БД
  * @author Maximus
  */
 @Repository
 public interface DescriptionRepository extends JpaRepository<Description, Integer> {
     /**
-     * получение описания по id
-     * @param Id id описания
-     * @return объект описания
+     * Метод получает описание по идентификатору
+     * @param Id Идентификатор описания
+     * @return Искомое описание товара
      */
     Description findById(int Id);
 }

@@ -6,49 +6,49 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 /**
- * сервис работы с отзывами товаров
+ * Сервис для работы с отзывами товаров из таблицы БД
  * @author Maximus
  */
 @Service
 public class ReviewService {
     /**
-     * репозиторий работы с отзывами товаров
+     * Репозиторий для работы с отзывами товаров из таблицы БД
      */
     @Autowired
     ReviewRepository reviewRepository;
     /**
-     * конструктор сервиса
-     * @param reviewRepository репозиторий работы с отзывами товаров
+     * Конструктор сервиса для работы с отзывами товаров из таблицы БД
+     * @param reviewRepository Репозиторий для работы с отзывами товаров из таблицы БД
      */
     public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
     /**
-     * получение всех отзывов
-     * @return список всех отзывов
+     * Метод получает все отзывы товара из БД
+     * @return Список всех отзывов
      */
     public List<Review> findAll(){
         return reviewRepository.findAll();
     }
     /**
-     * получение отзыва по id
-     * @param Id id отзыва
-     * @return объект отзыва
+     * Метод получает отзыв товара по идентификатору
+     * @param Id Идентификатор отзыва
+     * @return Объект отзыва товара
      */
     public Review findById(int Id){
         return reviewRepository.findById(Id);
     }
     /**
-     * добавление отзыва
-     * @param review объект отзыва
+     * Метод добавляет отзыв товара в БД
+     * @param review Объект отзыва товара
      */
     public void save(Review review){
         reviewRepository.save(review);
     }
     /**
-     * удаления отзыва по id
-     * @param id id отзыва
+     * Метод удаляет отзыв по идентификатору из БД
+     * @param id Идентификатор отзыва товара
      */
     public void delete(Long id){
         reviewRepository.deleteById(id);

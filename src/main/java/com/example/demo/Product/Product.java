@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * сущность продукт
+ * Класс представляющий модель продукта
  * @author Maximus
  */
 @Getter
@@ -21,60 +21,60 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product {
     /**
-     * id продукта
+     * Идентификатор продукта
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
-     * название товара
+     * Название товара
      */
     @Column(name = "name", length = 100, nullable = false)
     public String name;
     /**
-     * ссылка на изображение
+     * Ссылка на изображение
      */
     @Column(name = "picture_link", length = 100, nullable = false)
     private String link;
     /**
-     * производитель продукта
+     * Производитель продукта
      */
     @Column(name = "manufacturer", length = 100, nullable = false)
     private String manufacturer;
     /**
-     * цена продукта
+     * Цена продукта
      */
     @Column(name = "price", nullable = true)
     private Integer price;
     /**
-     * рейтинг продукта
+     * Рейтинг продукта
      */
     @Column(name = "rating", nullable = false)
     private int rating;
     /**
-     * количество продукта
+     * Количество продукта
      */
     @Column(name = "quantity", nullable = true)
     private int quantity;
     /**
-     * обзоры продукта
+     * Обзоры продукта
      */
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Review> reviews;
     /**
-     * характеристики продукта
+     * Характеристики продукта
      */
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Property> properties;
 
     /**
-     * связь много к одному с категорией
+     * Связь много к одному с категорией
      */
     @ManyToOne
     @JoinColumn(name = "id_category")
     private Category category;
     /**
-     * id описания продукта
+     * Идентификатор описания продукта
      */
     @OneToOne(
             orphanRemoval = true,
@@ -82,8 +82,8 @@ public class Product {
     @JoinColumn(name = "description_id")
     private Description description;
     /**
-     * получение строкового предстваления сущности
-     * @return строка полей товара
+     * Получение строкового предстваления сущности
+     * @return Строка со значениями полей продукта
      */
     @Override
     public String toString() {

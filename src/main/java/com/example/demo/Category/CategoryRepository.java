@@ -6,45 +6,56 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * репозиторий работы с категориями товаров
+ * Репозиторий для работы с категориями товаров из таблицы БД
  * @author Maximus
  */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     /**
-     * получение категории по названию
-     * @param name название категории
-     * @return объект категории
+     * Метод получает категорию по названию
+     *
+     * @param name Название категории
+     * @return Искомая категория
      */
     Category findByName(String name);
+
     /**
-     * получение категории по id
-     * @param Id id категории
-     * @return объект категории
+     * Метод получает категорию по идентификатору
+     *
+     * @param Id Идентификатор категории
+     * @return Искомая категория
      */
     Category findById(int Id);
+
     /**
-     * получение категории по английскому названию
-     * @param name английское название категории
-     * @return объект категории
+     * Метод получает категорию по английскому названию
+     *
+     * @param name Английское название категории
+     * @return Искомая категория
      */
     Category findByEngname(String name);
+
     /**
-     * получение всех категорий по id и названию категории
-     * @param id id категории
-     * @param Name название категории
-     * @return список категорий
+     * Метод получает список категорий по идентификатору и названию категории
+     *
+     * @param id Идентификатор категории
+     * @param Name Название категории
+     * @return Искомый список категорий
      */
     List<Category> findByIdAndName(int id, String Name);
+
     /**
-     * удаление категории по id
-     * @param id id категории
+     * Метод удаляет категорию по идентификатору
+     *
+     * @param id Идентификатор категории
      */
     void deleteById(Integer id);
+
     /**
-     * удаление категории по названию и ссылке
-     * @param name название категории
-     * @param Link ссылка на изображение
+     * Метод удаляет категорию по названию и ссылке
+     *
+     * @param name Название категории
+     * @param Link Ссылка на изображение
      */
     void deleteByNameAndAndLink(String name, String Link);
 }

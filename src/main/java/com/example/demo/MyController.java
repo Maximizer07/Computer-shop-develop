@@ -7,7 +7,6 @@ import com.example.demo.Category.CategoryService;
 import com.example.demo.ConfirmationToken.ConfirmationToken;
 import com.example.demo.ConfirmationToken.ConfirmationTokenService;
 import com.example.demo.Description.Description;
-import com.example.demo.Description.DescriptionService;
 import com.example.demo.Order.Order;
 import com.example.demo.Order.OrderService;
 import com.example.demo.Product.Product;
@@ -36,30 +35,70 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * Контроллер веб-сервиса
+ * @author Maximus
+ * @author mike
+ */
 @Controller
 public class MyController implements ErrorController {
+    /**
+     *
+     */
     @Autowired
     private UserService userService;
+    /**
+     * Репозиторий работы с характеристиками товаров из таблицы БД
+     */
     @Autowired
     private PropertyService propertyService;
+    /**
+     * Сервис для работы с продуктами из таблицы БД
+     */
     @Autowired
     private ProductService productService;
-    @Autowired
-    private DescriptionService descriptionService;
+    /**
+     * Сервис для работы с категориями товаров из таблицы БД
+     */
     @Autowired
     private CategoryService categoryService;
+    /**
+     *
+     */
     @Autowired
     private CartItemService cartItemService;
+    /**
+     *
+     */
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
+    /**
+     *
+     */
     @Autowired
     private OrderService orderService;
+    /**
+     *
+     */
     @Autowired
     private WishService wishService;
+    /**
+     * Сервис для работы с отзывами товаров из таблицы БД
+     */
     @Autowired
     private ReviewService reviewService;
+    /**
+     * Сервис для фильтрации объектов по критериям
+     */
     @Autowired
     private CriteriaService criteriaService;
+
+    /**
+     *
+     * @param user
+     * @param model
+     * @return
+     */
     @PostMapping("/sign-up")
     String signUp(User user, Model model) {
         if(!user.getPassword().equals(user.getPassword2())){
@@ -79,6 +118,13 @@ public class MyController implements ErrorController {
         userService.signUpUser(user);
         return "sign-up";
     }
+
+    /**
+     *
+     * @param token
+     * @param model
+     * @return
+     */
     @GetMapping("sign-up/confirm")
     String confirmMail(@RequestParam("token") String token,Model model) {
         Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);
@@ -87,11 +133,24 @@ public class MyController implements ErrorController {
         model.addAttribute("status","confirm");
         return "sign-up";
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/about")
     public String about(Model model) {
         model.addAttribute("kolvo", size());
         return "about";
     }
+
+    /**
+     *
+     * @param number
+     * @param model
+     * @return
+     */
     @RequestMapping(path="admin/{number}")
     public String Adminuserinfo(@PathVariable(value = "number") int number, Model model) {
         model.addAttribute("user",userService.loadUserById(number));
@@ -100,12 +159,25 @@ public class MyController implements ErrorController {
         model.addAttribute("not_my","not_my");
         return "user_info";
     }
+
+    /**
+     *
+     * @param model
+     * @param user
+     * @return
+     */
     @GetMapping("/auth")
     public String viewLoginPage(Model model, User user) {
         model.addAttribute("Problem","login");
         model.addAttribute("kolvo", size());
         return "login";
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/categories")
     public String viewCategoriesPage(Model model) {
         List<String> path = new LinkedList<>();
@@ -116,6 +188,11 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "newcategories";
     }
+
+    /**
+     *
+     * @return
+     */
     private int size(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication==null){
@@ -131,6 +208,12 @@ public class MyController implements ErrorController {
         }
         return 0;
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/")
     public String add(Model model) {
         List<String> path = new LinkedList<>();
@@ -141,6 +224,12 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "main";
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/admin2")
     public String admin2(Model model) {
         model.addAttribute("user", new User());
@@ -159,6 +248,15 @@ public class MyController implements ErrorController {
         model.addAttribute("message",message);
         return "admin2";
     }
+
+    /**
+     *
+     * @param number
+     * @param model
+     * @param user
+     * @param redirectAttrs
+     * @return
+     */
     @PostMapping ("/changeRole/{number}")
     public String changeRole(@PathVariable(value = "number") long number,Model model,
                              User user, final RedirectAttributes redirectAttrs) {
@@ -166,6 +264,14 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "user");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param number
+     * @param model
+     * @param redirectAttrs
+     * @return
+     */
     @GetMapping ("/deleteUser/{number}")
     public String deleteUser(@PathVariable(value = "number") long number,
                              Model model, final RedirectAttributes redirectAttrs) {
@@ -173,6 +279,15 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "user");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param Name
+     * @param Link
+     * @param model
+     * @param redirectAttrs
+     * @return
+     */
     @RequestMapping(path = "/category/add", method = RequestMethod.POST)
     public String addNewCategory(@RequestParam String Name, @RequestParam String Link,
                                  Model model, final RedirectAttributes redirectAttrs) {
@@ -183,11 +298,33 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "category");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/addproduct")
     public String addProduct(Model model) {
         model.addAttribute("categories", categoryService.readAll());
         return "product_add";
     }
+
+    /**
+     *
+     * @param Name
+     * @param Category
+     * @param Price
+     * @param Quantity
+     * @param Manufacturer
+     * @param Link
+     * @param Description
+     * @param model
+     * @param redirectAttrs
+     * @param characteristics
+     * @param values
+     * @return
+     */
     @RequestMapping(path = "/savenewproduct", method = { RequestMethod.GET, RequestMethod.POST })
     public String saveNewProduct(@RequestParam String Name,@RequestParam Integer Category,
                                  @RequestParam Integer Price, @RequestParam Integer Quantity,
@@ -219,6 +356,16 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param id
+     * @param Name
+     * @param Link
+     * @param model
+     * @param redirectAttrs
+     * @return
+     */
     @RequestMapping(path = "/category/change/{id}", method = RequestMethod.POST)
     public String changeCategoryData(@PathVariable(value = "id") int id, @RequestParam String Name,
                                      @RequestParam String Link, Model model, final RedirectAttributes redirectAttrs) {
@@ -229,6 +376,14 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "category");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param Id
+     * @param Name
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/category/search", method = RequestMethod.POST)
     public String categorySearch(@RequestParam(required =false) Integer Id, @RequestParam String Name, Model model) {
         model.addAttribute("user", new User());
@@ -244,6 +399,17 @@ public class MyController implements ErrorController {
         model.addAttribute("message","category");
         return "admin2";
     }
+
+    /**
+     *
+     * @param Id
+     * @param Name
+     * @param Quantity
+     * @param Idcategory
+     * @param Price
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/product/search", method = RequestMethod.POST)
     public String productSearch(@RequestParam(required =false) Integer Id, @RequestParam String Name,@RequestParam(required =false) Integer Quantity,@RequestParam(required =false) Integer Idcategory, @RequestParam(required =false) Integer Price, Model model) {
         model.addAttribute("user", new User());
@@ -261,6 +427,14 @@ public class MyController implements ErrorController {
         model.addAttribute("message","product");
         return "admin2";
     }
+
+    /**
+     *
+     * @param id
+     * @param model
+     * @param redirectAttrs
+     * @return
+     */
     @RequestMapping(path = "/category/delete/{id}", method = RequestMethod.POST)
     public String deleteCategory(@PathVariable(value = "id") int id, Model model, final RedirectAttributes redirectAttrs) {
         Category c = categoryService.findById(id);
@@ -268,6 +442,14 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "category");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param id
+     * @param model
+     * @param redirectAttrs
+     * @return
+     */
     @RequestMapping(path = "/product/delete/{id}", method = RequestMethod.POST)
     public String deleteProduct(@PathVariable(value = "id") int id, Model model, final RedirectAttributes redirectAttrs) {
         Product p = productService.findById(id);
@@ -279,6 +461,17 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param id
+     * @param Name
+     * @param Price
+     * @param Quantity
+     * @param model
+     * @param redirectAttrs
+     * @return
+     */
     @RequestMapping(path = "/product/change/{id}", method = RequestMethod.POST)
     public String changeProductData(@PathVariable(value = "id") int id, @RequestParam String Name,
                                     @RequestParam int Price, @RequestParam int Quantity, Model model,
@@ -291,6 +484,23 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param id
+     * @param Name
+     * @param Price
+     * @param Quantity
+     * @param Manufacturer
+     * @param Link
+     * @param Category
+     * @param Description
+     * @param model
+     * @param redirectAttrs
+     * @param characteristics
+     * @param values
+     * @return
+     */
     @RequestMapping(path = "/product/savechangeinfo/{id}", method = { RequestMethod.GET, RequestMethod.POST })
     public String saveChangeInfo(@PathVariable(value = "id") int id, @RequestParam String Name,
                                  @RequestParam int Price, @RequestParam int Quantity,
@@ -328,6 +538,13 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "product");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/product/changeinfo/{id}", method = RequestMethod.POST)
     public String changeAllProductData(@PathVariable(value = "id") int id, Model model) {
         Product product = productService.findById(id);
@@ -335,6 +552,15 @@ public class MyController implements ErrorController {
         model.addAttribute("product",product);
         return "product_edit";
     }
+
+    /**
+     *
+     * @param Name
+     * @param Link
+     * @param model
+     * @param redirectAttrs
+     * @return
+     */
     @RequestMapping(path = "/category/delete", method = RequestMethod.POST)
     public String DeleteCategory(@RequestParam String Name, @RequestParam String Link,
                                  Model model, final RedirectAttributes redirectAttrs) {
@@ -345,6 +571,14 @@ public class MyController implements ErrorController {
         redirectAttrs.addFlashAttribute("selector", "category");
         return "redirect:/admin2";
     }
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/user_info/changename", method = RequestMethod.POST)
     public @ResponseBody String addname(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String firstName = request.getParameter("firstname");
@@ -353,6 +587,13 @@ public class MyController implements ErrorController {
         return firstName;
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/user_info/changesurname", method = RequestMethod.POST)
     public @ResponseBody String addsurname(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String surname = request.getParameter("surname");
@@ -360,6 +601,15 @@ public class MyController implements ErrorController {
         userService.updateSurName(userService.loadUserByUsername(email).getId(),surname);
         return surname;
     }
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/makereview", method = RequestMethod.POST)
     public @ResponseBody String addreview(HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
         int rating = Integer.parseInt(request.getParameter("rating"));
@@ -385,6 +635,13 @@ public class MyController implements ErrorController {
         productService.save(product);
         return String.valueOf(id);
     }
+
+    /**
+     *
+     * @param number
+     * @param model
+     * @return
+     */
     @GetMapping("shopping_card/add/{number}")
     String addCartItem(@PathVariable(value = "number") int number, Model model) {
         Cart_Item cart_item = new Cart_Item();
@@ -426,6 +683,13 @@ public class MyController implements ErrorController {
         }
         return "redirect:/shopping_card";
     }
+
+    /**
+     *
+     * @param number
+     * @param model
+     * @return
+     */
     @GetMapping("wishadd/{number}")
     String addWishItem(@PathVariable(value = "number") int number, Model model) {
         WishItem wishItem = new WishItem();
@@ -435,11 +699,24 @@ public class MyController implements ErrorController {
         wishService.save(wishItem);
         return "redirect:/user_info";
     }
+
+    /**
+     *
+     * @param number
+     * @param model
+     * @return
+     */
     @GetMapping("wishdelete/{number}")
     String deleteWishItem(@PathVariable(value = "number") int number, Model model) {
         wishService.delete((long) number);
         return "redirect:/user_info";
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/shopping_card")
     public String shoppingcard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -457,6 +734,14 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "shop";
     }
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "shopping_card/change", method = RequestMethod.POST)
     public @ResponseBody String ShoppingCardChange(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int new_quantity = Integer.parseInt(request.getParameter("quantity"));
@@ -466,12 +751,24 @@ public class MyController implements ErrorController {
         cartItemService.create(cart_item);
         return "ok";
     }
+
+    /**
+     *
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("shopping_card/delete")
     public String delete(@RequestParam(value = "id") int id,Model model) {
         cartItemService.delete(cartItemService.findbyid(id).get(0));
         return "redirect:/shopping_card";
     }
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(path="/user_info")
     public String userinfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -487,10 +784,23 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "user_info";
     }
+
+    /**
+     *
+     * @param model
+     * @param number
+     * @return
+     */
     @PostMapping(path="/user_info/findNumber")
     public String userinfo(Model model,int number) {
         return "redirect:/user_info/orders/"+number;
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(path="shopping_card/order_confirm")
     public String orderconfirm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -504,6 +814,13 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "order_confirm";
     }
+
+    /**
+     *
+     * @param data
+     * @param model
+     * @return
+     */
     @RequestMapping(path="shopping_card/order_confirm/success")
     public String addorder(@RequestParam String data, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -523,6 +840,13 @@ public class MyController implements ErrorController {
         }
         return "redirect:/user_info";
     }
+
+    /**
+     *
+     * @param number
+     * @param model
+     * @return
+     */
     @RequestMapping(path="user_info/orders/{number}")
     public String userinfo(@PathVariable(value = "number") String number, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -531,11 +855,25 @@ public class MyController implements ErrorController {
         model.addAttribute("kolvo", size());
         return "orderinfo";
     }
+
+    /**
+     *
+     * @param number
+     * @param model
+     * @return
+     */
     @RequestMapping(path="user_info/orders/deleteinfo/{number}")
     public String deleteinfo(@PathVariable(value = "number") String number,Model model) {
         orderService.delete(number);
         return "redirect:/user_info";
     }
+
+    /**
+     *
+     * @param engname
+     * @param model
+     * @return
+     */
     @RequestMapping("/categories/{category}")
     public String categoryProducts(@PathVariable(value = "category") String engname, Model model){
         Category category = categoryService.findByEngname(engname);
@@ -566,6 +904,19 @@ public class MyController implements ErrorController {
         model.addAttribute("confirm", confirm);
         return "product_list1";
     }
+
+    /**
+     *
+     * @param category
+     * @param quantity
+     * @param rating
+     * @param manufactures_list
+     * @param filterName
+     * @param minPrice
+     * @param maxPrice
+     * @param model
+     * @return
+     */
     @RequestMapping("/categories/filter")
     public String categoryFilter(@RequestParam String category,@RequestParam int quantity,
                                  @RequestParam(required =false) int[] rating,
@@ -636,20 +987,43 @@ public class MyController implements ErrorController {
         return  "product_list1";
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getErrorPath() {
         return "/error";
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/error")
     public String handleError(Model model) {
         model.addAttribute("kolvo", size());
         return "error";
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/wishlist")
     public String wishlist(Model model) {
         model.addAttribute("kolvo", size());
         return "wishlist";
     }
+
+    /**
+     *
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(path="product/{id}")
     public String product_info(@PathVariable(value = "id") int id, Model model) {
         Product product = productService.findById(id);
