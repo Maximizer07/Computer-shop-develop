@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.Category.Category;
 import com.example.demo.Category.CategoryService;
 import com.example.demo.Category.CategoryRepository;
+import com.example.demo.Product.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,57 +27,46 @@ public class CategoryServiceTests {
     private Category category1, category2, category3;
     @BeforeEach
     void init() {
-        Category category1 = new Category();
+        category1 = new Category();
         category1.setName("category1");
-        category1.setEngname("category1");
+        category1.setEngname("engname");
         category1.setId(1);
-        Category category2 = new Category();
+        category1.setLink("www");
+
+        category2 = new Category();
         category2.setName("category2");
         category2.setId(2);
     }
     @Test
     void getCategories() {
-        Mockito.when(categoryRepository.findAll()).thenReturn(List.of(category1,
-                category2));
-        assertEquals(2,
-                categoryRepository.findAll().size());
+        Mockito.when(categoryRepository.findAll()).thenReturn(List.of(category1, category2));
+        assertEquals(List.of(category1, category2), categoryRepository.findAll());
+    }
+    @Test
+    void addCategory() {
+        categoryService.create(category1);
+        Mockito.verify(categoryRepository).save(captor.capture());
+        Category captured = captor.getValue();
+        assertEquals(category1, captured);
+    }
+    @Test
+    void ProductFind() {
+        Mockito.when(categoryRepository.findById(1)).thenReturn(category1);
+        Mockito.when(categoryRepository.findByName("category2")).thenReturn(category2);
+        Mockito.when(categoryRepository.findByEngname("engname")).thenReturn(category1);
+        assertEquals(category1, categoryRepository.findById(1));
+        assertEquals(category2, categoryRepository.findByName("category2"));
+        assertEquals(category1, categoryRepository.findByEngname("engname"));
     }
 
     @Test
-    void CategoryFindByName() {
-        Mockito.when(categoryRepository.findByName("category1")).thenReturn(category1);
-        assertEquals("category1",
-                categoryService.findByName("category1").getName());
-    }
-    @Test
-    void CategoryFindByEngName() {
-        Mockito.when(categoryRepository.findByEngname("category1")).thenReturn(category1);
-        assertEquals("category1",
-                categoryService.findByEngname("category1").getEngname());
-    }
-    @Test
-    void CategoryFindById() {
-        Mockito.when(categoryRepository.findById(1)).thenReturn(category1);
-        assertEquals("category1",
-                categoryService.findById(1).getName());
-    }
-    @Test
     void categoryDeleteById() {
-        Mockito.when(categoryRepository.findById(1)).thenReturn(category1);
-        assertEquals("category1",
-                categoryService.findById(1).getName());
         categoryService.delete(category1);
         Mockito.verify(categoryRepository).deleteById(1);
-        assertEquals(0,categoryService.readAll().size());
     }
     @Test
     void categoryDeleteByNameAndLink() {
-        Mockito.when(categoryRepository.findById(1)).thenReturn(category1);
-        assertEquals("category1",
-                categoryService.findById(1).getName());
         categoryService.del(category1);
-        Mockito.verify(categoryRepository).deleteByNameAndAndLink("category1", "link");
-        assertEquals(0,categoryService.readAll().size());
+        Mockito.verify(categoryRepository).deleteByNameAndAndLink("category1","www");
     }
-
 }

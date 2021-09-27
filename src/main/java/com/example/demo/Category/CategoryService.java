@@ -2,6 +2,7 @@ package com.example.demo.Category;
 
 import com.ibm.icu.text.Transliterator;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
